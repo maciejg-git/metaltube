@@ -6,7 +6,7 @@ const Footer = ({updated}) => {
           Last updated: {updated}
         </div>
         <div>
-          Github
+          <a href="https://github.com/maciejg-git/metaltube">Github</a>
         </div>
       </div>
     </div>

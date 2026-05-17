@@ -15,7 +15,9 @@ const Playlist = ({data}) => {
 const PlaylistItem = ({item}) => {
   return (
     <div className="flex gap-x-4 py-4">
-      <img src={item.thumbnailUrl} alt="" />
+      <a href={`https://www.youtube.com/watch?v=${item.videoId}`}>
+        <img src={item.thumbnailUrl} alt="" />
+      </a>
       <div className="flex flex-1 flex-col gap-y-1">
         <div className="text-xl font-semibold">
           <a href={`https://www.youtube.com/watch?v=${item.videoId}`}>
