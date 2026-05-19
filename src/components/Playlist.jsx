@@ -1,55 +1,48 @@
-import BEye from "../icons/BEye"
-import BChatLeft from "../icons/BChatLeft"
-import BHandThumbsUp from "../icons/BHandThumbsUp"
+import BEye from "../icons/BEye";
+import BHandThumbsUp from "../icons/BHandThumbsUp";
 
-const Playlist = ({data}) => {
+const Playlist = ({ data }) => {
   return (
     <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
       {data.map((item) => {
-        return <PlaylistItem key={item.videoId} item={item}></PlaylistItem>
+        return <PlaylistItem key={item.id} item={item}></PlaylistItem>;
       })}
     </div>
-  )
-}
+  );
+};
 
-const PlaylistItem = ({item}) => {
+const PlaylistItem = ({ item }) => {
   return (
-    <div className="flex gap-x-4 py-4">
-      <a href={`https://www.youtube.com/watch?v=${item.videoId}`}>
-        <img src={item.thumbnailUrl} alt="" />
+    <div className="group flex gap-x-4 py-4">
+      <a href={`https://www.youtube.com/watch?v=${item.id}`} className="flex">
+        <img src={item.img} alt="" />
       </a>
       <div className="flex flex-1 flex-col gap-y-1">
-        <div className="text-xl font-semibold">
-          <a href={`https://www.youtube.com/watch?v=${item.videoId}`}>
-            {item.title}
+        <div className="flex items-center text-xl font-semibold">
+          <a href={`https://www.youtube.com/watch?v=${item.id}`}>{item.title}</a>
+          <a
+            href={`https://www.metal-archives.com/bands/${item.artist}/`}
+            className="ml-4 hidden text-sm text-sky-500 underline group-hover:block dark:text-sky-400"
+          >
+            metal-archives
           </a>
         </div>
-        <div className="text-lg">
-          {item.genre}
-        </div>
-        <div className="text-gray-600 dark:text-gray-400">
-          {item.country}
-        </div>
-        <div className="text-gray-600 dark:text-gray-400">
-          {item.year}
-        </div>
+        <div className="text-lg">{item.genre}</div>
+        <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
+        <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
       </div>
-      <div className="flex gap-x-4 items-start">
+      <div className="flex items-start gap-x-4">
         <div className="flex items-center gap-x-1">
           <BEye></BEye>
           {item.views}
         </div>
         <div className="flex items-center gap-x-1">
-           <BHandThumbsUp></BHandThumbsUp>
+          <BHandThumbsUp></BHandThumbsUp>
           {item.likes}
-        </div>
-        <div className="flex items-center gap-x-1">
-          <BChatLeft></BChatLeft>
-          {item.comments}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Playlist
+export default Playlist;

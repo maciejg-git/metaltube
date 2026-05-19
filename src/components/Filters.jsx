@@ -7,6 +7,7 @@ const Filters = ({
   filters,
   onFilterClick,
   activeFilters,
+  activeAnyFilter,
   filterTitle,
   onFilterTitleChange,
   onFilterClear,
@@ -17,7 +18,7 @@ const Filters = ({
 
   return (
     <>
-      <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col gap-y-7">
         <div className="flex items-center justify-between">
           <div className="text-lg font-semibold">
             {activeFilters.genre.size > 0
@@ -36,7 +37,7 @@ const Filters = ({
         </div>
         <FilterRow>
           {filters.genre
-            ?.slice(0, genreShowAll ? filters.genre.length : 10)
+            ?.slice(0, genreShowAll ? filters.genre.length : 16)
             .map((name) => {
               return (
                 <FilterButton
@@ -44,7 +45,7 @@ const Filters = ({
                   name={name}
                   filter="genre"
                   onFilterClick={onFilterClick}
-                  active={activeFilters.genre.has(name)}
+                  active={`Any ${activeAnyFilter}` === name || activeFilters.genre.has(name)}
                 ></FilterButton>
               );
             })}
@@ -136,7 +137,7 @@ const FilterButton = ({ filter, name, onFilterClick, active }) => {
   return (
     <button
       className={clsx(
-        "rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm shadow-md transition-colors transition-shadow dark:border-neutral-700 dark:bg-neutral-800",
+        "rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm shadow-md transition-colors transition-shadow dark:border-neutral-700 dark:bg-neutral-800 hover:bg-white",
         active &&
           "border-gray-400 font-semibold ring-2 ring-gray-400 dark:!border-neutral-400 dark:text-white dark:!ring-neutral-400"
       )}
