@@ -8,6 +8,8 @@ import DarkModeButton from "./components/DarkModeButton.jsx";
 import Footer from "./components/Footer.jsx";
 import { PlaceholderFilters, PlaceholderPlaylist } from "./components/Placeholder.jsx";
 import { useDebounce } from "use-debounce";
+import ReactPlayer from "react-player";
+import { clsx } from "clsx";
 
 const defaultSortDirection = {
   artist: 1,
@@ -30,6 +32,10 @@ function App() {
     published: new Set(),
   }));
   const [activeAnyFilter, setActiveAnyFilter] = useState();
+  const [player, setPlayer] = useState(() => ({
+    state: 0,
+    id: null,
+  }));
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
@@ -80,7 +86,7 @@ function App() {
 
   const filteredItems = useMemo(() => {
     return data.filter((item) => {
-      let genreMatch
+      let genreMatch;
       if (activeAnyFilter) {
         genreMatch = item.genre.includes(activeAnyFilter);
       } else {
@@ -92,7 +98,14 @@ function App() {
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
       return genreMatch && countryMatch && yearMatch && filterTitleMatch;
     });
-  }, [data, activeFilters.genre, activeFilters.country, activeFilters.year, activeAnyFilter, debouncedFilter]);
+  }, [
+    data,
+    activeFilters.genre,
+    activeFilters.country,
+    activeFilters.year,
+    activeAnyFilter,
+    debouncedFilter,
+  ]);
 
   const sortedItems = useMemo(() => {
     const sortCallbacks = {
@@ -132,18 +145,18 @@ function App() {
         return {
           ...activeFilters,
           genre: new Set(),
-        }
-      })
+        };
+      });
       setActiveAnyFilter(() => {
         if (activeAnyFilter === name.substring(4)) {
-          return null
+          return null;
         }
-        return name.substring(4)
-      })
-      return
+        return name.substring(4);
+      });
+      return;
     }
     if (filter === "genre") {
-      setActiveAnyFilter(() => null)
+      setActiveAnyFilter(() => null);
     }
     setActiveFilters((prev) => {
       let next = new Set(prev[filter]);
@@ -162,7 +175,7 @@ function App() {
   function handleFilterClearClick(filter) {
     setPage(1);
     if (filter === "genre") {
-      setActiveAnyFilter(null)
+      setActiveAnyFilter(null);
     }
     setActiveFilters(() => {
       let next = new Set();
@@ -170,6 +183,19 @@ function App() {
         ...activeFilters,
         [filter]: next,
       };
+    });
+  }
+
+  function handlePlaylistItemImageClick(item) {
+    setPlayer((prev) => {
+      let next = { ...prev };
+      if (next.id === item.id) {
+        next.state = next.state === 1 ? 2 : 1;
+        return next;
+      }
+      next.id = item.id;
+      next.state = 2;
+      return next;
     });
   }
 
@@ -187,11 +213,12 @@ function App() {
         <div className="text-xl font-semibold">Metaltube</div>
         <DarkModeButton darkMode={darkMode} onClickDarkMode={handleClickDarkMode}></DarkModeButton>
       </nav>
+
       <div className="mx-auto mt-10 max-w-6xl">
         {loading ? (
           <>
-            <PlaceholderFilters></PlaceholderFilters>
-            <PlaceholderPlaylist></PlaceholderPlaylist>
+            <PlaceholderFilters />
+            <PlaceholderPlaylist />
           </>
         ) : (
           <>
@@ -204,7 +231,9 @@ function App() {
               onFilterTitleChange={setFilterTitle}
               onFilterClear={handleFilterClearClick}
             ></Filters>
+
             <div className="my-14"></div>
+
             <Sort
               sort={sort}
               setSort={setSort}
@@ -212,7 +241,12 @@ function App() {
               setDirection={setDirection}
               defaultSortDirection={defaultSortDirection}
             ></Sort>
-            <Playlist data={paginatedItems}></Playlist>
+            <Playlist
+              data={paginatedItems}
+              player={player}
+              onImageClick={handlePlaylistItemImageClick}
+            ></Playlist>
+
             <div className="flex justify-center gap-x-4">
               {paginatedItems.length < filteredItems.length && (
                 <>
@@ -224,8 +258,34 @@ function App() {
           </>
         )}
       </div>
+
       <div className="mb-20"></div>
+
       <Footer updated={playlistData?.updated}></Footer>
+
+      <div className={clsx("block", player.state === 0 && "!hidden")}>
+        <ReactPlayer
+          className={clsx("fixed right-4 bottom-4")}
+          src={`https://www.youtube.com/watch?v=${player.id}`}
+          playing={player.state === 2}
+          width="480px"
+          height="270px"
+          controls
+          volume="0.1"
+          onPlaying={() =>
+            setPlayer(() => ({
+              state: 2,
+              id: player.id,
+            }))
+          }
+          onPause={() =>
+            setPlayer(() => ({
+              state: 1,
+              id: player.id,
+            }))
+          }
+        />
+      </div>
     </>
   );
 }

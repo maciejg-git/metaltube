@@ -1,7 +1,9 @@
 import BEye from "../icons/BEye";
 import BHandThumbsUp from "../icons/BHandThumbsUp";
+import BPlayFill from "../icons/BPlayFill";
+import BPauseFill from "../icons/BPauseFill";
 
-const Playlist = ({ data }) => {
+const Playlist = ({ data, player, onImageClick }) => {
   return (
     <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
       {data.length === 0 && (
@@ -10,21 +12,37 @@ const Playlist = ({ data }) => {
         </div>
       )}
       {data.map((item) => {
-        return <PlaylistItem key={item.id} item={item}></PlaylistItem>;
+        return (
+          <PlaylistItem
+            key={item.id}
+            item={item}
+            player={player}
+            onImageClick={onImageClick}
+          ></PlaylistItem>
+        );
       })}
     </div>
   );
 };
 
-const PlaylistItem = ({ item }) => {
+const PlaylistItem = ({ item, player, onImageClick }) => {
   return (
-    <div className="group flex gap-x-4 py-4">
-      <a href={`https://www.youtube.com/watch?v=${item.id}`} className="flex">
+    <div className="flex gap-x-4 py-4">
+      <div onClick={() => onImageClick(item)} className="relative flex">
         <img src={item.img} alt="" />
-      </a>
-      <div className="flex flex-1 flex-col gap-y-1">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80">
+          {player.id === item.id && player.state === 2 ? (
+            <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
+          ) : (
+            <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
+          )}
+        </div>
+      </div>
+      <div className="group flex flex-1 flex-col gap-y-1">
         <div className="flex items-center text-xl font-semibold">
-          <a href={`https://www.youtube.com/watch?v=${item.id}`}>{item.title}</a>
+          <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
+            {item.title}
+          </a>
           <a
             href={`https://www.metal-archives.com/bands/${item.artist}/`}
             className="ml-4 hidden text-sm text-sky-500 underline group-hover:block dark:text-sky-400"
