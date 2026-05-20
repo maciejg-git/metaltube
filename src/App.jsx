@@ -142,7 +142,9 @@ function App() {
       })
       return
     }
-    setActiveAnyFilter(() => null)
+    if (filter === "genre") {
+      setActiveAnyFilter(() => null)
+    }
     setActiveFilters((prev) => {
       let next = new Set(prev[filter]);
       if (next.has(name)) {

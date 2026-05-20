@@ -4,6 +4,11 @@ import BHandThumbsUp from "../icons/BHandThumbsUp";
 const Playlist = ({ data }) => {
   return (
     <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
+      {data.length === 0 && (
+        <div className="mx-auto mt-20">
+          No tracks match. Clearly, this combination doesn't exist yet. Try adjusting your filters.
+        </div>
+      )}
       {data.map((item) => {
         return <PlaylistItem key={item.id} item={item}></PlaylistItem>;
       })}
