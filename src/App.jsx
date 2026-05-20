@@ -161,6 +161,9 @@ function App() {
 
   function handleFilterClearClick(filter) {
     setPage(1);
+    if (filter === "genre") {
+      setActiveAnyFilter(null)
+    }
     setActiveFilters(() => {
       let next = new Set();
       return {
