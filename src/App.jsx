@@ -301,9 +301,8 @@ function App() {
             syncVolume();
           }}
           onPause={() => {
-            if (playerState === PLAYER.PLAY) {
-              setPlayerState(PLAYER.PAUSE);
-            }
+            if (playerState === PLAYER.STOP) return
+            setPlayerState(PLAYER.PAUSE);
             syncVolume();
           }}
         />
