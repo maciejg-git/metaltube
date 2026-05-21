@@ -41,7 +41,7 @@ const SortButton = ({ label, active, direction, onClick }) => {
   return (
     <button
       className={clsx(
-        "rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm shadow-md transition-colors transition-shadow dark:border-neutral-700 dark:bg-neutral-800 flex gap-x-2 items-center",
+        "flex items-center gap-x-2 rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm shadow-md transition-colors transition-shadow dark:border-neutral-700 dark:bg-neutral-800",
         active &&
           "border-gray-400 font-semibold ring-2 ring-gray-400 dark:!border-neutral-400 dark:text-white dark:!ring-neutral-400",
       )}

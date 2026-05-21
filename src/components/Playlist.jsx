@@ -2,6 +2,7 @@ import BEye from "../icons/BEye";
 import BHandThumbsUp from "../icons/BHandThumbsUp";
 import BPlayFill from "../icons/BPlayFill";
 import BPauseFill from "../icons/BPauseFill";
+import clsx from "clsx";
 
 const Playlist = ({ data, player, onImageClick }) => {
   return (
@@ -26,12 +27,19 @@ const Playlist = ({ data, player, onImageClick }) => {
 };
 
 const PlaylistItem = ({ item, player, onImageClick }) => {
+  const playingItem = player.id === item.id && player.state === 2;
+
   return (
     <div className="flex gap-x-4 py-4">
       <div onClick={() => onImageClick(item)} className="relative flex">
         <img src={item.img} alt="" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80">
-          {player.id === item.id && player.state === 2 ? (
+        <div
+          className={clsx(
+            "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80",
+            { "!opacity-80": playingItem },
+          )}
+        >
+          {playingItem ? (
             <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
           ) : (
             <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
