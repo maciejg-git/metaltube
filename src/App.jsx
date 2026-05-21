@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import "./App.css";
 import Playlist from "./components/Playlist";
 import Filters from "./components/Filters";
@@ -10,6 +10,7 @@ import { PlaceholderFilters, PlaceholderPlaylist } from "./components/Placeholde
 import { useDebounce } from "use-debounce";
 import ReactPlayer from "react-player";
 import { clsx } from "clsx";
+import BXLg from "./icons/BXLg.jsx";
 
 const defaultSortDirection = {
   artist: 1,
@@ -21,10 +22,19 @@ const defaultSortDirection = {
   published: -1,
 };
 
+const PLAYER = {
+  STOP: 0,
+  PAUSE: 1,
+  PLAY: 2,
+};
+
 function App() {
   const [data, setData] = useState([]);
+  const [playlistData, setPlaylistData] = useState();
   const [loading, setLoading] = useState(false);
+
   const [filters, setFilters] = useState([]);
+  const [filterTitle, setFilterTitle] = useState("");
   const [activeFilters, setActiveFilters] = useState(() => ({
     genre: new Set(),
     country: new Set(),
@@ -32,18 +42,19 @@ function App() {
     published: new Set(),
   }));
   const [activeAnyFilter, setActiveAnyFilter] = useState();
-  const [player, setPlayer] = useState(() => ({
-    state: 0,
-    id: null,
-  }));
   const [page, setPage] = useState(1);
+
+  const [playerId, setPlayerId] = useState(null);
+  const [playerState, setPlayerState] = useState(PLAYER.STOP);
+  const [playerVolume, setPlayerVolume] = useState(0.5);
+  const playerRef = useRef();
+
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
-  const [filterTitle, setFilterTitle] = useState("");
+
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
-  const [playlistData, setPlaylistData] = useState();
 
   function handleClickDarkMode() {
     setDarkMode(() => !darkMode);
@@ -187,16 +198,14 @@ function App() {
   }
 
   function handlePlaylistItemImageClick(item) {
-    setPlayer((prev) => {
-      let next = { ...prev };
-      if (next.id === item.id) {
-        next.state = next.state === 1 ? 2 : 1;
-        return next;
-      }
-      next.id = item.id;
-      next.state = 2;
-      return next;
-    });
+    if (playerId === item.id) {
+      setPlayerState(() =>
+        playerState === PLAYER.PAUSE || playerState === PLAYER.STOP ? PLAYER.PLAY : PLAYER.PAUSE,
+      );
+      return;
+    }
+    setPlayerId(item.id);
+    setPlayerState(PLAYER.PLAY);
   }
 
   function handleLoadPageClick() {
@@ -205,6 +214,12 @@ function App() {
 
   function handleLoadAllClick() {
     setPage(0);
+  }
+
+  function syncVolume() {
+    if (playerRef.current) {
+      setPlayerVolume(() => playerRef.current.volume);
+    }
   }
 
   return (
@@ -243,7 +258,8 @@ function App() {
             ></Sort>
             <Playlist
               data={paginatedItems}
-              player={player}
+              playerId={playerId}
+              playerState={playerState}
               onImageClick={handlePlaylistItemImageClick}
             ></Playlist>
 
@@ -263,27 +279,33 @@ function App() {
 
       <Footer updated={playlistData?.updated}></Footer>
 
-      <div className={clsx("block", player.state === 0 && "!hidden")}>
+      <div
+        className={clsx("fixed right-4 bottom-4 block", playerState === PLAYER.STOP && "!hidden")}
+      >
+        <div className="mx-1 flex py-1">
+          <button onClick={() => setPlayerState(0)} className="ml-auto">
+            <BXLg className="h-5 w-5"></BXLg>
+          </button>
+        </div>
         <ReactPlayer
-          className={clsx("fixed right-4 bottom-4")}
-          src={`https://www.youtube.com/watch?v=${player.id}`}
-          playing={player.state === 2}
+          ref={playerRef}
+          src={`https://www.youtube.com/watch?v=${playerId}`}
+          playing={playerState === PLAYER.PLAY}
           width="480px"
           height="270px"
           controls
-          volume="0.1"
-          onPlaying={() =>
-            setPlayer(() => ({
-              state: 2,
-              id: player.id,
-            }))
-          }
-          onPause={() =>
-            setPlayer(() => ({
-              state: 1,
-              id: player.id,
-            }))
-          }
+          volume={playerVolume}
+          onSeeking={syncVolume}
+          onPlaying={() => {
+            setPlayerState(PLAYER.PLAY);
+            syncVolume();
+          }}
+          onPause={() => {
+            if (playerState === PLAYER.PLAY) {
+              setPlayerState(PLAYER.PAUSE);
+            }
+            syncVolume();
+          }}
         />
       </div>
     </>

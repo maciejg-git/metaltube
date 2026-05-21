@@ -4,7 +4,7 @@ import BPlayFill from "../icons/BPlayFill";
 import BPauseFill from "../icons/BPauseFill";
 import clsx from "clsx";
 
-const Playlist = ({ data, player, onImageClick }) => {
+const Playlist = ({ data, playerId, playerState, onImageClick }) => {
   return (
     <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
       {data.length === 0 && (
@@ -17,7 +17,8 @@ const Playlist = ({ data, player, onImageClick }) => {
           <PlaylistItem
             key={item.id}
             item={item}
-            player={player}
+            playerId={playerId}
+            playerState={playerState}
             onImageClick={onImageClick}
           ></PlaylistItem>
         );
@@ -26,8 +27,8 @@ const Playlist = ({ data, player, onImageClick }) => {
   );
 };
 
-const PlaylistItem = ({ item, player, onImageClick }) => {
-  const playingItem = player.id === item.id && player.state === 2;
+const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
+  const playingItem = playerId === item.id && playerState === 2;
 
   return (
     <div className="flex gap-x-4 py-4">
