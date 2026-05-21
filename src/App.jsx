@@ -11,6 +11,7 @@ import { useDebounce } from "use-debounce";
 import ReactPlayer from "react-player";
 import { clsx } from "clsx";
 import BXLg from "./icons/BXLg.jsx";
+import BFullscreen from "./icons/BFullscreen.jsx";
 
 const defaultSortDirection = {
   artist: 1,
@@ -47,6 +48,7 @@ function App() {
   const [playerId, setPlayerId] = useState(null);
   const [playerState, setPlayerState] = useState(PLAYER.STOP);
   const [playerVolume, setPlayerVolume] = useState(0.5);
+  const [playerPosition, setPlayerPosition] = useState("bottom");
   const playerRef = useRef();
 
   const [sort, setSort] = useState("published");
@@ -280,32 +282,50 @@ function App() {
       <Footer updated={playlistData?.updated}></Footer>
 
       <div
-        className={clsx("fixed right-4 bottom-4 block", playerState === PLAYER.STOP && "!hidden")}
+        className={clsx(
+          "fixed block",
+          playerState === PLAYER.STOP && "!hidden",
+          playerPosition === "bottom"
+            ? "right-4 bottom-4"
+            : "right-1/2 bottom-1/2 translate-x-1/2 translate-y-1/2",
+        )}
       >
-        <div className="mx-1 flex py-1">
-          <button onClick={() => setPlayerState(0)} className="ml-auto">
+        <div className="mx-1 flex justify-end gap-x-2 py-1">
+          <button
+            onClick={() => setPlayerPosition((prev) => (prev === "bottom" ? "center" : "bottom"))}
+          >
+            <BFullscreen className="h-5 w-5"></BFullscreen>
+          </button>
+          <button onClick={() => setPlayerState(0)}>
             <BXLg className="h-5 w-5"></BXLg>
           </button>
         </div>
-        <ReactPlayer
-          ref={playerRef}
-          src={`https://www.youtube.com/watch?v=${playerId}`}
-          playing={playerState === PLAYER.PLAY}
-          width="480px"
-          height="270px"
-          controls
-          volume={playerVolume}
-          onSeeking={syncVolume}
-          onPlaying={() => {
-            setPlayerState(PLAYER.PLAY);
-            syncVolume();
-          }}
-          onPause={() => {
-            if (playerState === PLAYER.STOP) return
-            setPlayerState(PLAYER.PAUSE);
-            syncVolume();
-          }}
-        />
+        <div
+          className={clsx(
+            { "h-[270px] w-[480px]": playerPosition === "bottom" },
+            { "h-[540px] w-[960px] shadow-2xl shadow-black/80": playerPosition === "center" },
+          )}
+        >
+          <ReactPlayer
+            ref={playerRef}
+            src={`https://www.youtube.com/watch?v=${playerId}`}
+            playing={playerState === PLAYER.PLAY}
+            width="100%"
+            height="100%"
+            controls
+            volume={playerVolume}
+            onSeeking={syncVolume}
+            onPlaying={() => {
+              setPlayerState(PLAYER.PLAY);
+              syncVolume();
+            }}
+            onPause={() => {
+              if (playerState === PLAYER.STOP) return;
+              setPlayerState(PLAYER.PAUSE);
+              syncVolume();
+            }}
+          />
+        </div>
       </div>
     </>
   );
