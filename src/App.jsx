@@ -8,26 +8,8 @@ import DarkModeButton from "./components/DarkModeButton.jsx";
 import Footer from "./components/Footer.jsx";
 import { PlaceholderFilters, PlaceholderPlaylist } from "./components/Placeholder.jsx";
 import { useDebounce } from "use-debounce";
-import ReactPlayer from "react-player";
-import { clsx } from "clsx";
-import BXLg from "./icons/BXLg.jsx";
-import BFullscreen from "./icons/BFullscreen.jsx";
-
-const defaultSortDirection = {
-  artist: 1,
-  album: 1,
-  genre: 1,
-  year: -1,
-  views: -1,
-  likes: -1,
-  published: -1,
-};
-
-const PLAYER = {
-  STOP: 0,
-  PAUSE: 1,
-  PLAY: 2,
-};
+import { defaultSortDirection, PLAYER } from "./config.js";
+import Player from "./components/Player.jsx";
 
 function App() {
   const [data, setData] = useState([]);
@@ -47,9 +29,6 @@ function App() {
 
   const [playerId, setPlayerId] = useState(null);
   const [playerState, setPlayerState] = useState(PLAYER.STOP);
-  const [playerVolume, setPlayerVolume] = useState(0.5);
-  const [playerPosition, setPlayerPosition] = useState("bottom");
-  const playerRef = useRef();
 
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
@@ -218,12 +197,6 @@ function App() {
     setPage(0);
   }
 
-  function syncVolume() {
-    if (playerRef.current) {
-      setPlayerVolume(() => playerRef.current.volume);
-    }
-  }
-
   return (
     <>
       <nav className="flex justify-between px-4 py-2 shadow-lg dark:bg-neutral-800 dark:shadow-black/60">
@@ -281,52 +254,7 @@ function App() {
 
       <Footer updated={playlistData?.updated}></Footer>
 
-      <div
-        className={clsx(
-          "fixed block",
-          playerState === PLAYER.STOP && "!hidden",
-          playerPosition === "bottom"
-            ? "right-4 bottom-4"
-            : "right-1/2 bottom-1/2 translate-x-1/2 translate-y-1/2",
-        )}
-      >
-        <div className="mx-1 flex justify-end gap-x-2 py-1">
-          <button
-            onClick={() => setPlayerPosition((prev) => (prev === "bottom" ? "center" : "bottom"))}
-          >
-            <BFullscreen className="h-5 w-5"></BFullscreen>
-          </button>
-          <button onClick={() => setPlayerState(0)}>
-            <BXLg className="h-5 w-5"></BXLg>
-          </button>
-        </div>
-        <div
-          className={clsx(
-            { "h-[270px] w-[480px]": playerPosition === "bottom" },
-            { "h-[540px] w-[960px] shadow-2xl shadow-black/80": playerPosition === "center" },
-          )}
-        >
-          <ReactPlayer
-            ref={playerRef}
-            src={`https://www.youtube.com/watch?v=${playerId}`}
-            playing={playerState === PLAYER.PLAY}
-            width="100%"
-            height="100%"
-            controls
-            volume={playerVolume}
-            onSeeking={syncVolume}
-            onPlaying={() => {
-              setPlayerState(PLAYER.PLAY);
-              syncVolume();
-            }}
-            onPause={() => {
-              if (playerState === PLAYER.STOP) return;
-              setPlayerState(PLAYER.PAUSE);
-              syncVolume();
-            }}
-          />
-        </div>
-      </div>
+      <Player playerId={playerId} playerState={playerState} setPlayerState={setPlayerState}></Player>
     </>
   );
 }

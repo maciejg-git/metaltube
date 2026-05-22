@@ -1,15 +1,6 @@
 import FaChevronDownSolid from "../icons/FaChevronDownSolid";
 import clsx from "clsx";
-
-const sortOptions = [
-  { name: "artist", label: "Artist" },
-  { name: "album", label: "Album" },
-  { name: "genre", label: "Genre" },
-  { name: "year", label: "Year" },
-  { name: "views", label: "Views" },
-  { name: "likes", label: "Likes" },
-  { name: "published", label: "Publish date" },
-];
+import { sortOptions } from "../config";
 
 const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection }) => {
   function handleSortButtonClick(name) {
