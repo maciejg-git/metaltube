@@ -63,7 +63,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
         <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
         <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
       </div>
-      <div className="flex items-start gap-x-4">
+      <div className="flex flex-col md:flex-row items-start gap-x-4">
         <div className="flex items-center gap-x-1">
           <BEye></BEye>
           {item.views}

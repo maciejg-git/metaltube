@@ -204,7 +204,7 @@ function App() {
         <DarkModeButton darkMode={darkMode} onClickDarkMode={handleClickDarkMode}></DarkModeButton>
       </nav>
 
-      <div className="mx-auto mt-10 max-w-6xl">
+      <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0">
         {loading ? (
           <>
             <PlaceholderFilters />

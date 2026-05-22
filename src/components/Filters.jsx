@@ -112,7 +112,7 @@ const Filters = ({
 };
 
 const FilterRow = ({ children }) => {
-  return <div className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg">{children}</div>;
+  return <div className="flex flex-wrap items-center gap-x-2 md:gap-x-6 gap-y-2 rounded-lg">{children}</div>;
 };
 
 const FilterButton = ({ filter, name, onFilterClick, active }) => {
