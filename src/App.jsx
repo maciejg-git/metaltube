@@ -4,12 +4,12 @@ import Playlist from "./components/Playlist";
 import Filters from "./components/Filters";
 import Button from "./components/Button.jsx";
 import Sort from "./components/Sort.jsx";
-import DarkModeButton from "./components/DarkModeButton.jsx";
 import Footer from "./components/Footer.jsx";
 import { PlaceholderFilters, PlaceholderPlaylist } from "./components/Placeholder.jsx";
 import { useDebounce } from "use-debounce";
 import { defaultSortDirection, PLAYER } from "./config.js";
 import Player from "./components/Player.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 function App() {
   const [data, setData] = useState([]);
@@ -199,10 +199,7 @@ function App() {
 
   return (
     <>
-      <nav className="flex justify-between px-4 py-2 shadow-lg dark:bg-neutral-800 dark:shadow-black/60">
-        <div className="text-xl font-semibold">Metaltube</div>
-        <DarkModeButton darkMode={darkMode} onClickDarkMode={handleClickDarkMode}></DarkModeButton>
-      </nav>
+      <Navbar darkMode={darkMode} onClickDarkMode={handleClickDarkMode}></Navbar>
 
       <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0">
         {loading ? (
@@ -254,7 +251,11 @@ function App() {
 
       <Footer updated={playlistData?.updated}></Footer>
 
-      <Player playerId={playerId} playerState={playerState} setPlayerState={setPlayerState}></Player>
+      <Player
+        playerId={playerId}
+        playerState={playerState}
+        setPlayerState={setPlayerState}
+      ></Player>
     </>
   );
 }
