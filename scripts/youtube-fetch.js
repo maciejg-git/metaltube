@@ -1,21 +1,29 @@
-import axios from 'axios';
+import axios from "axios";
 import fs from "fs"
 
 const API_KEY = process.env.API_KEY
-const PLAYLIST_ID = 'UUzCWehBejA23yEz3zp7jlcg';
+const PLAYLISTS = {
+  BMP: "UUzCWehBejA23yEz3zp7jlcg",
+  ABMA: "UUDLkzWN1rHY4eYkGnVruHVw",
+}
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
 
-function parseDescription(str) {
+let currentPlaylist = "BMP"
+
+function parseDescriptionBMP(description) {
+  const index = description.indexOf('\n');
+  const firstLine = index === -1 ? description : description.substring(0, index);
+
   return Object.fromEntries(
-    str.split('|').map(item => {
+    firstLine.split('|').map(item => {
       const [key, value] = item.split(':').map(part => part.trim());
       return [key.toLowerCase(), value];
     })
   );
 }
 
-function parseTitle(str) {
+function parseTitleBMP(str) {
   let [artist, album] = str.split("-").map((part) => part.trim())
   return { artist, album }
 }
@@ -24,7 +32,7 @@ async function fetchPlaylistItems(nextPageToken) {
   let params = {
     part: 'snippet,contentDetails',
     maxResults: 50,
-    playlistId: PLAYLIST_ID,
+    playlistId: PLAYLISTS[currentPlaylist],
     key: API_KEY,
   }
 
@@ -46,12 +54,13 @@ async function fetchPlaylistItems(nextPageToken) {
       let {title, description, thumbnails } = i.snippet
       let {videoId, videoPublishedAt} = i.contentDetails
 
-      const index = description.indexOf('\n');
-      const firstLine = index === -1 ? description : description.substring(0, index);
+      let parsedDescription
+      let parsedTitle
 
-      let parsedDescription = parseDescription(firstLine)
-
-      let parsedTitle = parseTitle(title)
+      if (currentPlaylist === "BMP") {
+        parsedDescription = parseDescriptionBMP(description)
+        parsedTitle = parseTitleBMP(title)
+      }
 
       return {
         title,
@@ -173,7 +182,9 @@ function makeFilters(items) {
   });
 
   filters.genre = [...filters.genre].sort(sortWithSlashes)
-  filters.genre = [...anyGenreFilters, ...filters.genre]
+  if (currentPlaylist === "BMP") {
+    filters.genre = [...anyGenreFilters, ...filters.genre]
+  }
   filters.country = [...filters.country].sort(sortWithSlashes)
   filters.year = [...filters.year].sort()
   filters.published = [...filters.published]
@@ -212,13 +223,12 @@ async function fetchAll() {
   let dataDir = "./src/data/"
 
   try {
-    fs.writeFileSync(dataDir + 'bmp-playlist.json', JSON.stringify(allItems));
-    fs.writeFileSync(dataDir + 'bmp-filters.json', JSON.stringify(filters));
-    fs.writeFileSync(dataDir + 'bmp-data.json', JSON.stringify({updated: new Date().toISOString()}));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-playlist.json`, JSON.stringify(allItems));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-filters.json`, JSON.stringify(filters));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-data.json`, JSON.stringify({updated: new Date().toISOString()}));
   } catch (err) {
     console.error(err);
   }
 }
 
 fetchAll()
-
