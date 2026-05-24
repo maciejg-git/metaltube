@@ -5,6 +5,7 @@ const API_KEY = process.env.API_KEY
 const PLAYLISTS = {
   BMP: "UUzCWehBejA23yEz3zp7jlcg",
   ABMA: "UUDLkzWN1rHY4eYkGnVruHVw",
+  TDSA: "UUhmm356a5qe1luUsoatAgjA"
 }
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
@@ -21,6 +22,22 @@ function parseDescriptionBMP(description) {
       return [key.toLowerCase(), value];
     })
   );
+}
+
+function parseDescriptionTDSA(description) {
+  const firstFiveLines = description.split('\n').slice(0, 6).join('\n');
+
+  return firstFiveLines.split('\n').reduce((acc, line) => {
+    const [key, ...valueParts] = line.split(':');
+    
+    if (key && valueParts.length) {
+      let k = key.trim().toLowerCase()
+      let v = valueParts.join(':').trim().replaceAll(',', ' / ')
+      acc[k] = v
+    }
+    
+    return acc;
+  }, {});
 }
 
 function parseTitleBMP(str) {
@@ -59,6 +76,15 @@ async function fetchPlaylistItems(nextPageToken) {
 
       if (currentPlaylist === "BMP") {
         parsedDescription = parseDescriptionBMP(description)
+        parsedTitle = parseTitleBMP(title)
+      }
+
+      if (currentPlaylist === "ABMA") {
+        parsedTitle = parseTitleBMP(title)
+      }
+
+      if (currentPlaylist === "TDSA") {
+        parsedDescription = parseDescriptionTDSA(description)
         parsedTitle = parseTitleBMP(title)
       }
 
