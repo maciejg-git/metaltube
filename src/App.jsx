@@ -55,9 +55,11 @@ function App() {
   useEffect(() => {
     setLoading(true);
 
-    Promise.all(["playlist", "filters", "data"].map((i) => {
-      return import(`./data/${current}-${i}.json`)
-    }))
+    Promise.all(
+      ["playlist", "filters", "data"].map((i) => {
+        return import(`./data/${current}-${i}.json`);
+      }),
+    )
       .then(([playlist, filters, data]) => {
         let genre = filters.default.genre;
         let country = filters.default.country;
@@ -198,7 +200,11 @@ function App() {
 
   return (
     <>
-      <Navbar darkMode={darkMode} onClickDarkMode={handleClickDarkMode} setCurrent={setCurrent}></Navbar>
+      <Navbar
+        darkMode={darkMode}
+        onClickDarkMode={handleClickDarkMode}
+        setCurrent={setCurrent}
+      ></Navbar>
 
       <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0">
         {loading ? (
