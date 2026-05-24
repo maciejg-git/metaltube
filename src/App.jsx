@@ -15,6 +15,7 @@ function App() {
   const [data, setData] = useState([]);
   const [playlistData, setPlaylistData] = useState();
   const [loading, setLoading] = useState(false);
+  const [current, setCurrent] = useState("bmp");
 
   const [filters, setFilters] = useState([]);
   const [filterTitle, setFilterTitle] = useState("");
@@ -54,11 +55,9 @@ function App() {
   useEffect(() => {
     setLoading(true);
 
-    Promise.all([
-      import("./data/bmp-playlist.json"),
-      import("./data/bmp-filters.json"),
-      import("./data/bmp-data.json"),
-    ])
+    Promise.all(["playlist", "filters", "data"].map((i) => {
+      return import(`./data/${current}-${i}.json`)
+    }))
       .then(([playlist, filters, data]) => {
         let genre = filters.default.genre;
         let country = filters.default.country;
@@ -72,7 +71,7 @@ function App() {
           setLoading(false);
         }, 600);
       });
-  }, []);
+  }, [current]);
 
   const [debouncedFilter] = useDebounce(filterTitle, 300);
 
@@ -199,7 +198,7 @@ function App() {
 
   return (
     <>
-      <Navbar darkMode={darkMode} onClickDarkMode={handleClickDarkMode}></Navbar>
+      <Navbar darkMode={darkMode} onClickDarkMode={handleClickDarkMode} setCurrent={setCurrent}></Navbar>
 
       <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0">
         {loading ? (

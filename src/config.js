@@ -23,6 +23,14 @@ const defaultPlayerOptions = {
   volume: 0.5,
 }
 
+const supportedSort = {
+  bmp: ["artist", "album", "genre", "year", "views", "likes", "publish"],
+}
+
+const supportedFilters = {
+  bmp: ["genre", "country", "year", "title"],
+}
+
 const PLAYER = {
   STOP: 0,
   PAUSE: 1,
@@ -33,5 +41,7 @@ export {
   defaultSortDirection,
   sortOptions,
   defaultPlayerOptions,
+  supportedSort,
+  supportedFilters,
   PLAYER
 }
