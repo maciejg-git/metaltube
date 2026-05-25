@@ -32,7 +32,7 @@ function parseDescriptionTDSA(description) {
     
     if (key && valueParts.length) {
       let k = key.trim().toLowerCase()
-      let v = valueParts.join(':').trim().replaceAll(',', ' / ')
+      let v = valueParts.join(':').trim().replaceAll(',', '/')
       acc[k] = v
     }
     
@@ -201,7 +201,13 @@ function makeFilters(items) {
   ].map((i) => `Any ${i}`). sort()
 
   items.forEach(i => {
-    i.genre && filters.genre.add(i.genre)
+    if (currentPlaylist === "TDSA") {
+      i.genre.split("/").map((genre) => genre.trim().replaceAll('"', '')).forEach((genre) => {
+        genre && filters.genre.add(genre)
+      })
+    } else {
+      i.genre && filters.genre.add(i.genre)
+    }
     i.country && filters.country.add(i.country)
     i.year && filters.year.add(i.year)
     i.published && filters.published.add(i.published)
