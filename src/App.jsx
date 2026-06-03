@@ -213,7 +213,7 @@ function App() {
         setCurrent={setCurrent}
       ></Navbar>
 
-      <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0" >
+      <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0" >
         {loading ? (
           <>
             <PlaceholderFilters />

@@ -41,8 +41,8 @@ const Player = ({ playerId, playerState, setPlayerState }) => {
       <div
         className={clsx(
           "transition-shadow",
-          { "h-[270px] w-[480px]": playerPosition === "bottom" },
-          { "h-[540px] w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
+          { "aspect-video w-[640px]": playerPosition === "bottom" },
+          { "aspect-video w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
         )}
       >
         <ReactPlayer
