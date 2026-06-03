@@ -33,7 +33,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
   return (
     <div className="flex gap-x-4 py-4">
       <div onClick={() => onImageClick(item)} className="relative flex">
-        <img src={item.img} alt="" />
+        <img src={item.img + "/mqdefault.jpg"} alt="" />
         <div
           className={clsx(
             "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80",

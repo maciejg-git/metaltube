@@ -10,6 +10,7 @@ import { useDebounce } from "use-debounce";
 import { defaultSortDirection, PLAYER } from "./config.js";
 import Player from "./components/Player.jsx";
 import Navbar from "./components/Navbar.jsx";
+import { useDarkMode } from "./hooks/useDarkMode.js";
 
 function App() {
   const [data, setData] = useState([]);
@@ -34,23 +35,7 @@ function App() {
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true";
-  });
-
-  function handleClickDarkMode() {
-    setDarkMode(() => !darkMode);
-  }
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("darkMode", true);
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("darkMode", false);
-    }
-  }, [darkMode]);
+  const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
     setLoading(true);
@@ -77,21 +62,43 @@ function App() {
 
   const [debouncedFilter] = useDebounce(filterTitle, 300);
 
-  const filteredItems = useMemo(() => {
-    return data.filter((item) => {
+  const filterCallbacks = {
+    bmp: (item) => {
       let genreMatch;
       if (activeAnyFilter) {
         genreMatch = item.genre.includes(activeAnyFilter);
       } else {
         genreMatch = activeFilters.genre.size === 0 || activeFilters.genre.has(item.genre);
       }
+
       const countryMatch =
         activeFilters.country.size === 0 || activeFilters.country.has(item.country);
+
       const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
+
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
+
       return genreMatch && countryMatch && yearMatch && filterTitleMatch;
-    });
+    },
+    tdsa: (item) => {
+      let genreMatch = activeFilters.genre.size === 0 || item.genre.some((i) => activeFilters.genre.has(i));
+
+      const countryMatch =
+        activeFilters.country.size === 0 || activeFilters.country.has(item.country);
+
+      const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
+
+      const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      return genreMatch && countryMatch && yearMatch && filterTitleMatch;
+    }
+  }
+
+  const filteredItems = useMemo(() => {
+    let activeFn = filterCallbacks[current]
+    return data.filter(activeFn);
   }, [
+    current,
     data,
     activeFilters.genre,
     activeFilters.country,
@@ -202,11 +209,11 @@ function App() {
     <>
       <Navbar
         darkMode={darkMode}
-        onClickDarkMode={handleClickDarkMode}
+        onClickDarkMode={toggleDarkMode}
         setCurrent={setCurrent}
       ></Navbar>
 
-      <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0">
+      <div className="mx-auto mt-10 max-w-6xl px-4 xl:px-0" >
         {loading ? (
           <>
             <PlaceholderFilters />

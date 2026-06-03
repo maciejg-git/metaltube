@@ -32,7 +32,12 @@ function parseDescriptionTDSA(description) {
     
     if (key && valueParts.length) {
       let k = key.trim().toLowerCase()
-      let v = valueParts.join(':').trim().replaceAll(',', '/')
+      let v
+      if (k === "genre") {
+        v = valueParts.join(':').split(",").map((i) => i.trim())
+      } else {
+        v = valueParts.join(':').trim().replaceAll(',', '/')
+      }
       acc[k] = v
     }
     
@@ -90,7 +95,7 @@ async function fetchPlaylistItems(nextPageToken) {
 
       return {
         title,
-        img: thumbnails.default.url,
+        img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
         id: videoId,
         published: videoPublishedAt.substring(0, 10),
         ...parsedTitle,
@@ -161,12 +166,14 @@ function fixItems(items) {
       i.country = ""
     }
     if (i.genre === undefined) {
-      i.genre = ""
+      i.genre = currentPlaylist === "TDSA" ? [] : ""
     }
     if (i.year === undefined) {
       i.year = ""
     }
-    i.genre = normalizeSlashes(i.genre)
+    if (!Array.isArray(i.genre)) {
+      i.genre = normalizeSlashes(i.genre)
+    }
     return i
   })
 }
@@ -202,8 +209,8 @@ function makeFilters(items) {
 
   items.forEach(i => {
     if (currentPlaylist === "TDSA") {
-      i.genre.split("/").map((genre) => genre.trim().replaceAll('"', '')).forEach((genre) => {
-        genre && filters.genre.add(genre)
+      i.genre && i.genre.forEach((genre) => {
+        genre && filters.genre.add(genre.replaceAll('"', ''))
       })
     } else {
       i.genre && filters.genre.add(i.genre)
