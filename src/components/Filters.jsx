@@ -19,7 +19,8 @@ const Filters = ({
   return (
     <>
       <div className="flex flex-col gap-y-7">
-        <div className="flex flex-col gap-y-7">
+
+        <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
               {activeAnyFilter
@@ -51,7 +52,7 @@ const Filters = ({
           </FilterRow>
         </div>
 
-        <div className="flex flex-col gap-y-7">
+        <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
               {activeFilters.country.size > 0 ? `Country (${activeFilters.country.size})` : "Country"}
@@ -79,7 +80,7 @@ const Filters = ({
           </FilterRow>
         </div>
 
-        <div className="flex flex-col gap-y-7">
+        <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
               {activeFilters.year.size > 0 ? `Year (${activeFilters.year.size})` : "Year"}
@@ -126,9 +127,8 @@ const FilterButton = ({ filter, name, onFilterClick, active }) => {
   return (
     <button
       className={clsx(
-        "rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm shadow-sm transition-colors transition-shadow hover:bg-white dark:border-neutral-700 dark:bg-neutral-800",
-        active &&
-          "border-gray-400 font-semibold ring-2 ring-gray-400 dark:!border-neutral-400 dark:text-white dark:!ring-neutral-400",
+        "rounded-full bg-gray-100 px-3 py-2 text-sm transition-colors transition-shadow hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700",
+        active && "font-semibold ring-2 ring-gray-400 dark:text-white dark:!ring-neutral-400",
       )}
       onClick={() => onFilterClick(filter, name)}
     >

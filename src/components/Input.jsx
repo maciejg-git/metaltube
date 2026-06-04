@@ -3,7 +3,7 @@ export default function Input({ className, ...props }) {
     <input
       {...props}
       className={
-        "flex flex-1 items-center rounded-sm border border-gray-300 bg-white px-3 py-2 outline-hidden transition-shadow duration-200 focus-within:border-gray-400 focus-within:ring-3 focus-within:ring-violet-200 focus:outline-hidden dark:border-neutral-500 dark:bg-neutral-700 dark:text-gray-300 dark:focus-within:ring-violet-300 " +
+        "flex flex-1 items-center rounded-full bg-gray-100 px-5 py-3 outline-hidden transition-shadow duration-200 focus-within:ring-3 focus-within:ring-violet-200 focus:outline-hidden dark:bg-neutral-700 dark:text-gray-300 dark:focus-within:ring-violet-300 " +
         className
       }
     />

@@ -27,26 +27,35 @@ const Playlist = ({ data, playerId, playerState, onImageClick }) => {
   );
 };
 
+const ImageCover = ({item, onImageClick, playingItem}) => {
+  return (
+    <div onClick={() => onImageClick(item)} className="relative flex">
+      <picture>
+        <source media="(min-width: 768px)" srcSet={item.img + "/mqdefault.jpg"} />
+        <img src={item.img + "/default.jpg"} />
+      </picture>
+      <div
+        className={clsx(
+          "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80",
+          { "!opacity-80": playingItem },
+        )}
+      >
+        {playingItem ? (
+          <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
+        ) : (
+          <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
+        )}
+      </div>
+    </div>
+  )
+}
+
 const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
     <div className="flex gap-x-4 py-4">
-      <div onClick={() => onImageClick(item)} className="relative flex">
-        <img src={item.img + "/mqdefault.jpg"} alt="" />
-        <div
-          className={clsx(
-            "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80",
-            { "!opacity-80": playingItem },
-          )}
-        >
-          {playingItem ? (
-            <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
-          ) : (
-            <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
-          )}
-        </div>
-      </div>
+      <ImageCover item={item} onImageClick={onImageClick} playingItem={playingItem} />
       <div className="group flex flex-1 flex-col gap-y-1">
         <div className="flex items-center text-xl font-semibold">
           <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
