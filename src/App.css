@@ -3,7 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  @apply dark:bg-neutral-900 dark:text-gray-300
+  @apply dark:bg-neutral-900 dark:text-gray-200
 }
 
 @theme {

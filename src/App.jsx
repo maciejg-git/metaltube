@@ -11,6 +11,7 @@ import { defaultSortDirection, PLAYER } from "./config.js";
 import Player from "./components/Player.jsx";
 import Navbar from "./components/Navbar.jsx";
 import { useDarkMode } from "./hooks/useDarkMode.js";
+import LayoutControl from "./components/LayoutControl.jsx";
 
 function App() {
   const [data, setData] = useState([]);
@@ -35,6 +36,8 @@ function App() {
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
 
+  const [layout, setLayout] = useState("default")
+
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
@@ -49,7 +52,14 @@ function App() {
         let genre = filters.default.genre;
         let country = filters.default.country;
         let year = filters.default.year;
-        setData(playlist.default);
+        let items = playlist.default
+        if (current === "tdsa") {
+          items = items.map((i) => {
+            i.displayGenre = i.genre.join(" / ")
+            return i
+          })
+        }
+        setData(items);
         setFilters({ genre, country, year });
         setPlaylistData(data);
       })
@@ -112,14 +122,16 @@ function App() {
       artist: (a, b) => a.artist.localeCompare(b.artist),
       album: (a, b) => a.album.localeCompare(b.album),
       genre: (a, b) => {
-        const slashesA = (a.genre.match(/\//g) || []).length;
-        const slashesB = (b.genre.match(/\//g) || []).length;
+        let genreA = a.displayGenre ?? a.genre
+        let genreB = b.displayGenre ?? b.genre
+        const slashesA = (genreA.match(/\//g) || []).length;
+        const slashesB = (genreB.match(/\//g) || []).length;
 
         if (slashesA !== slashesB) {
           return slashesA - slashesB;
         }
 
-        return a.genre.localeCompare(b.genre);
+        return genreA.localeCompare(genreB);
       },
       year: (a, b) => a.year - b.year,
       views: (a, b) => a.views - b.views,
@@ -233,25 +245,34 @@ function App() {
 
             <div className="my-14"></div>
 
-            <Sort
-              sort={sort}
-              setSort={setSort}
-              direction={direction}
-              setDirection={setDirection}
-              defaultSortDirection={defaultSortDirection}
-            ></Sort>
+            <div className="flex justify-between">
+              <LayoutControl layout={layout} setLayout={setLayout}></LayoutControl>
+              <Sort
+                sort={sort}
+                setSort={setSort}
+                direction={direction}
+                setDirection={setDirection}
+                defaultSortDirection={defaultSortDirection}
+              ></Sort>
+            </div>
+
+            <div className="my-2"></div>
+
             <Playlist
               data={paginatedItems}
               playerId={playerId}
               playerState={playerState}
               onImageClick={handlePlaylistItemImageClick}
+              layout={layout}
             ></Playlist>
+
+            <div className="my-10"></div>
 
             <div className="flex justify-center gap-x-4">
               {paginatedItems.length < filteredItems.length && (
                 <>
-                  <Button onClick={handleLoadPageClick}>Load more (50)</Button>
-                  <Button onClick={handleLoadAllClick}>Load all ({sortedItems.length})</Button>
+                  <Button onClick={handleLoadPageClick} className="!rounded-full">Load more (50)</Button>
+                  <Button onClick={handleLoadAllClick} className="!rounded-full">Load all ({sortedItems.length})</Button>
                 </>
               )}
             </div>
@@ -259,7 +280,7 @@ function App() {
         )}
       </div>
 
-      <div className="mb-20"></div>
+      <div className="my-20"></div>
 
       <Footer updated={playlistData?.updated}></Footer>
 
