@@ -4,8 +4,10 @@ import BPlayFill from "../icons/BPlayFill";
 import BPauseFill from "../icons/BPauseFill";
 import clsx from "clsx";
 
+const ytimgUrl = "https://i.ytimg.com/vi"
+
 const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
-  const PlaylistItemComponent = layout === "default" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem
+  const PlaylistItemComponent = layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem
 
   return (
     <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
@@ -29,12 +31,15 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
   );
 };
 
-const ImageCover = ({item, onImageClick, playingItem, layout}) => {
+const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   return (
     <div onClick={() => onImageClick(item)} className="relative flex">
       <picture>
-        <source media="(min-width: 768px)" srcSet={item.img + (layout === "default" ? "/mqdefault.jpg" : "/default.jpg")} />
-        <img src={item.img + "/default.jpg"} />
+        <source
+          media="(min-width: 768px)"
+          srcSet={`${ytimgUrl}/${item.id}/${layout === "normal" ? "mqdefault.jpg" : "default.jpg"}`}
+        />
+        <img src={`${ytimgUrl}/${item.id}/default.jpg`} />
       </picture>
       <div
         className={clsx(
@@ -49,15 +54,15 @@ const ImageCover = ({item, onImageClick, playingItem, layout}) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
     <div className="flex gap-x-4 py-4">
-      <ImageCover item={item} onImageClick={onImageClick} playingItem={playingItem} layout="default" />
+      <ImageCover item={item} onImageClick={onImageClick} playingItem={playingItem} layout="normal" />
       <div className="group flex flex-1 flex-col gap-y-1">
         <div className="flex items-center text-xl font-semibold">
           <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">

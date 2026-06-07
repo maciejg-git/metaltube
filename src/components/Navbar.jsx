@@ -1,8 +1,9 @@
 import DarkModeButton from "./DarkModeButton.jsx";
 import ChannelsDropdown from "./ChannelsDropdown.jsx";
 import FaChevronDownSolid from "../icons/FaChevronDownSolid.jsx";
+import { channels } from "../config.js";
 
-const Navbar = ({ darkMode, onClickDarkMode, setCurrent }) => {
+const Navbar = ({ darkMode, onClickDarkMode, current, setCurrent }) => {
   return (
     <nav className="flex justify-between px-4 py-2 shadow-lg dark:bg-neutral-800 dark:shadow-black/60">
       <div className="flex items-center gap-x-2">
@@ -12,9 +13,10 @@ const Navbar = ({ darkMode, onClickDarkMode, setCurrent }) => {
         </div>
       </div>
       <div className="flex gap-x-4">
-    {/*<ChannelsDropdown setCurrent={setCurrent}>
-          <ChannelButton>Black Metal Promotion</ChannelButton>
-        </ChannelsDropdown>*/}
+        <ChannelsDropdown
+          trigger={<ChannelButton>{channels[current].name}</ChannelButton>}
+          setCurrent={setCurrent}
+        ></ChannelsDropdown>
         <DarkModeButton darkMode={darkMode} onClickDarkMode={onClickDarkMode}></DarkModeButton>
       </div>
     </nav>
@@ -30,7 +32,7 @@ const ChannelButton = ({ children, ...props }, ref) => {
     >
       {children}
       <FaChevronDownSolid
-        className={"h-4 w-4 transition duration-200 group-data-[state=open]:rotate-180"}
+        className={"h-4 w-4 transition duration-200 group-data-popup-open:rotate-180"}
       ></FaChevronDownSolid>
     </button>
   );

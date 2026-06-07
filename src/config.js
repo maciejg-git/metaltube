@@ -23,12 +23,28 @@ const defaultPlayerOptions = {
   volume: 0.5,
 }
 
-const supportedSort = {
-  bmp: ["artist", "album", "genre", "year", "views", "likes", "publish"],
-}
-
-const supportedFilters = {
-  bmp: ["genre", "country", "year", "title"],
+const channels = {
+  bmp: {
+    name: "Black Metal Promotion",
+    supportedSort: ["artist", "album", "genre", "year", "views", "likes", "publish"],
+    supportedFilters: ["genre", "country", "year", "title"],
+    img: "https://yt3.googleusercontent.com/ytc/AIdro_kjUgTst6YXNAsQ4XCyhoovZqMUq9QV_IPmv9_Jjj_8buo=s160-c-k-c0x00ffffff-no-rj",
+    metalArchives: true,
+  },
+  tdsa: {
+    name: "The Dungeon Synth Archives",
+    supportedSort: ["artist", "album", "genre", "year", "views", "likes", "publish"],
+    supportedFilters: ["genre", "country", "year", "title"],
+    img: "https://yt3.googleusercontent.com/ytc/AIdro_ksTlOjFZKaby1OlxxMFmVwSh1_T70rK_mBv0IIiZfZbpE=s160-c-k-c0x00ffffff-no-rj",
+    metalArchives: true,
+  },
+  abma: {
+    name: "Atmospheric Black Metal Albums",
+    supportedSort: ["artist", "album", "genre", "year", "views", "likes", "publish"],
+    supportedFilters: ["genre", "country", "year", "title"],
+    img: "https://yt3.googleusercontent.com/ytc/AIdro_kjUgTst6YXNAsQ4XCyhoovZqMUq9QV_IPmv9_Jjj_8buo=s160-c-k-c0x00ffffff-no-rj",
+    metalArchives: true,
+  },
 }
 
 const PLAYER = {
@@ -41,7 +57,6 @@ export {
   defaultSortDirection,
   sortOptions,
   defaultPlayerOptions,
-  supportedSort,
-  supportedFilters,
+  channels,
   PLAYER
 }

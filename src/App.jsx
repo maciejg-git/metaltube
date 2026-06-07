@@ -36,7 +36,7 @@ function App() {
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
 
-  const [layout, setLayout] = useState("default")
+  const [layout, setLayout] = useState("normal")
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
@@ -101,7 +101,12 @@ function App() {
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
 
       return genreMatch && countryMatch && yearMatch && filterTitleMatch;
-    }
+    },
+    abma: (item) => {
+      const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      return filterTitleMatch;
+    },
   }
 
   const filteredItems = useMemo(() => {
@@ -222,6 +227,7 @@ function App() {
       <Navbar
         darkMode={darkMode}
         onClickDarkMode={toggleDarkMode}
+        current={current}
         setCurrent={setCurrent}
       ></Navbar>
 

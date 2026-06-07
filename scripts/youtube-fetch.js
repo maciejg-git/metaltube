@@ -11,6 +11,8 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
 
 let currentPlaylist = "BMP"
+// let currentPlaylist = "TDSA"
+// let currentPlaylist = "ABMA"
 
 function parseDescriptionBMP(description) {
   const index = description.indexOf('\n');
@@ -95,7 +97,7 @@ async function fetchPlaylistItems(nextPageToken) {
 
       return {
         title,
-        img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
+        // img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
         id: videoId,
         published: videoPublishedAt.substring(0, 10),
         ...parsedTitle,
@@ -236,6 +238,7 @@ async function fetchAll() {
   let nextPageToken
   let allItems = []
   let counter = 0
+  let uniqueArtists = new Set()
 
   while (true) {
     console.log("Fetching playlist " + counter);
@@ -259,12 +262,17 @@ async function fetchAll() {
   console.log("Making filters");
   let filters = makeFilters(allItems)
 
+  allItems.forEach((i) => {
+    uniqueArtists.add(i.artist)
+  })
+
   let dataDir = "./src/data/"
 
   try {
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-playlist.json`, JSON.stringify(allItems));
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-filters.json`, JSON.stringify(filters));
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-data.json`, JSON.stringify({updated: new Date().toISOString()}));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-artists.json`, JSON.stringify([...uniqueArtists]));
   } catch (err) {
     console.error(err);
   }

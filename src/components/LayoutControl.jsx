@@ -6,8 +6,8 @@ const LayoutControl = ({ layout, setLayout }) => {
   return (
     <div className="ml-2 flex gap-x-4">
       <button
-        onClick={() => setLayout("default")}
-        className={clsx(layout !== "default" && "opacity-20 dark:opacity-40")}
+        onClick={() => setLayout("normal")}
+        className={clsx(layout !== "normal" && "opacity-20 dark:opacity-40")}
       >
         <BViewStacked className="h-6 w-6"></BViewStacked>
       </button>
