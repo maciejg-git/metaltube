@@ -38,7 +38,29 @@ function App() {
 
   const [layout, setLayout] = useState("normal")
 
+  const [artists, setArtists] = useState([])
+
   const [darkMode, toggleDarkMode] = useDarkMode();
+
+  useEffect(() => {
+    Promise.all(
+      ["bmp", "tdsa"].map((i) => {
+        return import(`./data/${i}-artists.json`);
+      }),
+    )
+      .then(([bmp, tdsa]) => {
+        setArtists([
+          {
+            value: "bmp",
+            items: bmp.default,
+          },
+          {
+            value: "tdsa",
+            items: tdsa.default,
+          },
+        ])
+      })
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -214,6 +236,12 @@ function App() {
     setPlayerState(PLAYER.PLAY);
   }
 
+  function handleChannelClick(channel) {
+    setCurrent(channel)
+    setPage(1)
+    setFilterTitle("")
+  }
+
   function handleLoadPageClick() {
     setPage((prev) => prev + 1);
   }
@@ -228,7 +256,9 @@ function App() {
         darkMode={darkMode}
         onClickDarkMode={toggleDarkMode}
         current={current}
-        setCurrent={setCurrent}
+        onChannelClick={handleChannelClick}
+        artists={artists}
+        onClickItem={(i) => setFilterTitle(i.name)}
       ></Navbar>
 
       <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0" >
