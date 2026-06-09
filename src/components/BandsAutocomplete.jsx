@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { channels } from "../config";
 
-const ArtistsAutocomplete = ({ items, onClickItem }) => {
+const BandsAutocomplete = ({ items, onClickItem }) => {
   const [value, setValue] = useState("")
 
   const { startsWith } = Autocomplete.useFilter()
@@ -27,7 +27,7 @@ const ArtistsAutocomplete = ({ items, onClickItem }) => {
       <Autocomplete.InputGroup>
         <Autocomplete.Input
           className="flex min-w-[600px] flex-1 items-center rounded-full bg-gray-100 px-5 py-1 outline-hidden transition-shadow duration-200 focus-within:ring-3 focus-within:ring-violet-200 focus:outline-hidden dark:bg-neutral-700 dark:text-gray-300 dark:focus-within:ring-violet-300"
-          placeholder="Find artist..."
+          placeholder="Find band..."
         />
       </Autocomplete.InputGroup>
 
@@ -46,7 +46,7 @@ const ArtistsAutocomplete = ({ items, onClickItem }) => {
                         <Autocomplete.Item
                           key={i}
                           value={{name: i, channel: group.value}}
-                          className="flex rounded-lg py-2 pr-4 pl-4 hover:bg-gray-50 hover:dark:bg-neutral-700"
+                          className="flex rounded-lg py-2 pr-4 pl-4 hover:bg-gray-50 hover:dark:bg-neutral-700 cursor-default"
                         >
                           {i}
                         </Autocomplete.Item>
@@ -62,4 +62,4 @@ const ArtistsAutocomplete = ({ items, onClickItem }) => {
   );
 };
 
-export default ArtistsAutocomplete;
+export default BandsAutocomplete;

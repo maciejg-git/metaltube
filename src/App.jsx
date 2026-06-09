@@ -35,21 +35,22 @@ function App() {
 
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
+  const [randomSort, setRandomSort] = useState(0)
 
   const [layout, setLayout] = useState("normal")
 
-  const [artists, setArtists] = useState([])
+  const [bands, setBands] = useState([])
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
     Promise.all(
       ["bmp", "tdsa"].map((i) => {
-        return import(`./data/${i}-artists.json`);
+        return import(`./data/${i}-bands.json`);
       }),
     )
       .then(([bmp, tdsa]) => {
-        setArtists([
+        setBands([
           {
             value: "bmp",
             items: bmp.default,
@@ -75,13 +76,29 @@ function App() {
         let country = filters.default.country;
         let year = filters.default.year;
         let items = playlist.default
+        let playlistItems = []
+        for (let i = 0; i < items.length; i++) {
+          let item = items[i]
+          playlistItems.push({
+            title: item[0],
+            id: item[1],
+            published: item[2],
+            band: item[3],
+            album: item[4],
+            country: item[5],
+            year: item[6],
+            genre: item[7],
+            views: item[8],
+            likes: item[9],
+          })
+        }
         if (current === "tdsa") {
-          items = items.map((i) => {
+          playlistItems = playlistItems.map((i) => {
             i.displayGenre = i.genre.join(" / ")
             return i
           })
         }
-        setData(items);
+        setData(playlistItems);
         setFilters({ genre, country, year });
         setPlaylistData(data);
       })
@@ -91,6 +108,15 @@ function App() {
         }, 600);
       });
   }, [current]);
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
   const [debouncedFilter] = useDebounce(filterTitle, 300);
 
@@ -145,8 +171,11 @@ function App() {
   ]);
 
   const sortedItems = useMemo(() => {
+    if (sort === "random") {
+      return shuffleArray([...filteredItems])
+    }
     const sortCallbacks = {
-      artist: (a, b) => a.artist.localeCompare(b.artist),
+      band: (a, b) => a.band.localeCompare(b.band),
       album: (a, b) => a.album.localeCompare(b.album),
       genre: (a, b) => {
         let genreA = a.displayGenre ?? a.genre
@@ -171,7 +200,7 @@ function App() {
     if (!sortCallback) return filteredItems;
 
     return [...filteredItems].sort((a, b) => sortCallback(a, b) * direction);
-  }, [filteredItems, sort, direction]);
+  }, [filteredItems, sort, direction, randomSort]);
 
   const paginatedItems = useMemo(() => {
     return page === 0 ? sortedItems : sortedItems.slice(0, 50 * page);
@@ -236,6 +265,12 @@ function App() {
     setPlayerState(PLAYER.PLAY);
   }
 
+  function handleBandAutocompleteItemClick(i) {
+    setFilterTitle(i.name)
+    setCurrent(i.channel)
+    setPage(1)
+  }
+
   function handleChannelClick(channel) {
     setCurrent(channel)
     setPage(1)
@@ -257,8 +292,8 @@ function App() {
         onClickDarkMode={toggleDarkMode}
         current={current}
         onChannelClick={handleChannelClick}
-        artists={artists}
-        onClickItem={(i) => setFilterTitle(i.name)}
+        bands={bands}
+        onClickItem={(i) => handleBandAutocompleteItemClick(i)}
       ></Navbar>
 
       <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0" >
@@ -289,6 +324,7 @@ function App() {
                 direction={direction}
                 setDirection={setDirection}
                 defaultSortDirection={defaultSortDirection}
+                setRandomSort={setRandomSort}
               ></Sort>
             </div>
 

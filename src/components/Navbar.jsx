@@ -2,9 +2,9 @@ import DarkModeButton from "./DarkModeButton.jsx";
 import ChannelsDropdown from "./ChannelsDropdown.jsx";
 import FaChevronDownSolid from "../icons/FaChevronDownSolid.jsx";
 import { channels } from "../config.js";
-import ArtistsAutocomplete from "./ArtistsAutocomplete.jsx";
+import BandsAutocomplete from "./BandsAutocomplete.jsx";
 
-const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, artists, onClickItem }) => {
+const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onClickItem }) => {
   return (
     <nav className="flex items-center justify-between px-4 py-2 shadow-lg dark:bg-neutral-800 dark:shadow-black/60">
       <div className="flex items-center gap-x-2">
@@ -13,7 +13,7 @@ const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, artists, o
           <a href="https://mtl-tube.netlify.app">Metaltube</a>
         </div>
       </div>
-        <ArtistsAutocomplete items={artists} onClickItem={onClickItem}></ArtistsAutocomplete>
+        <BandsAutocomplete items={bands} onClickItem={onClickItem}></BandsAutocomplete>
       <div className="flex gap-x-4">
         <ChannelsDropdown
           trigger={<ChannelButton>{channels[current].name}</ChannelButton>}

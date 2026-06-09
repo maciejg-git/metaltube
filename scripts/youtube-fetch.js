@@ -19,15 +19,26 @@ function parseDescriptionBMP(description) {
   const firstLine = index === -1 ? description : description.substring(0, index);
 
   return Object.fromEntries(
-    firstLine.split('|').map(item => {
+    firstLine.split('|').reduce((acc, item) => {
       const [key, value] = item.split(':').map(part => part.trim());
-      return [key.toLowerCase(), value];
-    })
+      if (value === undefined) return acc
+      acc.push([key.toLowerCase(), value])
+      return acc
+    }, [])
   );
 }
 
 function parseDescriptionTDSA(description) {
   const firstFiveLines = description.split('\n').slice(0, 6).join('\n');
+
+  const validDescriptionWords = ["Artist", "Album", "Year", "Genre"];
+    
+  let valid = validDescriptionWords.every(word => {
+    const regex = new RegExp(word, 'i'); 
+    return regex.test(firstFiveLines);
+  });
+
+  if (!valid) return null
 
   return firstFiveLines.split('\n').reduce((acc, line) => {
     const [key, ...valueParts] = line.split(':');
@@ -48,8 +59,8 @@ function parseDescriptionTDSA(description) {
 }
 
 function parseTitleBMP(str) {
-  let [artist, album] = str.split("-").map((part) => part.trim())
-  return { artist, album }
+  let [band, album] = str.split("-").map((part) => part.trim())
+  return { band, album }
 }
 
 async function fetchPlaylistItems(nextPageToken) {
@@ -158,8 +169,8 @@ function normalizeSlashes(str) {
 
 function fixItems(items) {
   return items.map((i) => {
-    if (i.artist === undefined) {
-      i.artist = ""
+    if (i.band === undefined) {
+      i.band = ""
     }
     if (i.album === undefined) {
       i.album = ""
@@ -238,7 +249,7 @@ async function fetchAll() {
   let nextPageToken
   let allItems = []
   let counter = 0
-  let uniqueArtists = new Set()
+  let uniqueBands = new Set()
 
   while (true) {
     console.log("Fetching playlist " + counter);
@@ -263,7 +274,12 @@ async function fetchAll() {
   let filters = makeFilters(allItems)
 
   allItems.forEach((i) => {
-    uniqueArtists.add(i.artist)
+    uniqueBands.add(i.band)
+  })
+
+  allItems = allItems.map((i) => {
+    let { title, id, published, band, album, country, year, genre, views, likes } = i
+    return [title, id, published, band, album, country, year, genre, views, likes]
   })
 
   let dataDir = "./src/data/"
@@ -271,8 +287,8 @@ async function fetchAll() {
   try {
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-playlist.json`, JSON.stringify(allItems));
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-filters.json`, JSON.stringify(filters));
-    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-data.json`, JSON.stringify({updated: new Date().toISOString()}));
-    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-artists.json`, JSON.stringify([...uniqueArtists]));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-data.json`, JSON.stringify({updated: new Date().toISOString(), count: allItems.length}));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-bands.json`, JSON.stringify([...uniqueBands]));
   } catch (err) {
     console.error(err);
   }

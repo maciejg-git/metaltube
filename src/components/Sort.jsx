@@ -2,8 +2,13 @@ import FaChevronDownSolid from "../icons/FaChevronDownSolid";
 import clsx from "clsx";
 import { sortOptions } from "../config";
 
-const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection }) => {
+const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection, setRandomSort }) => {
   function handleSortButtonClick(name) {
+    if (name === "random") {
+      setSort(name)
+      setRandomSort((prev) => prev + 1)
+      return
+    }
     if (name === sort) {
       setDirection(-direction);
       return;
@@ -21,6 +26,7 @@ const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection }) 
           label={label}
           active={sort === name}
           direction={direction}
+          sort={sort}
           onClick={() => handleSortButtonClick(name)}
         ></SortButton>
       ))}
@@ -28,7 +34,7 @@ const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection }) 
   );
 };
 
-const SortButton = ({ label, active, direction, onClick }) => {
+const SortButton = ({ label, active, direction, sort, onClick }) => {
   return (
     <button
       className={clsx(
@@ -39,7 +45,7 @@ const SortButton = ({ label, active, direction, onClick }) => {
       onClick={onClick}
     >
       {label}
-      {active && (
+      {active && sort !== "random" && (
         <FaChevronDownSolid
           className={"h-4 w-4 transition duration-200 " + (direction === 1 && "rotate-180")}
         ></FaChevronDownSolid>

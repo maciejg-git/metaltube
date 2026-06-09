@@ -69,7 +69,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             {item.title}
           </a>
           <a
-            href={`https://www.metal-archives.com/bands/${item.artist}/`}
+            href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="ml-4 hidden text-sm text-sky-500 underline group-hover:block dark:text-sky-400"
           >
             metal-archives
@@ -105,7 +105,7 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
             {item.title}
           </a>
           <a
-            href={`https://www.metal-archives.com/bands/${item.artist}/`}
+            href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="ml-4 hidden text-sm text-sky-500 underline group-hover:block dark:text-sky-400"
           >
             metal-archives

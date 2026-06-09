@@ -108,7 +108,7 @@ const Filters = ({
           </FilterRow>
         </div>
 
-        <div className="text-lg font-semibold">Artist and album</div>
+        <div className="text-lg font-semibold">Band and album</div>
         <Input
           type="search"
           value={filterTitle}
