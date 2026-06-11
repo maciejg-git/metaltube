@@ -12,6 +12,54 @@ import Player from "./components/Player.jsx";
 import Navbar from "./components/Navbar.jsx";
 import { useDarkMode } from "./hooks/useDarkMode.js";
 import LayoutControl from "./components/LayoutControl.jsx";
+import CoverLayout from "./components/CoverLayout.jsx"
+
+async function fetchPlaylist(channel) {
+  let [playlist, filters, data] = await Promise.all(
+    ["playlist", "filters", "data"].map((i) => {
+      return import(`./data/${channel}-${i}.json`);
+    }),
+  )
+  let genre = filters.default.genre;
+  let country = filters.default.country;
+  let year = filters.default.year;
+  let items = playlist.default
+
+  let playlistItems = []
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i]
+    playlistItems.push({
+      title: item[0],
+      id: item[1],
+      published: item[2],
+      band: item[3],
+      album: item[4],
+      country: item[5],
+      year: item[6],
+      genre: item[7],
+      views: item[8],
+      likes: item[9],
+    })
+  }
+
+  if (channel === "tdsa") {
+    playlistItems = playlistItems.map((i) => {
+      i.displayGenre = i.genre.join(" / ")
+      return i
+    })
+  }
+
+  return {genre, country, year, playlistItems, data}
+}
+
+async function fetchBands() {
+  let bands = await Promise.all(
+    ["bmp", "tdsa"].map((i) => {
+      return import(`./data/${i}-bands.json`);
+    }),
+  )
+  return ["bmp", "tdsa"].map((channel, index) => ({channel, items: bands[index].default}))
+}
 
 function App() {
   const [data, setData] = useState([]);
@@ -38,75 +86,45 @@ function App() {
   const [randomSort, setRandomSort] = useState(0)
 
   const [layout, setLayout] = useState("normal")
+  const [prevLayout, setPrevLayout] = useState("normal")
 
   const [bands, setBands] = useState([])
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
-    Promise.all(
-      ["bmp", "tdsa"].map((i) => {
-        return import(`./data/${i}-bands.json`);
-      }),
-    )
-      .then(([bmp, tdsa]) => {
-        setBands([
-          {
-            value: "bmp",
-            items: bmp.default,
-          },
-          {
-            value: "tdsa",
-            items: tdsa.default,
-          },
-        ])
-      })
+    const getBands = async () => {
+      try {
+        let bands = await fetchBands()
+        setBands(bands)
+      } catch (error) {
+        console.log(error)
+      } 
+    }
+
+    getBands()
   }, []);
 
   useEffect(() => {
     setLoading(true);
 
-    Promise.all(
-      ["playlist", "filters", "data"].map((i) => {
-        return import(`./data/${current}-${i}.json`);
-      }),
-    )
-      .then(([playlist, filters, data]) => {
-        let genre = filters.default.genre;
-        let country = filters.default.country;
-        let year = filters.default.year;
-        let items = playlist.default
-        let playlistItems = []
-        for (let i = 0; i < items.length; i++) {
-          let item = items[i]
-          playlistItems.push({
-            title: item[0],
-            id: item[1],
-            published: item[2],
-            band: item[3],
-            album: item[4],
-            country: item[5],
-            year: item[6],
-            genre: item[7],
-            views: item[8],
-            likes: item[9],
-          })
-        }
-        if (current === "tdsa") {
-          playlistItems = playlistItems.map((i) => {
-            i.displayGenre = i.genre.join(" / ")
-            return i
-          })
-        }
+    const getPlaylist = async () => {
+      try {
+        let {genre, country, year, playlistItems, data} = await fetchPlaylist(current)
+
         setData(playlistItems);
         setFilters({ genre, country, year });
         setPlaylistData(data);
-      })
-      .finally(() => {
+      } catch (error) {
+        console.log(error)
+      } finally {
         setTimeout(() => {
           setLoading(false);
         }, 600);
-      });
+      }
+    }
+
+    getPlaylist()
   }, [current]);
 
   function shuffleArray(array) {
@@ -277,6 +295,11 @@ function App() {
     setFilterTitle("")
   }
 
+  function handleLayoutButtonClick(nextLayout) {
+    setPrevLayout(layout)
+    setLayout(nextLayout)
+  }
+
   function handleLoadPageClick() {
     setPage((prev) => prev + 1);
   }
@@ -317,7 +340,7 @@ function App() {
             <div className="my-14"></div>
 
             <div className="flex justify-between">
-              <LayoutControl layout={layout} setLayout={setLayout}></LayoutControl>
+              <LayoutControl layout={layout} onLayoutButtonClick={handleLayoutButtonClick}></LayoutControl>
               <Sort
                 sort={sort}
                 setSort={setSort}
@@ -355,6 +378,18 @@ function App() {
       <div className="my-20"></div>
 
       <Footer updated={playlistData?.updated}></Footer>
+
+      {layout === "cover" && 
+        <CoverLayout
+          data={paginatedItems}
+          playerId={playerId}
+          playerState={playerState}
+          onImageClick={handlePlaylistItemImageClick}
+          onCloseButtonClick={() => setLayout(prevLayout)}
+          onLoadMoreClick={handleLoadPageClick}
+          displayPageButton={paginatedItems.length < filteredItems.length}
+        ></CoverLayout>
+      }
 
       <Player
         playerId={playerId}

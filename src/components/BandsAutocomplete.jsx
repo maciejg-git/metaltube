@@ -36,16 +36,16 @@ const BandsAutocomplete = ({ items, onClickItem }) => {
             <Autocomplete.Popup className="w-[var(--anchor-width)] max-w-[var(--available-width)] rounded-lg border border-gray-200 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-800 shadow-lg">
               <Autocomplete.List>
                 {(group) => (
-                  <Autocomplete.Group key={group.value} items={group.items}>
+                  <Autocomplete.Group key={group.channel} items={group.items}>
                     <Autocomplete.GroupLabel className="my-2 py-2 pl-4 text-sm font-semibold flex gap-x-2 items-center dark:text-white">
-                  <img src={channels[group.value].img} alt="" className="w-5 h-5" />
-                      {channels[group.value].name}
+                  <img src={channels[group.channel].img} alt="" className="w-5 h-5" />
+                      {channels[group.channel].name}
                     </Autocomplete.GroupLabel>
                     <Autocomplete.Collection>
                       {(i) => (
                         <Autocomplete.Item
                           key={i}
-                          value={{name: i, channel: group.value}}
+                          value={{name: i, channel: group.channel}}
                           className="flex rounded-lg py-2 pr-4 pl-4 hover:bg-gray-50 hover:dark:bg-neutral-700 cursor-default"
                         >
                           {i}
