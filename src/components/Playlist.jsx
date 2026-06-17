@@ -48,9 +48,13 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
         )}
       >
         {playingItem ? (
-          <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
+          <div className={clsx("rounded-full bg-black/50", layout === "normal" && "p-2", layout === "compact" && "p-1")}>
+            <BPauseFill className={clsx("text-gray-100", layout === "normal" && "h-16 w-16", layout === "compact" && "h-10 w-10")}></BPauseFill>
+          </div>
         ) : (
-          <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
+          <div className={clsx("rounded-full bg-black/50", layout === "normal" && "p-2", layout === "compact" && "p-1")}>
+            <BPlayFill className={clsx("text-gray-100", layout === "normal" && "h-16 w-16 translate-x-1", layout === "compact" && "h-10 w-10 translate-x-0.5")}></BPlayFill>
+          </div>
         )}
       </div>
     </div>

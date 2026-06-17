@@ -7,7 +7,7 @@ import Sort from "./components/Sort.jsx";
 import Footer from "./components/Footer.jsx";
 import { PlaceholderFilters, PlaceholderPlaylist } from "./components/Placeholder.jsx";
 import { useDebounce } from "use-debounce";
-import { defaultSortDirection, PLAYER } from "./config.js";
+import { defaultSortDirection, genreMap, PLAYER } from "./config.js";
 import Player from "./components/Player.jsx";
 import Navbar from "./components/Navbar.jsx";
 import { useDarkMode } from "./hooks/useDarkMode.js";
@@ -29,16 +29,16 @@ async function fetchPlaylist(channel) {
   for (let i = 0; i < items.length; i++) {
     let item = items[i]
     playlistItems.push({
-      title: item[0],
-      id: item[1],
-      published: item[2],
-      band: item[3],
-      album: item[4],
-      country: item[5],
-      year: item[6],
-      genre: item[7],
-      views: item[8],
-      likes: item[9],
+      title: (item[2] && item[3]) ? (item[2] + " - " + item[3]) : (item[2] || item[3] || ""),
+      id: item[0],
+      published: item[1],
+      band: item[2],
+      album: item[3],
+      country: item[4],
+      year: item[5],
+      genre: typeof item[6] === "number" ? genreMap[item[6]] : item[6],
+      views: item[7],
+      likes: item[8],
     })
   }
 
@@ -54,11 +54,11 @@ async function fetchPlaylist(channel) {
 
 async function fetchBands() {
   let bands = await Promise.all(
-    ["bmp", "tdsa"].map((i) => {
+    ["bmp", "tdsa", "abma"].map((i) => {
       return import(`./data/${i}-bands.json`);
     }),
   )
-  return ["bmp", "tdsa"].map((channel, index) => ({channel, items: bands[index].default}))
+  return ["bmp", "tdsa", "abma"].map((channel, index) => ({channel, items: bands[index].default}))
 }
 
 function App() {
@@ -335,6 +335,7 @@ function App() {
               filterTitle={filterTitle}
               onFilterTitleChange={setFilterTitle}
               onFilterClear={handleFilterClearClick}
+              current={current}
             ></Filters>
 
             <div className="my-14"></div>
@@ -348,6 +349,7 @@ function App() {
                 setDirection={setDirection}
                 defaultSortDirection={defaultSortDirection}
                 setRandomSort={setRandomSort}
+                current={current}
               ></Sort>
             </div>
 

@@ -16,10 +16,10 @@ const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonC
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black scheme-dark">
+    <div className="fixed inset-0 bg-black scheme-dark animate-fade-in">
       <CoverLayoutCloseButton onClick={onCloseButtonClick} className="absolute top-10 right-10"></CoverLayoutCloseButton>
       <div className="overflow-y-auto h-full">
-        <div className="mx-auto mt-10 grid w-max grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-3">
           {data.map((item) => (
             <CoverLayoutItem
               key={item.id}
@@ -47,9 +47,9 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
     <div onClick={() => onImageClick(item)} className="relative flex group overflow-hidden">
       <picture>
         <source media="(min-width: 768px)" srcSet={`${ytimgUrl}/${item.id}/hqdefault.jpg`} />
-        <img src={`${ytimgUrl}/${item.id}/default.jpg`} className="group-hover:scale-115 transition-transform duration-300"/>
+        <img src={`${ytimgUrl}/${item.id}/default.jpg`} className="group-hover:scale-115 transition-transform duration-300 -my-6"/>
       </picture>
-      <div className="absolute inset-0 flex flex-col items-start hidden group-hover:flex ml-2 mt-8">
+      <div className="absolute inset-0 flex flex-col items-start hidden group-hover:flex ml-2 mt-2">
         <div className="font-semibold text-sm bg-black text-gray-200 rounded-lg px-4 py-2">
           {item.title}
         </div>
@@ -61,9 +61,13 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
         )}
       >
         {playingItem ? (
-          <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
+          <div className="bg-black/50 p-2 rounded-full">
+            <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
+          </div>
         ) : (
-          <BPlayFill className="h-16 w-16 text-gray-100"></BPlayFill>
+          <div className="bg-black/50 p-2 rounded-full">
+            <BPlayFill className="h-16 w-16 text-gray-100 translate-x-1"></BPlayFill>
+          </div>
         )}
       </div>
     </div>

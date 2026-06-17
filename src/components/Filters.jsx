@@ -2,6 +2,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import Input from "./Input.jsx";
 import FaChevronDownSolid from "../icons/FaChevronDownSolid.jsx";
+import { channels } from "../config.js";
 
 const Filters = ({
   filters,
@@ -11,6 +12,7 @@ const Filters = ({
   filterTitle,
   onFilterTitleChange,
   onFilterClear,
+  current,
 }) => {
   let [genreShowAll, setGenreShowAll] = useState(false);
   let [countryShowAll, setCountryShowAll] = useState(false);
@@ -20,6 +22,7 @@ const Filters = ({
     <>
       <div className="flex flex-col gap-y-7">
 
+      {channels[current].filters.has("genre") &&
         <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
@@ -51,7 +54,9 @@ const Filters = ({
             })}
           </FilterRow>
         </div>
+      }
 
+      {channels[current].filters.has("country") &&
         <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
@@ -79,7 +84,9 @@ const Filters = ({
             })}
           </FilterRow>
         </div>
+      }
 
+      {channels[current].filters.has("year") &&
         <div className="flex flex-col gap-y-6">
           <div className="flex items-center justify-between">
             <div className="text-lg font-semibold">
@@ -107,6 +114,7 @@ const Filters = ({
             })}
           </FilterRow>
         </div>
+      }
 
         <div className="text-lg font-semibold">Band and album</div>
         <Input

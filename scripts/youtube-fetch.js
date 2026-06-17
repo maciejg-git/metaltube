@@ -10,9 +10,31 @@ const PLAYLISTS = {
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
 
-let currentPlaylist = "BMP"
+// let currentPlaylist = "BMP"
 // let currentPlaylist = "TDSA"
-// let currentPlaylist = "ABMA"
+let currentPlaylist = "ABMA"
+
+let genreMap = {
+  1: "Black Metal",
+  2: "Atmospheric Black Metal",
+  3: "Melodic Black Metal",
+  4: "Black / Death Metal",
+  5: "Pagan Black Metal",
+  6: "Atmospheric / Melancholic Black Metal",
+  7: "Atmospheric / Depressive Black Metal",
+  8: "Atmospheric Post-Black Metal",
+  9: "Death / Black Metal",
+  10: "Symphonic Black Metal",
+  11: "Folk / Black Metal",
+  12: "Depressive Black Metal",
+  13: "Epic / Atmospheric Black Metal",
+  14: "Melodic Death / Black Metal",
+  15: "Progressive Black Metal",
+}
+
+genreMap = Object.fromEntries(Object.entries(genreMap).map((i) => {
+  return [i[1], parseInt(i[0])]
+}))
 
 function parseDescriptionBMP(description) {
   const index = description.indexOf('\n');
@@ -60,6 +82,12 @@ function parseDescriptionTDSA(description) {
 
 function parseTitleBMP(str) {
   let [band, album] = str.split("-").map((part) => part.trim())
+
+  // if (album) {
+  //   const regexp = /\s*\((?!.*live)[^)]+\)$/i;
+  //   album = album.replace(regexp, "")
+  // }
+
   return { band, album }
 }
 
@@ -107,7 +135,7 @@ async function fetchPlaylistItems(nextPageToken) {
       }
 
       return {
-        title,
+        // title,
         // img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
         id: videoId,
         published: videoPublishedAt.substring(0, 10),
@@ -250,6 +278,7 @@ async function fetchAll() {
   let allItems = []
   let counter = 0
   let uniqueBands = new Set()
+  let uniqueBandsWithCountry = {}
 
   while (true) {
     console.log("Fetching playlist " + counter);
@@ -261,8 +290,8 @@ async function fetchAll() {
       let { viewCount: views, likeCount: likes } = statistics[i.id]
       return {
         ...i,
-        views,
-        likes,
+        views: parseInt(views),
+        likes: parseInt(likes),
       }
     })
     allItems.push(...optimizedItems)
@@ -274,12 +303,23 @@ async function fetchAll() {
   let filters = makeFilters(allItems)
 
   allItems.forEach((i) => {
+    if (genreMap[i.genre]) {
+      i.genre = genreMap[i.genre]
+    }
+  })
+
+  allItems.forEach((i) => {
     uniqueBands.add(i.band)
+    if (!uniqueBandsWithCountry[i.band]) {
+      uniqueBandsWithCountry[i.band] = {
+        country: i.country
+      }
+    }
   })
 
   allItems = allItems.map((i) => {
-    let { title, id, published, band, album, country, year, genre, views, likes } = i
-    return [title, id, published, band, album, country, year, genre, views, likes]
+    let { id, published, band, album, country, year, genre, views, likes } = i
+    return [id, published, band, album, country, year, genre, views, likes]
   })
 
   let dataDir = "./src/data/"
@@ -289,6 +329,7 @@ async function fetchAll() {
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-filters.json`, JSON.stringify(filters));
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-data.json`, JSON.stringify({updated: new Date().toISOString(), count: allItems.length}));
     fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-bands.json`, JSON.stringify([...uniqueBands]));
+    fs.writeFileSync(`${dataDir}${currentPlaylist.toLowerCase()}-bands-with-country.json`, JSON.stringify(uniqueBandsWithCountry));
   } catch (err) {
     console.error(err);
   }

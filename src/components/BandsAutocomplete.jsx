@@ -33,7 +33,7 @@ const BandsAutocomplete = ({ items, onClickItem }) => {
 
         <Autocomplete.Portal>
           <Autocomplete.Positioner sideOffset={5} collisionPadding={5}>
-            <Autocomplete.Popup className="w-[var(--anchor-width)] max-w-[var(--available-width)] rounded-lg border border-gray-200 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-800 shadow-lg">
+            <Autocomplete.Popup className="w-[var(--anchor-width)] max-w-[var(--available-width)] rounded-lg border border-gray-200 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-800 shadow-lg fade">
               <Autocomplete.List>
                 {(group) => (
                   <Autocomplete.Group key={group.channel} items={group.items}>

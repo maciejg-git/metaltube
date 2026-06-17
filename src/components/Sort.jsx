@@ -1,8 +1,8 @@
 import FaChevronDownSolid from "../icons/FaChevronDownSolid";
 import clsx from "clsx";
-import { sortOptions } from "../config";
+import { sortOptions, channels } from "../config";
 
-const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection, setRandomSort }) => {
+const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection, setRandomSort, current }) => {
   function handleSortButtonClick(name) {
     if (name === "random") {
       setSort(name)
@@ -21,6 +21,7 @@ const Sort = ({ sort, setSort, direction, setDirection, defaultSortDirection, se
     <div className="flex items-center justify-end gap-x-4">
       <span className="font-semibold">Sort by</span>
       {sortOptions.map(({ name, label }) => (
+        channels[current].sort.has(name) &&
         <SortButton
           key={name}
           label={label}
