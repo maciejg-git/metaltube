@@ -13,7 +13,7 @@ const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onC
           <a href="https://mtl-tube.netlify.app">Metaltube</a>
         </div>
       </div>
-        <BandsAutocomplete items={bands} onClickItem={onClickItem}></BandsAutocomplete>
+      <BandsAutocomplete items={bands} onClickItem={onClickItem} className="hidden md:block lg:max-w-[600px] flex-1 mx-10"></BandsAutocomplete>
       <div className="flex gap-x-4">
         <ChannelsDropdown
           trigger={<ChannelButton>{channels[current].name}</ChannelButton>}
@@ -30,7 +30,7 @@ const ChannelButton = ({ children, ...props }, ref) => {
     <button
       ref={ref}
       {...props}
-      className="group flex items-center gap-x-2 rounded-full border border-gray-300 px-4 py-1 text-sm font-semibold hover:bg-gray-50 dark:border-gray-500 hover:dark:bg-neutral-700"
+      className="group flex items-center gap-x-2 rounded-full border border-gray-300 px-4 py-1 text-sm font-semibold hover:bg-gray-50 dark:border-gray-500 hover:dark:bg-neutral-700 whitespace-nowrap truncate"
     >
       {children}
       <FaChevronDownSolid

@@ -39,7 +39,7 @@ const SortButton = ({ label, active, direction, sort, onClick }) => {
   return (
     <button
       className={clsx(
-        "flex items-center gap-x-2 rounded-full bg-gray-100 px-3 py-2 text-sm transition-colors transition-shadow dark:bg-neutral-800 hover:bg-gray-50 hover:dark:bg-neutral-700",
+        "flex items-center gap-x-2 rounded-full bg-gray-100 px-3 py-2 text-sm transition-colors transition-shadow dark:bg-neutral-800 hover:bg-gray-50 hover:dark:bg-neutral-700 whitespace-nowrap",
         active &&
           "font-semibold ring-2 ring-gray-400 dark:text-white dark:!ring-neutral-400",
       )}

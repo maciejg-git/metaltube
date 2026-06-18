@@ -340,7 +340,7 @@ function App() {
 
             <div className="my-14"></div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-col md:flex-row">
               <LayoutControl layout={layout} onLayoutButtonClick={handleLayoutButtonClick}></LayoutControl>
               <Sort
                 sort={sort}
