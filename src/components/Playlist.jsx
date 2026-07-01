@@ -130,10 +130,10 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             </div>
           </div>
         </div>
-        <div className="ml-auto hidden group-hover:block">
+        <div className="hidden group-hover:block">
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
-            className="ml-4 text-sm text-sky-500 underline dark:text-sky-400 font-semibold"
+            className="text-sm text-sky-500 underline dark:text-sky-400 font-semibold"
           >
             metal-archives
           </a>

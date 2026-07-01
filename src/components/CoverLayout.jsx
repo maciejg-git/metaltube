@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import BPlayFill from "../icons/BPlayFill";
 import BPauseFill from "../icons/BPauseFill";
 import clsx from "clsx";
@@ -8,8 +8,13 @@ import Button from "./Button";
 const ytimgUrl = "https://i.ytimg.com/vi";
 
 const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonClick, onLoadMoreClick, displayPageButton }) => {
+  const container = useRef(null)
+
   useEffect(() => {
     document.body.classList.add("overflow-y-hidden");
+    if (container.current) {
+      container.current.focus()
+    }
     return () => {
       document.body.classList.remove("overflow-y-hidden");
     };
@@ -18,7 +23,7 @@ const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonC
   return (
     <div className="fixed inset-0 bg-black scheme-dark animate-fade-in">
       <CoverLayoutCloseButton onClick={onCloseButtonClick} className="absolute top-10 right-10"></CoverLayoutCloseButton>
-      <div className="overflow-y-auto h-full">
+      <div ref={container} className="overflow-y-auto h-full outline-hidden">
         <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-3">
           {data.map((item) => (
             <CoverLayoutItem
