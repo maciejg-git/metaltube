@@ -12,6 +12,6 @@ Try it here
 - React
 - Tailwind
 - React-player
-- Radix
+- Base UI
 - Motion for React
 - clsx

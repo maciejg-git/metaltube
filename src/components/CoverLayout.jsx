@@ -21,10 +21,10 @@ const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonC
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black scheme-dark animate-fade-in">
+    <div className="fixed inset-0 bg-neutral-900 scheme-dark animate-fade-in">
       <CoverLayoutCloseButton onClick={onCloseButtonClick} className="absolute top-10 right-10"></CoverLayoutCloseButton>
       <div ref={container} className="overflow-y-auto h-full outline-hidden">
-        <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-3">
           {data.map((item) => (
             <CoverLayoutItem
               key={item.id}
@@ -52,7 +52,7 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
     <div onClick={() => onImageClick(item)} className="relative flex group overflow-hidden">
       <picture>
         <source media="(min-width: 768px)" srcSet={`${ytimgUrl}/${item.id}/hqdefault.jpg`} />
-        <img src={`${ytimgUrl}/${item.id}/default.jpg`} className="group-hover:scale-115 transition-transform duration-300 -my-6"/>
+        <img src={`${ytimgUrl}/${item.id}/default.jpg`} className="group-hover:scale-115 transition-transform duration-300 -my-8"/>
       </picture>
       <div className="absolute inset-0 flex flex-col items-start hidden group-hover:flex ml-2 mt-2">
         <div className="font-semibold text-sm bg-black text-gray-200 rounded-lg px-4 py-2">
