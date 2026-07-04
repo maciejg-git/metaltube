@@ -88,14 +88,14 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
 };
 
 const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
-  const [similarBands, setSimilarBands] = useState()
+  const [similarBands, setSimilarBands] = useState();
 
   const playingItem = playerId === item.id && playerState === 2;
 
   let handleClickSimilar = async () => {
     let res = await fetch(`/.netlify/functions/get-similar-bands?band=${item.band}`);
     res = await res.json();
-    setSimilarBands(res)
+    setSimilarBands(res);
   };
 
   return (
@@ -130,18 +130,18 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
                 {item.likes}
               </div>
             </div>
-            {item.reviews > 0 && 
+            {item.reviews > 0 && (
               <div className="flex gap-x-2">
-              <img src="/metal-archives.ico" alt="" />
+                <img src="/metal-archives.ico" alt="" />
                 {item.rating} ({item.reviews})
               </div>
-            }
+            )}
           </div>
         </div>
         <div className="hidden group-hover:block">
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
-            className="text-sm text-sky-500 underline dark:text-sky-400 font-semibold"
+            className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
           >
             metal-archives
           </a>
@@ -168,6 +168,12 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
             <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
               {item.title}
             </a>
+            <a
+              href={`https://www.metal-archives.com/bands/${item.band}/`}
+              className="ml-4 hidden text-sm font-semibold text-sky-500 underline group-hover:block dark:text-sky-400"
+            >
+              metal-archives
+            </a>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>
           <div className="flex gap-x-2 text-sm">
@@ -175,7 +181,7 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
         </div>
-        <div className="flex flex-col items-end justify-between">
+        <div className="flex flex-col items-end gap-y-4">
           <div className="flex flex-col items-start gap-x-4 text-sm md:flex-row">
             <div className="flex items-center gap-x-1">
               <BEye></BEye>
@@ -186,12 +192,12 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
               {item.likes}
             </div>
           </div>
-          <a
-            href={`https://www.metal-archives.com/bands/${item.band}/`}
-            className="hidden text-sm text-sky-500 underline group-hover:block dark:text-sky-400 font-semibold"
-          >
-            metal-archives
-          </a>
+          {item.reviews > 0 && (
+            <div className="flex gap-x-2 text-sm">
+              <img src="/metal-archives.ico" alt="" />
+              {item.rating} ({item.reviews})
+            </div>
+          )}
         </div>
       </div>
     </div>
