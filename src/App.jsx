@@ -39,6 +39,8 @@ async function fetchPlaylist(channel) {
       genre: typeof item[6] === "number" ? genreMap[item[6]] : item[6],
       views: item[7],
       likes: item[8],
+      reviews: item[9],
+      rating: item[10],
     })
   }
 
@@ -210,6 +212,7 @@ function App() {
       year: (a, b) => a.year - b.year,
       views: (a, b) => a.views - b.views,
       likes: (a, b) => a.likes - b.likes,
+      rating: (a, b) => a.rating - b.rating,
       published: (a, b) => new Date(a.published) - new Date(b.published),
     };
 

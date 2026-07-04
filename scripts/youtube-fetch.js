@@ -1,5 +1,7 @@
 import axios from "axios";
 import fs from "fs"
+import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" }
+import bandsDiscography from "../src/data-metal-archives/bands-data-discography.json" with { type: "json" }
 
 const API_KEY = process.env.API_KEY
 const PLAYLISTS = {
@@ -10,9 +12,9 @@ const PLAYLISTS = {
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
 
-// let currentPlaylist = "BMP"
+let currentPlaylist = "BMP"
 // let currentPlaylist = "TDSA"
-let currentPlaylist = "ABMA"
+// let currentPlaylist = "ABMA"
 
 let genreMap = {
   1: "Black Metal",
@@ -319,7 +321,23 @@ async function fetchAll() {
 
   allItems = allItems.map((i) => {
     let { id, published, band, album, country, year, genre, views, likes } = i
-    return [id, published, band, album, country, year, genre, views, likes]
+
+    let reviews = 0
+    let rating = 0
+
+    const parsedAlbum = album.replace(/\s*\([^)]*\)/, "");
+
+    if (currentPlaylist === "BMP" || currentPlaylist === "ABMA") {
+      if (bandsDiscography[band]) {
+        let albumInDiscography = bandsDiscography[band].find((i) => i.album.trim() === parsedAlbum.trim())
+        if (albumInDiscography) {
+          reviews = albumInDiscography.reviews
+          rating = albumInDiscography.rating
+        }
+      }
+    }
+
+    return [id, published, band, album, country, year, genre, views, likes, reviews, rating]
   })
 
   let dataDir = "./src/data/"

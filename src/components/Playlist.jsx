@@ -119,15 +119,23 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
-          <div className="flex flex-col items-start gap-x-4 md:flex-row">
-            <div className="flex items-center gap-x-1">
-              <BEye></BEye>
-              {item.views}
+          <div className="flex flex-col items-end gap-y-4">
+            <div className="flex flex-col items-start gap-x-4 md:flex-row">
+              <div className="flex items-center gap-x-1">
+                <BEye></BEye>
+                {item.views}
+              </div>
+              <div className="flex items-center gap-x-1">
+                <BHandThumbsUp></BHandThumbsUp>
+                {item.likes}
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <BHandThumbsUp></BHandThumbsUp>
-              {item.likes}
-            </div>
+            {item.reviews > 0 && 
+              <div className="flex gap-x-2">
+              <img src="/metal-archives.ico" alt="" />
+                {item.rating} ({item.reviews})
+              </div>
+            }
           </div>
         </div>
         <div className="hidden group-hover:block">

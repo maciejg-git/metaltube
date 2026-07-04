@@ -3,6 +3,7 @@ const defaultSortDirection = {
   album: 1,
   genre: 1,
   year: -1,
+  rating: -1,
   views: -1,
   likes: -1,
   published: -1,
@@ -14,6 +15,7 @@ const sortOptions = [
   { name: "genre", label: "Genre" },
   { name: "year", label: "Year" },
   { name: "random", label: "Random" },
+  { name: "rating", label: "Rating" },
   { name: "views", label: "Views" },
   { name: "likes", label: "Likes" },
   { name: "published", label: "Publish date" },
@@ -45,7 +47,7 @@ let genreMap = {
 const channels = {
   bmp: {
     name: "Black Metal Promotion",
-    sort: new Set(["band", "album", "genre", "year", "random", "views", "likes", "published"]),
+    sort: new Set(["band", "album", "genre", "year", "random", "views", "likes", "rating", "published"]),
     filters: new Set(["genre", "country", "year", "title"]),
     img: "https://yt3.googleusercontent.com/ytc/AIdro_kjUgTst6YXNAsQ4XCyhoovZqMUq9QV_IPmv9_Jjj_8buo=s160-c-k-c0x00ffffff-no-rj",
     metalArchives: true,
