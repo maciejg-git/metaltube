@@ -9,7 +9,7 @@ import bandsAbma from "../src/data/abma-bands-with-country.json" with { type: "j
 import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" }
 import bandsDataMulti from "../src/data-metal-archives/bands-data-multi.json" with { type: "json" }
 
-let bands = {...bandsBmp, ...bandsAbma}
+let bands = {...bandsAbma, ...bandsBmp}
 
 let bandsCount = Object.keys(bands).length
 
@@ -53,10 +53,12 @@ for (let band in bands) {
         genre = data.aaData[0][1]
       } else {
         id = "multi"
-        updateBandsDataMulti[band] = {
-          id,
-          genre,
-          country: isoCountry,
+        if (!bandsDataMulti[band]) {
+          updateBandsDataMulti[band] = {
+            id,
+            genre,
+            country: isoCountry,
+          }
         }
       }
 
@@ -82,7 +84,17 @@ for (let band in bands) {
   if (counter > 1000) break
 }
 
+let updatedBandsData = {...bandsData, ...updateBandsData}
+
+for (let band in updatedBandsData) {
+  if (updatedBandsData[band].id === "multi" && bandsDataMulti[band].id !== "multi") {
+    updatedBandsData[band].id = bandsDataMulti[band].id
+    updatedBandsData[band].genre = bandsDataMulti[band].genre
+    updatedBandsData[band].country = bandsDataMulti[band].country
+  }
+}
+
 let dataDir = "./src/data-metal-archives/"
 
-fs.writeFileSync(`${dataDir}bands-data.json`, JSON.stringify({...bandsData, ...updateBandsData}));
-fs.writeFileSync(`${dataDir}bands-data-multi.json`, JSON.stringify({...bandsDataMulti, ...updateBandsDataMulti}));
+fs.writeFileSync(`${dataDir}bands-data.json`, JSON.stringify(updatedBandsData));
+fs.writeFileSync(`${dataDir}bands-data-multi.json`, JSON.stringify({...bandsDataMulti, ...updateBandsDataMulti}, null, 2));

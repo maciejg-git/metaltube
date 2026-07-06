@@ -1,7 +1,7 @@
 import { Menu } from "@base-ui/react/menu";
 import { channels } from "../config.js";
 
-let ChannelsDropdown = ({ children, trigger, onChannelClick }) => {
+let ChannelsDropdown = ({ trigger, onChannelClick }) => {
   const itemClasses = "flex items-center gap-x-2 rounded-lg py-2 pr-10 pl-2 hover:bg-gray-50 hover:dark:bg-neutral-700 my-1 text-sm cursor-default"
 
   return (
@@ -24,13 +24,13 @@ let ChannelsDropdown = ({ children, trigger, onChannelClick }) => {
               <img src={channels.tdsa.img} alt="" className="h-5 w-5" />
               {channels.tdsa.name}
             </Menu.Item>
-            <Menu.Item
+    {/* <Menu.Item
               onClick={() => onChannelClick("abma")}
               className={itemClasses}
             >
               <img src={channels.abma.img} alt="" className="h-5 w-5" />
               {channels.abma.name}
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
