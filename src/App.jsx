@@ -212,7 +212,14 @@ function App() {
       year: (a, b) => a.year - b.year,
       views: (a, b) => a.views - b.views,
       likes: (a, b) => a.likes - b.likes,
-      rating: (a, b) => a.rating - b.rating,
+      rating: (a, b, direction) => {
+        if (a.reviews === 0 && b.reviews === 0) {
+          return a.rating - b.rating
+        }
+        if (a.reviews === 0) return 1 / direction
+        if (b.reviews === 0) return -1 / direction
+        return a.rating - b.rating
+      },
       published: (a, b) => new Date(a.published) - new Date(b.published),
     };
 
@@ -220,7 +227,7 @@ function App() {
 
     if (!sortCallback) return filteredItems;
 
-    return [...filteredItems].sort((a, b) => sortCallback(a, b) * direction);
+    return [...filteredItems].sort((a, b) => sortCallback(a, b, direction) * direction);
   }, [filteredItems, sort, direction, randomSort]);
 
   const paginatedItems = useMemo(() => {
