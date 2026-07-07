@@ -12,7 +12,7 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
   return (
-    <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700">
+    <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700 -mt-2">
       {data.length === 0 && (
         <div className="mx-auto mt-20">
           No tracks match. Clearly, this combination doesn't exist yet. Try adjusting your filters.
@@ -99,7 +99,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
   };
 
   return (
-    <div className="flex gap-x-4 py-4">
+    <div className="flex gap-x-4 py-6">
       <ImageCover
         item={item}
         onImageClick={onImageClick}
