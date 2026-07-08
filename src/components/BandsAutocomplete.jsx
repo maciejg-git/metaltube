@@ -35,6 +35,11 @@ const BandsAutocomplete = ({ items, onClickItem, className }) => {
           <Autocomplete.Portal>
             <Autocomplete.Positioner sideOffset={5} collisionPadding={5}>
               <Autocomplete.Popup className="w-[var(--anchor-width)] max-w-[var(--available-width)] rounded-lg border border-gray-200 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-800 shadow-lg fade">
+                <Autocomplete.Empty>
+                  <div className="px-4 py-2">
+                    No bands found
+                  </div>
+                </Autocomplete.Empty>
                 <Autocomplete.List>
                   {(group) => (
                     <Autocomplete.Group key={group.channel} items={group.items}>

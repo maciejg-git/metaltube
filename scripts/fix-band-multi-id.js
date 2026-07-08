@@ -74,7 +74,3 @@ for (let band in bandsDataMulti) {
   } 
   break
 }
-
-let dataDir = "./src/data-metal-archives/"
-
-// fs.writeFileSync(`${dataDir}bands-data-multi.json`, JSON.stringify({...bandsDataMulti, ...updateBandsDataMulti}, null, 2));

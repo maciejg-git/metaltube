@@ -143,7 +143,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
           >
-            metal-archives
+            Metal Archives
           </a>
         </div>
       </div>
@@ -172,7 +172,7 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
               href={`https://www.metal-archives.com/bands/${item.band}/`}
               className="ml-4 hidden text-sm font-semibold text-sky-500 underline group-hover:block dark:text-sky-400"
             >
-              metal-archives
+              Metal Archives
             </a>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>

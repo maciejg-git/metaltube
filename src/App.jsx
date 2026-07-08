@@ -56,11 +56,11 @@ async function fetchPlaylist(channel) {
 
 async function fetchBands() {
   let bands = await Promise.all(
-    ["bmp", "tdsa", "abma"].map((i) => {
+    ["bmp", "tdsa"].map((i) => {
       return import(`./data/${i}-bands.json`);
     }),
   )
-  return ["bmp", "tdsa", "abma"].map((channel, index) => ({channel, items: bands[index].default}))
+  return ["bmp", "tdsa"].map((channel, index) => ({channel, items: bands[index].default}))
 }
 
 function App() {
