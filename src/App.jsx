@@ -12,24 +12,24 @@ import Player from "./components/Player.jsx";
 import Navbar from "./components/Navbar.jsx";
 import { useDarkMode } from "./hooks/useDarkMode.js";
 import LayoutControl from "./components/LayoutControl.jsx";
-import CoverLayout from "./components/CoverLayout.jsx"
+import CoverLayout from "./components/CoverLayout.jsx";
 
 async function fetchPlaylist(channel) {
   let [playlist, filters, data] = await Promise.all(
     ["playlist", "filters", "data"].map((i) => {
       return import(`./data/${channel}-${i}.json`);
     }),
-  )
+  );
   let genre = filters.default.genre;
   let country = filters.default.country;
   let year = filters.default.year;
-  let items = playlist.default
+  let items = playlist.default;
 
-  let playlistItems = []
+  let playlistItems = [];
   for (let i = 0; i < items.length; i++) {
-    let item = items[i]
+    let item = items[i];
     playlistItems.push({
-      title: (item[2] && item[3]) ? (item[2] + " - " + item[3]) : (item[2] || item[3] || ""),
+      title: item[2] && item[3] ? item[2] + " - " + item[3] : item[2] || item[3] || "",
       id: item[0],
       published: item[1],
       band: item[2],
@@ -41,17 +41,17 @@ async function fetchPlaylist(channel) {
       likes: item[8],
       reviews: item[9],
       rating: item[10],
-    })
+    });
   }
 
   if (channel === "tdsa") {
     playlistItems = playlistItems.map((i) => {
-      i.displayGenre = i.genre.join(" / ")
-      return i
-    })
+      i.displayGenre = i.genre.join(" / ");
+      return i;
+    });
   }
 
-  return {genre, country, year, playlistItems, data}
+  return { genre, country, year, playlistItems, data };
 }
 
 async function fetchBands() {
@@ -59,8 +59,8 @@ async function fetchBands() {
     ["bmp", "tdsa"].map((i) => {
       return import(`./data/${i}-bands.json`);
     }),
-  )
-  return ["bmp", "tdsa"].map((channel, index) => ({channel, items: bands[index].default}))
+  );
+  return ["bmp", "tdsa"].map((channel, index) => ({ channel, items: bands[index].default }));
 }
 
 function App() {
@@ -85,26 +85,26 @@ function App() {
 
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
-  const [randomSort, setRandomSort] = useState(0)
+  const [randomSort, setRandomSort] = useState(0);
 
-  const [layout, setLayout] = useState("normal")
-  const [prevLayout, setPrevLayout] = useState("normal")
+  const [layout, setLayout] = useState("normal");
+  const [prevLayout, setPrevLayout] = useState("normal");
 
-  const [bands, setBands] = useState([])
+  const [bands, setBands] = useState([]);
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
     const getBands = async () => {
       try {
-        let bands = await fetchBands()
-        setBands(bands)
+        let bands = await fetchBands();
+        setBands(bands);
       } catch (error) {
-        console.log(error)
-      } 
-    }
+        console.log(error);
+      }
+    };
 
-    getBands()
+    getBands();
   }, []);
 
   useEffect(() => {
@@ -112,27 +112,27 @@ function App() {
 
     const getPlaylist = async () => {
       try {
-        let {genre, country, year, playlistItems, data} = await fetchPlaylist(current)
+        let { genre, country, year, playlistItems, data } = await fetchPlaylist(current);
 
         setData(playlistItems);
         setFilters({ genre, country, year });
         setPlaylistData(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       } finally {
         setTimeout(() => {
           setLoading(false);
         }, 600);
       }
-    }
+    };
 
-    getPlaylist()
+    getPlaylist();
   }, [current]);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      
+
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
@@ -159,7 +159,8 @@ function App() {
       return genreMatch && countryMatch && yearMatch && filterTitleMatch;
     },
     tdsa: (item) => {
-      let genreMatch = activeFilters.genre.size === 0 || item.genre.some((i) => activeFilters.genre.has(i));
+      let genreMatch =
+        activeFilters.genre.size === 0 || item.genre.some((i) => activeFilters.genre.has(i));
 
       const countryMatch =
         activeFilters.country.size === 0 || activeFilters.country.has(item.country);
@@ -175,10 +176,10 @@ function App() {
 
       return filterTitleMatch;
     },
-  }
+  };
 
   const filteredItems = useMemo(() => {
-    let activeFn = filterCallbacks[current]
+    let activeFn = filterCallbacks[current];
     return data.filter(activeFn);
   }, [
     current,
@@ -192,14 +193,14 @@ function App() {
 
   const sortedItems = useMemo(() => {
     if (sort === "random") {
-      return shuffleArray([...filteredItems])
+      return shuffleArray([...filteredItems]);
     }
     const sortCallbacks = {
       band: (a, b) => a.band.localeCompare(b.band),
       album: (a, b) => a.album.localeCompare(b.album),
       genre: (a, b) => {
-        let genreA = a.displayGenre ?? a.genre
-        let genreB = b.displayGenre ?? b.genre
+        let genreA = a.displayGenre ?? a.genre;
+        let genreB = b.displayGenre ?? b.genre;
         const slashesA = (genreA.match(/\//g) || []).length;
         const slashesB = (genreB.match(/\//g) || []).length;
 
@@ -214,11 +215,11 @@ function App() {
       likes: (a, b) => a.likes - b.likes,
       rating: (a, b, direction) => {
         if (a.reviews === 0 && b.reviews === 0) {
-          return a.rating - b.rating
+          return a.rating - b.rating;
         }
-        if (a.reviews === 0) return 1 / direction
-        if (b.reviews === 0) return -1 / direction
-        return a.rating - b.rating
+        if (a.reviews === 0) return 1 / direction;
+        if (b.reviews === 0) return -1 / direction;
+        return a.rating - b.rating;
       },
       published: (a, b) => new Date(a.published) - new Date(b.published),
     };
@@ -294,20 +295,20 @@ function App() {
   }
 
   function handleBandAutocompleteItemClick(i) {
-    setFilterTitle(i.name)
-    setCurrent(i.channel)
-    setPage(1)
+    setFilterTitle(i.name);
+    setCurrent(i.channel);
+    setPage(1);
   }
 
   function handleChannelClick(channel) {
-    setCurrent(channel)
-    setPage(1)
-    setFilterTitle("")
+    setCurrent(channel);
+    setPage(1);
+    setFilterTitle("");
   }
 
   function handleLayoutButtonClick(nextLayout) {
-    setPrevLayout(layout)
-    setLayout(nextLayout)
+    setPrevLayout(layout);
+    setLayout(nextLayout);
   }
 
   function handleLoadPageClick() {
@@ -329,7 +330,7 @@ function App() {
         onClickItem={(i) => handleBandAutocompleteItemClick(i)}
       ></Navbar>
 
-      <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0" >
+      <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0">
         {loading ? (
           <>
             <PlaceholderFilters />
@@ -350,8 +351,11 @@ function App() {
 
             <div className="my-14"></div>
 
-            <div className="flex justify-between flex-col md:flex-row">
-              <LayoutControl layout={layout} onLayoutButtonClick={handleLayoutButtonClick}></LayoutControl>
+            <div className="flex flex-col justify-between md:flex-row">
+              <LayoutControl
+                layout={layout}
+                onLayoutButtonClick={handleLayoutButtonClick}
+              ></LayoutControl>
               <Sort
                 sort={sort}
                 setSort={setSort}
@@ -378,8 +382,12 @@ function App() {
             <div className="flex justify-center gap-x-4">
               {paginatedItems.length < filteredItems.length && (
                 <>
-                  <Button onClick={handleLoadPageClick} className="!rounded-full">Load more (50)</Button>
-                  <Button onClick={handleLoadAllClick} className="!rounded-full">Load all ({sortedItems.length})</Button>
+                  <Button onClick={handleLoadPageClick} className="!rounded-full">
+                    Load more (50)
+                  </Button>
+                  <Button onClick={handleLoadAllClick} className="!rounded-full">
+                    Load all ({sortedItems.length})
+                  </Button>
                 </>
               )}
             </div>
@@ -391,7 +399,7 @@ function App() {
 
       <Footer updated={playlistData?.updated}></Footer>
 
-      {layout === "cover" && 
+      {layout === "cover" && (
         <CoverLayout
           data={paginatedItems}
           playerId={playerId}
@@ -401,7 +409,7 @@ function App() {
           onLoadMoreClick={handleLoadPageClick}
           displayPageButton={paginatedItems.length < filteredItems.length}
         ></CoverLayout>
-      }
+      )}
 
       <Player
         playerId={playerId}

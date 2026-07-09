@@ -21,100 +21,103 @@ const Filters = ({
   return (
     <>
       <div className="flex flex-col gap-y-7">
-
-      {channels[current].filters.has("genre") &&
-        <div className="flex flex-col gap-y-6">
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-semibold">
-              {activeAnyFilter
-                ? `Genre (1)`
-                : activeFilters.genre.size > 0
-                  ? `Genre (${activeFilters.genre.size})`
-                  : "Genre"}
+        {channels[current].filters.has("genre") && (
+          <div className="flex flex-col gap-y-6">
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-semibold">
+                {activeAnyFilter
+                  ? `Genre (1)`
+                  : activeFilters.genre.size > 0
+                    ? `Genre (${activeFilters.genre.size})`
+                    : "Genre"}
+              </div>
+              <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
+                <FilterClearButton onClick={() => onFilterClear("genre")}></FilterClearButton>
+                <FilterShowAllButton
+                  show={genreShowAll}
+                  onClick={() => setGenreShowAll(!genreShowAll)}
+                ></FilterShowAllButton>
+              </div>
             </div>
-            <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
-              <FilterClearButton onClick={() => onFilterClear("genre")}></FilterClearButton>
-              <FilterShowAllButton
-                show={genreShowAll}
-                onClick={() => setGenreShowAll(!genreShowAll)}
-              ></FilterShowAllButton>
-            </div>
+            <FilterRow>
+              {filters.genre?.slice(0, genreShowAll ? filters.genre.length : 20).map((name) => {
+                return (
+                  <FilterButton
+                    key={name}
+                    name={name}
+                    filter="genre"
+                    onFilterClick={onFilterClick}
+                    active={`Any ${activeAnyFilter}` === name || activeFilters.genre.has(name)}
+                  ></FilterButton>
+                );
+              })}
+            </FilterRow>
           </div>
-          <FilterRow>
-            {filters.genre?.slice(0, genreShowAll ? filters.genre.length : 20).map((name) => {
-              return (
-                <FilterButton
-                  key={name}
-                  name={name}
-                  filter="genre"
-                  onFilterClick={onFilterClick}
-                  active={`Any ${activeAnyFilter}` === name || activeFilters.genre.has(name)}
-                ></FilterButton>
-              );
-            })}
-          </FilterRow>
-        </div>
-      }
+        )}
 
-      {channels[current].filters.has("country") &&
-        <div className="flex flex-col gap-y-6">
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-semibold">
-              {activeFilters.country.size > 0 ? `Country (${activeFilters.country.size})` : "Country"}
+        {channels[current].filters.has("country") && (
+          <div className="flex flex-col gap-y-6">
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-semibold">
+                {activeFilters.country.size > 0
+                  ? `Country (${activeFilters.country.size})`
+                  : "Country"}
+              </div>
+              <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
+                <FilterClearButton onClick={() => onFilterClear("country")}></FilterClearButton>
+                <FilterShowAllButton
+                  show={countryShowAll}
+                  onClick={() => setCountryShowAll(!countryShowAll)}
+                ></FilterShowAllButton>
+              </div>
             </div>
-            <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
-              <FilterClearButton onClick={() => onFilterClear("country")}></FilterClearButton>
-              <FilterShowAllButton
-                show={countryShowAll}
-                onClick={() => setCountryShowAll(!countryShowAll)}
-              ></FilterShowAllButton>
-            </div>
+            <FilterRow>
+              {filters.country
+                ?.slice(0, countryShowAll ? filters.country.length : 10)
+                .map((name) => {
+                  return (
+                    <FilterButton
+                      key={name}
+                      name={name}
+                      filter="country"
+                      onFilterClick={onFilterClick}
+                      active={activeFilters.country.has(name)}
+                    ></FilterButton>
+                  );
+                })}
+            </FilterRow>
           </div>
-          <FilterRow>
-            {filters.country?.slice(0, countryShowAll ? filters.country.length : 10).map((name) => {
-              return (
-                <FilterButton
-                  key={name}
-                  name={name}
-                  filter="country"
-                  onFilterClick={onFilterClick}
-                  active={activeFilters.country.has(name)}
-                ></FilterButton>
-              );
-            })}
-          </FilterRow>
-        </div>
-      }
+        )}
 
-      {channels[current].filters.has("year") &&
-        <div className="flex flex-col gap-y-6">
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-semibold">
-              {activeFilters.year.size > 0 ? `Year (${activeFilters.year.size})` : "Year"}
+        {channels[current].filters.has("year") && (
+          <div className="flex flex-col gap-y-6">
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-semibold">
+                {activeFilters.year.size > 0 ? `Year (${activeFilters.year.size})` : "Year"}
+              </div>
+              <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
+                <FilterClearButton onClick={() => onFilterClear("year")}></FilterClearButton>
+                <FilterShowAllButton
+                  show={yearShowAll}
+                  onClick={() => setYearShowAll(!yearShowAll)}
+                ></FilterShowAllButton>
+              </div>
             </div>
-            <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
-              <FilterClearButton onClick={() => onFilterClear("year")}></FilterClearButton>
-              <FilterShowAllButton
-                show={yearShowAll}
-                onClick={() => setYearShowAll(!yearShowAll)}
-              ></FilterShowAllButton>
-            </div>
+            <FilterRow>
+              {filters.year?.slice(0, yearShowAll ? filters.year.length : 10).map((name) => {
+                return (
+                  <FilterButton
+                    key={name}
+                    name={name}
+                    filter="year"
+                    onFilterClick={onFilterClick}
+                    active={activeFilters.year.has(name)}
+                  ></FilterButton>
+                );
+              })}
+            </FilterRow>
           </div>
-          <FilterRow>
-            {filters.year?.slice(0, yearShowAll ? filters.year.length : 10).map((name) => {
-              return (
-                <FilterButton
-                  key={name}
-                  name={name}
-                  filter="year"
-                  onFilterClick={onFilterClick}
-                  active={activeFilters.year.has(name)}
-                ></FilterButton>
-              );
-            })}
-          </FilterRow>
-        </div>
-      }
+        )}
 
         <div className="text-lg font-semibold">Band and album</div>
         <Input
@@ -128,7 +131,11 @@ const Filters = ({
 };
 
 const FilterRow = ({ children }) => {
-  return <div className="flex flex-wrap items-center gap-x-2 md:gap-x-6 gap-y-2 rounded-lg">{children}</div>;
+  return (
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-2 rounded-lg md:gap-x-6">
+      {children}
+    </div>
+  );
 };
 
 const FilterButton = ({ filter, name, onFilterClick, active }) => {

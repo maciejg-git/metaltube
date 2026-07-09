@@ -32,10 +32,11 @@ const Player = ({ playerId, playerState, setPlayerState }) => {
       )}
     >
       <div className="mx-1 flex justify-end gap-x-1 py-1">
-        <PlayerTopbarButton icon={BFullscreen} onClick={handlePositionButtonClick}>
-        </PlayerTopbarButton>
-        <PlayerTopbarButton icon={BXLg} onClick={() => setPlayerState(0)}>
-        </PlayerTopbarButton>
+        <PlayerTopbarButton
+          icon={BFullscreen}
+          onClick={handlePositionButtonClick}
+        ></PlayerTopbarButton>
+        <PlayerTopbarButton icon={BXLg} onClick={() => setPlayerState(0)}></PlayerTopbarButton>
       </div>
 
       <div
@@ -73,9 +74,9 @@ const PlayerTopbarButton = ({ onClick, icon: Icon }) => {
   return (
     <button
       onClick={onClick}
-      className="rounded-md bg-gray-500 p-1 text-white hover:bg-gray-400 dark:bg-gray-600 hover:dark:bg-gray-500"
+      className="rounded-md bg-gray-500 p-1.5 text-white hover:bg-gray-400 dark:bg-gray-600 hover:dark:bg-gray-500"
     >
-      <Icon className="w-4 h-4"></Icon>
+      <Icon className="h-4 w-4"></Icon>
     </button>
   );
 };

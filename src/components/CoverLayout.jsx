@@ -7,13 +7,21 @@ import Button from "./Button";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
-const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonClick, onLoadMoreClick, displayPageButton }) => {
-  const container = useRef(null)
+const CoverLayout = ({
+  data,
+  playerId,
+  playerState,
+  onImageClick,
+  onCloseButtonClick,
+  onLoadMoreClick,
+  displayPageButton,
+}) => {
+  const container = useRef(null);
 
   useEffect(() => {
     document.body.classList.add("overflow-y-hidden");
     if (container.current) {
-      container.current.focus()
+      container.current.focus();
     }
     return () => {
       document.body.classList.remove("overflow-y-hidden");
@@ -21,9 +29,12 @@ const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonC
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-neutral-900 scheme-dark animate-fade-in">
-      <CoverLayoutCloseButton onClick={onCloseButtonClick} className="absolute top-10 right-10"></CoverLayoutCloseButton>
-      <div ref={container} className="overflow-y-auto h-full outline-hidden">
+    <div className="fixed inset-0 animate-fade-in bg-neutral-900 scheme-dark">
+      <CoverLayoutCloseButton
+        onClick={onCloseButtonClick}
+        className="absolute top-10 right-10"
+      ></CoverLayoutCloseButton>
+      <div ref={container} className="h-full overflow-y-auto outline-hidden">
         <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-3">
           {data.map((item) => (
             <CoverLayoutItem
@@ -35,9 +46,11 @@ const CoverLayout = ({ data, playerId, playerState, onImageClick, onCloseButtonC
             ></CoverLayoutItem>
           ))}
         </div>
-        <div className="flex justify-center gap-x-4 mb-10">
+        <div className="mb-10 flex justify-center gap-x-4">
           {displayPageButton && (
-            <Button onClick={onLoadMoreClick} className="!rounded-full">Load more (50)</Button>
+            <Button onClick={onLoadMoreClick} className="!rounded-full">
+              Load more (50)
+            </Button>
           )}
         </div>
       </div>
@@ -49,13 +62,16 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
-    <div onClick={() => onImageClick(item)} className="relative flex group overflow-hidden">
+    <div onClick={() => onImageClick(item)} className="group relative flex overflow-hidden">
       <picture>
         <source media="(min-width: 768px)" srcSet={`${ytimgUrl}/${item.id}/hqdefault.jpg`} />
-        <img src={`${ytimgUrl}/${item.id}/default.jpg`} className="group-hover:scale-115 transition-transform duration-300 -my-8"/>
+        <img
+          src={`${ytimgUrl}/${item.id}/default.jpg`}
+          className="-my-8 transition-transform duration-300 group-hover:scale-115"
+        />
       </picture>
-      <div className="absolute inset-0 flex flex-col items-start hidden group-hover:flex ml-2 mt-2">
-        <div className="font-semibold text-sm bg-black text-gray-200 rounded-lg px-4 py-2">
+      <div className="absolute inset-0 mt-2 ml-2 flex hidden flex-col items-start group-hover:flex">
+        <div className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-gray-200">
           {item.title}
         </div>
       </div>
@@ -66,12 +82,12 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
         )}
       >
         {playingItem ? (
-          <div className="bg-black/50 p-2 rounded-full">
+          <div className="rounded-full bg-black/50 p-2">
             <BPauseFill className="h-16 w-16 text-gray-100"></BPauseFill>
           </div>
         ) : (
-          <div className="bg-black/50 p-2 rounded-full">
-            <BPlayFill className="h-16 w-16 text-gray-100 translate-x-1"></BPlayFill>
+          <div className="rounded-full bg-black/50 p-2">
+            <BPlayFill className="h-16 w-16 translate-x-1 text-gray-100"></BPlayFill>
           </div>
         )}
       </div>
@@ -79,12 +95,12 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
   );
 };
 
-const CoverLayoutCloseButton = ({className, ...props}) => {
+const CoverLayoutCloseButton = ({ className, ...props }) => {
   return (
-    <button className={"hover:text-white text-gray-300 " + className} {...props}>
+    <button className={"text-gray-300 hover:text-white " + className} {...props}>
       <BXLg className="h-7 w-7"></BXLg>
     </button>
-  )
-}
+  );
+};
 
 export default CoverLayout;
