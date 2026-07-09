@@ -330,7 +330,7 @@ function App() {
         onClickItem={(i) => handleBandAutocompleteItemClick(i)}
       ></Navbar>
 
-      <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-0">
+      <div className="mx-auto mt-10 max-w-7xl px-4 xl:px-0">
         {loading ? (
           <>
             <PlaceholderFilters />
@@ -351,7 +351,7 @@ function App() {
 
             <div className="my-14"></div>
 
-            <div className="flex flex-col justify-between md:flex-row">
+            <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
               <LayoutControl
                 layout={layout}
                 onLayoutButtonClick={handleLayoutButtonClick}

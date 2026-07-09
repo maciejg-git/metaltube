@@ -4,6 +4,7 @@ import BPlayFill from "../icons/BPlayFill";
 import BPauseFill from "../icons/BPauseFill";
 import clsx from "clsx";
 import { useState } from "react";
+import { channels } from "../config";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
@@ -119,7 +120,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
-          <div className="flex flex-col items-end gap-y-4">
+          <div className="flex flex-col items-end gap-y-4 text-sm md:text-base">
             <div className="flex flex-col items-start gap-x-4 md:flex-row">
               <div className="flex items-center gap-x-1">
                 <BEye></BEye>

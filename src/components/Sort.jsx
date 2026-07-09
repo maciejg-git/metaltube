@@ -26,7 +26,7 @@ const Sort = ({
   }
 
   return (
-    <div className="flex items-center justify-end gap-x-4">
+    <div className="flex items-center gap-x-4 ml-auto flex-wrap gap-y-2">
       <span className="font-semibold">Sort by</span>
       {sortOptions.map(
         ({ name, label }) =>
