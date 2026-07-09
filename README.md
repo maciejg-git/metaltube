@@ -1,8 +1,10 @@
 # Metaltube
 
-An app made to explore and discover music videos from **Black Metal Promotion** (and possibly others) Youtube channel. While native Youtube playlits are fine, this one offers more advanced, dynamic filtering and sorting options thanks to consistent video descriptions on BMP channel.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ab0e5d5c-2297-485c-a422-a82e096b75a4/deploy-status)](https://app.netlify.com/projects/mtl-tube/deploys)
 
-Play videos in embedded player (click on cover image) or in Youtube (click the title).
+An app made to explore and discover music videos from the **Black Metal Promotion** (and potentially other) YouTube channels. It offers more advanced, dynamic filtering and sorting options than native YouTube playlists, thanks to the consistent video descriptions on the BMP channel. Additional data, such as ratings, reviews, and similar bands, is pulled directly from Metal Archives.
+
+Play videos in the embedded player (by clicking on the cover image) or directly on YouTube (by clicking the title).
 
 Try it here
 
