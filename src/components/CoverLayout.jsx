@@ -35,7 +35,7 @@ const CoverLayout = ({
         className="absolute top-10 right-10"
       ></CoverLayoutCloseButton>
       <div ref={container} className="h-full overflow-y-auto outline-hidden">
-        <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mx-auto mt-14 mb-10 grid w-max grid-cols-1 gap-x-6 gap-y-6 xl:grid-cols-2 2xl:grid-cols-3">
           {data.map((item) => (
             <CoverLayoutItem
               key={item.id}
@@ -63,13 +63,10 @@ const CoverLayoutItem = ({ item, playerId, playerState, onImageClick }) => {
 
   return (
     <div onClick={() => onImageClick(item)} className="group relative flex overflow-hidden">
-      <picture>
-        <source media="(min-width: 768px)" srcSet={`${ytimgUrl}/${item.id}/hqdefault.jpg`} />
-        <img
-          src={`${ytimgUrl}/${item.id}/default.jpg`}
-          className="-my-8 transition-transform duration-300 group-hover:scale-115"
-        />
-      </picture>
+      <img
+        src={`${ytimgUrl}/${item.id}/hqdefault.jpg`}
+        className="-my-8 transition-transform duration-300 group-hover:scale-115"
+      />
       <div className="absolute inset-0 mt-2 ml-2 flex hidden flex-col items-start group-hover:flex">
         <div className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-gray-200">
           {item.title}
