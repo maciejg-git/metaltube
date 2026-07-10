@@ -198,6 +198,29 @@ function normalizeSlashes(str) {
 } 
 
 function fixItems(items) {
+  const fixes = {
+    country: {
+      "Germamy": "Germany",
+      "Argentian": "Argentina",
+      "Australia (Tasmania)": "Australia",
+      "Australian": "Australia",
+      "Czech Republic & Norway": "Czech Republic / Norway",
+      "Germany & Slovenia": "Germany / Slovenia",
+      "Unites States": "United States",
+      "United KIngdom": "United Kingdom",
+      "The Netherlands": "Netherlands",
+      "French": "France",
+      "Mexico / USA / UK": "Mexico / United States / United Kingdom"
+    },
+    genre: {
+      "Atmopheric Black Metal": "Atmospheric Black Metal",
+      "Melanchiolic Black Metal": "Melancholic Black Metal",
+      "Atmospheric / Symphomic Black Metal": "Atmospheric / Symphonic Black Metal",
+      "Melodic Black / Death Metal Metal": "Melodic Black / Death Metal",
+      "Avant-garde Black Metal": "Avant-Garde Black Metal",
+      "Atmospheric Black Metal / Darkfolk": "Atmospheric Black Metal / Dark Folk",
+    }
+  }
   return items.map((i) => {
     if (i.band === undefined) {
       i.band = ""
@@ -217,6 +240,14 @@ function fixItems(items) {
     if (!Array.isArray(i.genre)) {
       i.genre = normalizeSlashes(i.genre)
     }
+
+    if (fixes.country[i.country]) {
+      i.country = fixes.country[i.country]
+    }
+    if (fixes.genre[i.genre]) {
+      i.genre = fixes.genre[i.genre]
+    }
+
     return i
   })
 }
