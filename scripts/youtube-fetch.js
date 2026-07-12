@@ -38,6 +38,10 @@ genreMap = Object.fromEntries(Object.entries(genreMap).map((i) => {
   return [i[1], parseInt(i[0])]
 }))
 
+const discography = Object.fromEntries(
+  Object.entries(bandsDiscography).map(([key, value]) => [key.toLowerCase(), value])
+);
+
 function parseDescriptionBMP(description) {
   const index = description.indexOf('\n');
   const firstLine = index === -1 ? description : description.substring(0, index);
@@ -356,11 +360,15 @@ async function fetchAll() {
     let reviews = 0
     let rating = 0
 
-    const parsedAlbum = album.replace(/\s*\([^)]*\)/, "");
+    const parsedLowerCaseAlbum = album.replace(/\s*\([^)]*\)/, "").trim().toLowerCase();
+    const lowerCaseBand = band.trim().toLowerCase()
 
     if (currentPlaylist === "BMP" || currentPlaylist === "ABMA") {
-      if (bandsDiscography[band]) {
-        let albumInDiscography = bandsDiscography[band].find((i) => i.album.trim() === parsedAlbum.trim())
+      if (discography[lowerCaseBand]) {
+        let albumInDiscography = discography[lowerCaseBand].find((i) => {
+          let album = i.album.trim().toLowerCase()
+          return album === parsedLowerCaseAlbum
+        })
         if (albumInDiscography) {
           reviews = albumInDiscography.reviews
           rating = albumInDiscography.rating
