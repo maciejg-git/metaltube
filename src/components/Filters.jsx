@@ -1,6 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import Input from "./Input.jsx";
+import FilterInput from "./FilterInput.jsx";
 import FaChevronDownSolid from "../icons/FaChevronDownSolid.jsx";
 import { channels } from "../config.js";
 
@@ -9,10 +10,12 @@ const Filters = ({
   onFilterClick,
   activeFilters,
   activeAnyFilter,
-  filterTitle,
+  filterString,
   onFilterTitleChange,
   onFilterClear,
   current,
+  filterInputBy,
+  setFilterInputBy,
 }) => {
   let [genreShowAll, setGenreShowAll] = useState(false);
   let [countryShowAll, setCountryShowAll] = useState(false);
@@ -120,11 +123,13 @@ const Filters = ({
         )}
 
         <div className="text-lg font-semibold">Band and album</div>
-        <Input
+        <FilterInput
           type="search"
-          value={filterTitle}
+          value={filterString}
           onChange={(e) => onFilterTitleChange(e.target.value)}
-        ></Input>
+          filterInputBy={filterInputBy}
+          setFilterInputBy={setFilterInputBy}
+        ></FilterInput>
       </div>
     </>
   );

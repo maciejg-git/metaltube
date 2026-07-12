@@ -70,7 +70,8 @@ function App() {
   const [current, setCurrent] = useState("bmp");
 
   const [filters, setFilters] = useState([]);
-  const [filterTitle, setFilterTitle] = useState("");
+  const [filterString, setFilterString] = useState("");
+  const [filterInputBy, setFilterInputBy] = useState({band: true, album: false});
   const [activeFilters, setActiveFilters] = useState(() => ({
     genre: new Set(),
     country: new Set(),
@@ -138,7 +139,7 @@ function App() {
     return array;
   }
 
-  const [debouncedFilter] = useDebounce(filterTitle, 300);
+  const [debouncedFilter] = useDebounce(filterString, 300);
 
   const filterCallbacks = {
     bmp: (item) => {
@@ -156,7 +157,11 @@ function App() {
 
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
 
-      return genreMatch && countryMatch && yearMatch && filterTitleMatch;
+      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
     },
     tdsa: (item) => {
       let genreMatch =
@@ -169,7 +174,11 @@ function App() {
 
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
 
-      return genreMatch && countryMatch && yearMatch && filterTitleMatch;
+      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
     },
     abma: (item) => {
       const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
@@ -189,6 +198,7 @@ function App() {
     activeFilters.year,
     activeAnyFilter,
     debouncedFilter,
+    filterInputBy,
   ]);
 
   const sortedItems = useMemo(() => {
@@ -295,15 +305,16 @@ function App() {
   }
 
   function handleBandAutocompleteItemClick(i) {
-    setFilterTitle(i.name);
+    setFilterString(i.name);
     setCurrent(i.channel);
     setPage(1);
+    setFilterInputBy({band: true, album: false})
   }
 
   function handleChannelClick(channel) {
     setCurrent(channel);
     setPage(1);
-    setFilterTitle("");
+    setFilterString("");
   }
 
   function handleLayoutButtonClick(nextLayout) {
@@ -343,10 +354,12 @@ function App() {
               onFilterClick={handleFilterClick}
               activeFilters={activeFilters}
               activeAnyFilter={activeAnyFilter}
-              filterTitle={filterTitle}
-              onFilterTitleChange={setFilterTitle}
+              filterString={filterString}
+              onFilterTitleChange={setFilterString}
               onFilterClear={handleFilterClearClick}
               current={current}
+              filterInputBy={filterInputBy}
+              setFilterInputBy={setFilterInputBy}
             ></Filters>
 
             <div className="my-14"></div>
