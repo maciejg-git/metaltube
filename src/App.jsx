@@ -88,7 +88,7 @@ function App() {
   const [direction, setDirection] = useState(defaultSortDirection.published);
   const [randomSort, setRandomSort] = useState(0);
 
-  const [layout, setLayout] = useState("normal");
+  const [layout, setLayout] = useState(localStorage.getItem("layout") ?? "normal");
   const [prevLayout, setPrevLayout] = useState("normal");
 
   const [bands, setBands] = useState([]);
@@ -225,11 +225,25 @@ function App() {
       likes: (a, b) => a.likes - b.likes,
       rating: (a, b, direction) => {
         if (a.reviews === 0 && b.reviews === 0) {
-          return a.rating - b.rating;
+          return 0
         }
-        if (a.reviews === 0) return 1 / direction;
-        if (b.reviews === 0) return -1 / direction;
+        if (a.reviews === 0) return 1 * direction;
+        if (b.reviews === 0) return -1 * direction;
+        if (a.rating === b.rating) {
+          return (a.reviews - b.reviews);
+        }
         return a.rating - b.rating;
+      },
+      reviews: (a, b, direction) => {
+        if (a.reviews === 0 && b.reviews === 0) {
+          return 0
+        }
+        if (a.reviews === 0) return 1 * direction;
+        if (b.reviews === 0) return -1 * direction;
+        if (a.reviews === b.reviews) {
+          return (a.rating - b.rating);
+        }
+        return a.reviews - b.reviews;
       },
       published: (a, b) => new Date(a.published) - new Date(b.published),
     };
@@ -320,6 +334,9 @@ function App() {
   function handleLayoutButtonClick(nextLayout) {
     setPrevLayout(layout);
     setLayout(nextLayout);
+    if (nextLayout !== "cover") {
+      localStorage.setItem("layout", nextLayout)
+    }
   }
 
   function handleLoadPageClick() {

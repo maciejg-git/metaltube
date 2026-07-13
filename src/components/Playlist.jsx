@@ -13,7 +13,12 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
   return (
-    <div className="flex flex-col divide-y divide-gray-200 dark:divide-neutral-700 -mt-2">
+    <div
+      className={clsx(
+        "flex flex-col divide-y divide-gray-200 dark:divide-neutral-700",
+        layout === "normal" && "-mt-2",
+      )}
+    >
       {data.length === 0 && (
         <div className="mx-auto mt-20">
           No tracks match. Clearly, this combination doesn't exist yet. Try adjusting your filters.
