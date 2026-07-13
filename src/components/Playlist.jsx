@@ -100,7 +100,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
   };
 
   return (
-    <div className="flex gap-x-4 py-6">
+    <div className="group flex gap-x-4 py-6">
       <ImageCover
         item={item}
         onImageClick={onImageClick}
@@ -108,7 +108,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
         layout="normal"
       />
 
-      <div className="group flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col">
         <div className="flex flex-1">
           <div className="group flex flex-1 flex-col gap-y-1">
             <div className="flex items-center text-xl font-semibold">
