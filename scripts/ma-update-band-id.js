@@ -4,12 +4,12 @@ import fs from "fs"
 import isoCountries from "i18n-iso-countries"
 
 import bandsBmp from "../src/data/bmp-bands-with-country.json" with { type: "json" }
-import bandsAbma from "../src/data/abma-bands-with-country.json" with { type: "json" }
 
 import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" }
-import bandsDataMulti from "../src/data-metal-archives/bands-data-multi.json" with { type: "json" }
+import bandsDataNoId from "../src/data-metal-archives/bands-data-no-id.json" with { type: "json" }
+import bandsDataMultiId from "../src/data-metal-archives/bands-data-multi-id.json" with { type: "json" }
 
-let bands = {...bandsAbma, ...bandsBmp}
+let bands = {...bandsBmp}
 
 let bandsCount = Object.keys(bands).length
 
@@ -23,18 +23,23 @@ const maSearchUrl = "https://www.metal-archives.com/search/ajax-advanced/searchi
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 let updateBandsData = {}
-let updateBandsDataMulti = {}
+let updateBandsDataNoId = {}
+let updateBandsDataMultiId = {}
+
 let counter = 0
 
 for (let band in bands) {
   if (bandsData[band]) continue
+  if (bandsDataNoId[band]) continue
+  if (bandsDataMultiId[band]) continue
 
   let country = bands[band].country.split("/").map((i) => i.trim())
+  if (country.length > 1) country.push("XX")
 
   for (let i of country) {
-    let isoCountry = isoCountries.getAlpha2Code(i, "en") ?? ""
+    let isoCountry = i === "XX" ? "XX" : (isoCountries.getAlpha2Code(i, "en") ?? "")
 
-    const maSearchParams = new URLSearchParams("?bandName=&country=&exactBandMatch=1")
+    const maSearchParams = new URLSearchParams("?bandName=&exactBandMatch=1&genre=&country=&yearCreationFrom=&yearCreationTo=&bandNotes=&status=&themes=&location=")
     maSearchParams.set("bandName", band)
     maSearchParams.set("country", isoCountry)
 
@@ -51,25 +56,18 @@ for (let band in bands) {
         let link = $("a").attr("href")
         id = link.split("/").pop()
         genre = data.aaData[0][1]
-      } else {
-        id = "multi"
-        if (!bandsDataMulti[band]) {
-          updateBandsDataMulti[band] = {
-            id,
-            genre,
-            country: isoCountry,
-          }
-        }
-      }
 
-      updateBandsData[band] = {
-        id,
-        genre,
-        country: isoCountry,
-      }
-    } else {
-      updateBandsData[band] = {
-        id,
+        updateBandsData[band] = {
+          id,
+          genre,
+          country: isoCountry,
+        }
+      } else {
+        updateBandsDataMultiId[band] = {
+          id: "multi",
+          genre,
+          country: isoCountry || i,
+        }
       }
     }
 
@@ -80,21 +78,35 @@ for (let band in bands) {
     if (data.aaData.length) break
   }
 
+  if (!updateBandsData[band] && !updateBandsDataMultiId[band]) {
+    updateBandsDataNoId[band] = {
+      id: "",
+      genre: "",
+      country: bands[band].country,
+    }
+  }
+
   counter++
   if (counter > 1000) break
 }
 
 let updatedBandsData = {...bandsData, ...updateBandsData}
+let updatedBandsDataNoId = {...bandsDataNoId, ...updateBandsDataNoId}
+let updatedBandsDataMultiId = {...bandsDataMultiId, ...updateBandsDataMultiId}
 
-for (let band in updatedBandsData) {
-  if (updatedBandsData[band].id === "multi" && bandsDataMulti[band].id !== "multi") {
-    updatedBandsData[band].id = bandsDataMulti[band].id
-    updatedBandsData[band].genre = bandsDataMulti[band].genre
-    updatedBandsData[band].country = bandsDataMulti[band].country
+for (let band in updatedBandsDataMultiId) {
+  if (!updatedBandsData[band] && bandsDataMultiId[band].id !== "multi") {
+    updatedBandsData[band] = {
+      id: bandsDataMultiId[band].id,
+      genre: bandsDataMultiId[band].genre,
+      country: bandsDataMultiId[band].country,
+    }
+    console.log(band + " ID updated")
   }
 }
 
 let dataDir = "./src/data-metal-archives/"
 
-fs.writeFileSync(`${dataDir}bands-data.json`, JSON.stringify(updatedBandsData));
-fs.writeFileSync(`${dataDir}bands-data-multi.json`, JSON.stringify({...bandsDataMulti, ...updateBandsDataMulti}, null, 2));
+fs.writeFileSync(`${dataDir}bands-data.json`, JSON.stringify(updatedBandsData, null, 2));
+fs.writeFileSync(`${dataDir}bands-data-no-id.json`, JSON.stringify(updatedBandsDataNoId, null, 2));
+fs.writeFileSync(`${dataDir}bands-data-multi-id.json`, JSON.stringify(updatedBandsDataMultiId, null, 2));

@@ -87,7 +87,7 @@ function parseDescriptionTDSA(description) {
 }
 
 function parseTitleBMP(str) {
-  let [band, album] = str.split("-").map((part) => part.trim())
+  let [band, album] = str.split(" - ").map((part) => part.trim())
 
   // if (album) {
   //   const regexp = /\s*\((?!.*live)[^)]+\)$/i;
@@ -141,7 +141,7 @@ async function fetchPlaylistItems(nextPageToken) {
       }
 
       return {
-        // title,
+        title,
         // img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
         id: videoId,
         published: videoPublishedAt.substring(0, 10),
@@ -203,6 +203,15 @@ function normalizeSlashes(str) {
 
 function fixItems(items) {
   const fixes = {
+    title: {
+      "Adversam -Daimon (Full Album Premiere)": {
+        band: "Adversam",
+        album: "Daimon (Full Album Premiere)",
+      }
+    },
+    band: {
+      "Fangorn (pre-Rivendell)": "Fangorn",
+    },
     country: {
       "Germamy": "Germany",
       "Argentian": "Argentina",
@@ -245,12 +254,21 @@ function fixItems(items) {
       i.genre = normalizeSlashes(i.genre)
     }
 
+    if (fixes.title[i.title]) {
+      i.band = fixes.title[i.title].band
+      i.album = fixes.title[i.title].album
+    }
+    if (fixes.band[i.band]) {
+      i.band = fixes.band[i.band]
+    }
     if (fixes.country[i.country]) {
       i.country = fixes.country[i.country]
     }
     if (fixes.genre[i.genre]) {
       i.genre = fixes.genre[i.genre]
     }
+
+    i.band = i.band.split("|")[0].trim()
 
     return i
   })
