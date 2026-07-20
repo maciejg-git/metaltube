@@ -96,6 +96,8 @@ function App() {
 
   const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], active: null})
 
+  const prevState = useRef({filterString: "", filterInputBy: {band: true, album: false}, sort: ""})
+
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
@@ -373,6 +375,7 @@ function App() {
         return b.score - a.score
       })
       setSimilarBands({targetBand, bands: sortedBands, active})
+      prevState.current = {filterString, filterInputBy, sort}
       setFilterString("")
     }
   }
@@ -398,7 +401,9 @@ function App() {
 
   function handleFiltersBackClick() {
     setSimilarBands({targetBand: null, bands: [], active: null})
-    setFilterString("")
+    setFilterString(prevState.current.filterString)
+    setFilterInputBy(prevState.current.filterInputBy)
+    setSort(prevState.current.sort)
   }
 
   function handleBandAutocompleteItemClick(i) {
