@@ -60,7 +60,7 @@ async function fetchBands() {
       return import(`./data/${i}-bands.json`);
     }),
   );
-  return ["bmp", "tdsa"].map((channel, index) => ({ channel, items: bands[index].default }));
+  return bands.map((channel) => channel.default)
 }
 
 function App() {
@@ -91,7 +91,10 @@ function App() {
   const [layout, setLayout] = useState(localStorage.getItem("layout") ?? "normal");
   const [prevLayout, setPrevLayout] = useState("normal");
 
-  const [bands, setBands] = useState([]);
+  const [bandsByChannel, setBandsByChannel] = useState([]);
+  const [autocompleteBandsByChannel, setAutocompleteBandsByChannel] = useState([]);
+
+  const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], active: null})
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
@@ -99,7 +102,17 @@ function App() {
     const getBands = async () => {
       try {
         let bands = await fetchBands();
-        setBands(bands);
+        setBandsByChannel(
+          ["bmp", "tdsa"].reduce((acc, channel, index) => {
+            acc[channel] = new Set(bands[index]);
+            return acc;
+          }, {}),
+        );
+        setAutocompleteBandsByChannel(
+          ["bmp", "tdsa"].map((channel, index) => {
+            return {channel, items: bands[index]}
+          })
+        )
       } catch (error) {
         console.log(error);
       }
@@ -130,6 +143,15 @@ function App() {
     getPlaylist();
   }, [current]);
 
+  useEffect(() => {
+    if (similarBands.targetBand) {
+      scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+    }
+  }, [similarBands]);
+
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -155,13 +177,20 @@ function App() {
 
       const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
 
-      const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
-
       const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
 
       const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
 
       return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
+    },
+    similarBands: (item) => {
+      let similarMatch = similarBands.active.has(item.band)
+
+      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
+
+      return similarMatch && (bandMatch || albumMatch)
     },
     tdsa: (item) => {
       let genreMatch =
@@ -171,8 +200,6 @@ function App() {
         activeFilters.country.size === 0 || activeFilters.country.has(item.country);
 
       const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
-
-      const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
 
       const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
 
@@ -188,7 +215,7 @@ function App() {
   };
 
   const filteredItems = useMemo(() => {
-    let activeFn = filterCallbacks[current];
+    let activeFn = similarBands.targetBand ? filterCallbacks.similarBands : filterCallbacks[current];
     return data.filter(activeFn);
   }, [
     current,
@@ -199,6 +226,7 @@ function App() {
     activeAnyFilter,
     debouncedFilter,
     filterInputBy,
+    similarBands,
   ]);
 
   const sortedItems = useMemo(() => {
@@ -318,6 +346,61 @@ function App() {
     setPlayerState(PLAYER.PLAY);
   }
 
+  function handleSimilarBandClick(targetBand, bands) {
+    if (bands.length) {
+      let similarBands = bands.map((band) => {
+        return {
+          name: band[0],
+          score: band[1],
+          hasAlbums: bandsByChannel[current].has(band[0]),
+        }
+      })
+
+      let active = new Set(
+        similarBands.filter((band) => band.hasAlbums).map((band) => band.name),
+      );
+
+      let sortedBands = similarBands.sort((a, b) => {
+        if (!a.hasAlbums && !b.hasAlbums) {
+          return 0
+        }
+        if (!a.hasAlbums) {
+          return 1
+        }
+        if (!b.hasAlbums) {
+          return -1
+        }
+        return b.score - a.score
+      })
+      setSimilarBands({targetBand, bands: sortedBands, active})
+      setFilterString("")
+    }
+  }
+
+  function handleSimilarBandFilterClick(band) {
+    if (!band.hasAlbums) {
+      return
+    }
+
+    setSimilarBands((prev) => {
+      let next = new Set(prev.active);
+      if (next.has(band.name)) {
+        next.delete(band.name);
+      } else {
+        next.add(band.name);
+      }
+      return {
+        ...prev,
+        active: next,
+      };
+    })
+  }
+
+  function handleFiltersBackClick() {
+    setSimilarBands({targetBand: null, bands: [], active: null})
+    setFilterString("")
+  }
+
   function handleBandAutocompleteItemClick(i) {
     setFilterString(i.name);
     setCurrent(i.channel);
@@ -354,7 +437,7 @@ function App() {
         onClickDarkMode={toggleDarkMode}
         current={current}
         onChannelClick={handleChannelClick}
-        bands={bands}
+        bands={autocompleteBandsByChannel}
         onClickItem={(i) => handleBandAutocompleteItemClick(i)}
       ></Navbar>
 
@@ -377,6 +460,9 @@ function App() {
               current={current}
               filterInputBy={filterInputBy}
               setFilterInputBy={setFilterInputBy}
+              similarBands={similarBands}
+              onBackClick={handleFiltersBackClick}
+              onSimilarBandFilterClick={handleSimilarBandFilterClick}
             ></Filters>
 
             <div className="my-14"></div>
@@ -405,6 +491,7 @@ function App() {
               playerState={playerState}
               onImageClick={handlePlaylistItemImageClick}
               layout={layout}
+              onSimilarBandsClick={handleSimilarBandClick}
             ></Playlist>
 
             <div className="my-10"></div>

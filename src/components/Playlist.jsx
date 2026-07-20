@@ -8,7 +8,7 @@ import { channels } from "../config";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
-const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
+const Playlist = ({ data, playerId, playerState, onImageClick, layout, onSimilarBandsClick }) => {
   const PlaylistItemComponent =
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
@@ -32,6 +32,7 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout }) => {
             playerId={playerId}
             playerState={playerState}
             onImageClick={onImageClick}
+            onSimilarBandsClick={onSimilarBandsClick}
           ></PlaylistItemComponent>
         );
       })}
@@ -93,15 +94,13 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   );
 };
 
-const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
-  const [similarBands, setSimilarBands] = useState();
-
+const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   let handleClickSimilar = async () => {
     let res = await fetch(`/.netlify/functions/get-similar-bands?band=${item.band}`);
     res = await res.json();
-    setSimilarBands(res);
+    onSimilarBandsClick(item.band, res)
   };
 
   return (
@@ -144,13 +143,19 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick }) => {
             )}
           </div>
         </div>
-        <div className="hidden group-hover:block">
+        <div className="hidden group-hover:flex flex gap-x-2">
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
           >
             Metal Archives
           </a>
+          <button
+            onClick={handleClickSimilar}
+            className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+          >
+            Similar bands
+          </button>
         </div>
       </div>
     </div>
