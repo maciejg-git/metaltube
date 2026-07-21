@@ -15443,5 +15443,50 @@
     "id": "3540278495",
     "genre": "Black Metal",
     "country": "DE"
+  },
+  "Буйтур": {
+    "id": "3540521770",
+    "genre": "Black Metal, Ambient",
+    "country": "UA"
+  },
+  "Numen": {
+    "id": "3066",
+    "genre": "Black/Folk Metal (early); Black Metal (later)",
+    "country": "Spain (Basque Country)"
+  },
+  "Infaust": {
+    "id": "58056",
+    "genre": "Black Metal",
+    "country": "DE"
+  },
+  "Fuath": {
+    "id": "3540407165",
+    "genre": "Atmospheric Black Metal",
+    "country": "Scotland"
+  },
+  "Bestia": {
+    "id": "3540461936",
+    "genre": "Black Metal",
+    "country": "PL"
+  },
+  "Unrast": {
+    "id": "3540561611",
+    "genre": "Black Metal",
+    "country": "DE"
+  },
+  "Malacath": {
+    "id": "3540362414",
+    "genre": "Black Metal",
+    "country": "US"
+  },
+  "Ostots": {
+    "id": "3540280532",
+    "genre": "Black Metal",
+    "country": "ES"
+  },
+  "Vaino": {
+    "id": "3540500541",
+    "genre": "Black Metal",
+    "country": "FI"
   }
 }
