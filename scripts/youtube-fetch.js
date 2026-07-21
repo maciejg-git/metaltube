@@ -2,6 +2,7 @@ import axios from "axios";
 import fs from "fs"
 import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" }
 import bandsDiscography from "../src/data-metal-archives/bands-data-discography.json" with { type: "json" }
+import similarBands from "../src/data-metal-archives/bands-data-similar.json" with {type: "json"}
 
 const API_KEY = process.env.API_KEY
 const PLAYLISTS = {
@@ -87,7 +88,10 @@ function parseDescriptionTDSA(description) {
 }
 
 function parseTitleBMP(str) {
-  let [band, album] = str.split(" - ").map((part) => part.trim())
+  let [band, ...rest] = str.split(" - ")
+  let album = rest.join(" - ").trim();
+
+  band = band.trim()
 
   // if (album) {
   //   const regexp = /\s*\((?!.*live)[^)]+\)$/i;
@@ -207,10 +211,24 @@ function fixItems(items) {
       "Adversam -Daimon (Full Album Premiere)": {
         band: "Adversam",
         album: "Daimon (Full Album Premiere)",
+      },
+      "Beenkerver De Rode Weduwe (Full Album)": {
+        band: "Beenkerver",
+        album: "De Rode Weduwe (Full Album)",
+      },
+      "Eldamar / Dreams of Nature (Full EP | Official)": {
+        band: "Eldamar / Dreams of Nature",
+        album: "Eldamar / Dreams of Nature (Full EP | Official)",
+      },
+      "Wildernessking – Levitate (Full EP)": {
+        band: "Wildernessking",
+        album: "Levitate (Full EP)",
       }
     },
     band: {
       "Fangorn (pre-Rivendell)": "Fangorn",
+      "Αχέροντας (Acherontas)": "Αχέροντας",
+      "Буйтур (Buithur)": "Буйтур",
     },
     country: {
       "Germamy": "Germany",
@@ -250,6 +268,7 @@ function fixItems(items) {
     if (i.year === undefined) {
       i.year = ""
     }
+
     if (!Array.isArray(i.genre)) {
       i.genre = normalizeSlashes(i.genre)
     }
@@ -379,13 +398,14 @@ async function fetchAll() {
     let rating = 0
 
     const parsedLowerCaseAlbum = album.replace(/\s*\([^)]*\)/, "").trim().toLowerCase();
+    const normalizedAlbum = parsedLowerCaseAlbum.replace(/\s*[:-]\s*/g, " ");
     const lowerCaseBand = band.trim().toLowerCase()
 
     if (currentPlaylist === "BMP" || currentPlaylist === "ABMA") {
       if (discography[lowerCaseBand]) {
         let albumInDiscography = discography[lowerCaseBand].find((i) => {
-          let album = i.album.trim().toLowerCase()
-          return album === parsedLowerCaseAlbum
+          let album = i.album.trim().toLowerCase().replace(/\s*[:-]\s*/g, " ")
+          return album === normalizedAlbum
         })
         if (albumInDiscography) {
           reviews = albumInDiscography.reviews
@@ -394,7 +414,13 @@ async function fetchAll() {
       }
     }
 
-    return [id, published, band, album, country, year, genre, views, likes, reviews, rating]
+    let hasSimilarBands = 0
+
+    if (similarBands[i.band] && similarBands[i.band].length) {
+      hasSimilarBands = 1
+    }
+
+    return [id, published, band, album, country, year, genre, views, likes, reviews, rating, hasSimilarBands]
   })
 
   let dataDir = "./src/data/"
