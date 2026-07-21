@@ -15,6 +15,16 @@ const PlaceholderFilters = () => {
   );
 };
 
+const PlaceholderSimilarBandsFilter = () => {
+  return (
+    <div className="flex flex-col gap-y-4">
+      <div className={classes + " h-10 w-40"}></div>
+      <div className={classes + " h-6 w-60"}></div>
+      <div className={classes + " h-30 w-full"}></div>
+    </div>
+  );
+};
+
 const PlaceholderPlaylist = () => {
   return (
     <div className="mt-10 flex flex-col gap-y-2">
@@ -24,4 +34,4 @@ const PlaceholderPlaylist = () => {
   );
 };
 
-export { PlaceholderFilters, PlaceholderPlaylist };
+export { PlaceholderFilters, PlaceholderSimilarBandsFilter, PlaceholderPlaylist };

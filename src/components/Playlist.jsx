@@ -97,12 +97,6 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
 const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
-  let handleClickSimilar = async () => {
-    let res = await fetch(`/.netlify/functions/get-similar-bands?band=${item.band}`);
-    res = await res.json();
-    onSimilarBandsClick(item.band, res)
-  };
-
   return (
     <div className="group flex gap-x-4 py-6">
       <ImageCover
@@ -150,41 +144,54 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
           >
             Metal Archives
           </a>
-          <button
-            onClick={handleClickSimilar}
-            className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-          >
-            Similar bands
-          </button>
+          {item.hasSimilarBands &&
+            <button
+              onClick={() => onSimilarBandsClick(item)}
+              className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+            >
+              Similar bands
+            </button>
+          }
         </div>
       </div>
     </div>
   );
 };
 
-const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick }) => {
+const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
-    <div className="flex gap-x-4 py-2">
+    <div className="group flex gap-x-4 py-2">
       <ImageCover
         item={item}
         onImageClick={onImageClick}
         playingItem={playingItem}
         layout="compact"
       />
-      <div className="group flex flex-1">
+      <div className="flex flex-1">
         <div className="flex flex-1 flex-col gap-y-1">
-          <div className="flex items-center font-semibold">
+          <div className="flex items-center font-semibold gap-x-2">
             <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
               {item.title}
             </a>
-            <a
-              href={`https://www.metal-archives.com/bands/${item.band}/`}
-              className="ml-4 hidden text-sm font-semibold text-sky-500 underline group-hover:block dark:text-sky-400"
-            >
-              Metal Archives
-            </a>
+            <div className="flex gap-x-2 hidden group-hover:flex">
+              <a
+                href={`https://www.metal-archives.com/bands/${item.band}/`}
+                className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+                target="_blank"
+              >
+                Metal Archives
+              </a>
+              {item.hasSimilarBands &&
+                <button
+                  onClick={() => onSimilarBandsClick(item)}
+                  className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+                >
+                  Similar bands
+                </button>
+              }
+            </div>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>
           <div className="flex gap-x-2 text-sm">

@@ -41,6 +41,7 @@ async function fetchPlaylist(channel) {
       likes: item[8],
       reviews: item[9],
       rating: item[10],
+      hasSimilarBands: !!item[11],
     });
   }
 
@@ -95,8 +96,9 @@ function App() {
   const [autocompleteBandsByChannel, setAutocompleteBandsByChannel] = useState([]);
 
   const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], active: null})
+  const [similarBandsLoading, setSimilarBandsLoading] = useState(false)
 
-  const prevState = useRef({filterString: "", filterInputBy: {band: true, album: false}, sort: ""})
+  const prevState = useRef({filterString: "", filterInputBy: {band: true, album: false}, sort: "", page: 1})
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
@@ -144,15 +146,6 @@ function App() {
 
     getPlaylist();
   }, [current]);
-
-  useEffect(() => {
-    if (similarBands.targetBand) {
-      scrollTo({
-        top: 0,
-        behavior: 'auto'
-      });
-    }
-  }, [similarBands]);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -348,7 +341,18 @@ function App() {
     setPlayerState(PLAYER.PLAY);
   }
 
-  function handleSimilarBandClick(targetBand, bands) {
+  async function handleSimilarBandClick(item) {
+    setSimilarBandsLoading(true)
+    setSimilarBands({targetBand: null, bands: [], active: null})
+
+    scrollTo({
+      top: 0,
+      behavior: 'auto'
+    });
+
+    let res = await fetch(`/.netlify/functions/get-similar-bands?band=${item.band}`);
+    let bands = await res.json();
+
     if (bands.length) {
       let similarBands = bands.map((band) => {
         return {
@@ -374,10 +378,14 @@ function App() {
         }
         return b.score - a.score
       })
-      setSimilarBands({targetBand, bands: sortedBands, active})
-      prevState.current = {filterString, filterInputBy, sort}
+      setSimilarBands({targetBand: item.band, bands: sortedBands, active})
+      prevState.current = {filterString, filterInputBy, sort, page}
       setFilterString("")
+      setFilterInputBy({band: true, album: false})
+      setPage(1)
     }
+
+    setSimilarBandsLoading(false)
   }
 
   function handleSimilarBandFilterClick(band) {
@@ -404,6 +412,7 @@ function App() {
     setFilterString(prevState.current.filterString)
     setFilterInputBy(prevState.current.filterInputBy)
     setSort(prevState.current.sort)
+    setPage(prevState.current.page)
   }
 
   function handleBandAutocompleteItemClick(i) {
@@ -468,6 +477,7 @@ function App() {
               similarBands={similarBands}
               onBackClick={handleFiltersBackClick}
               onSimilarBandFilterClick={handleSimilarBandFilterClick}
+              similarBandsLoading={similarBandsLoading}
             ></Filters>
 
             <div className="my-14"></div>
