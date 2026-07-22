@@ -118,7 +118,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
             <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
-          <div className="flex flex-col items-end gap-y-4 text-sm md:text-base">
+          <div className="flex flex-col items-end gap-y-3 text-sm md:text-base">
             <div className="flex flex-col items-start gap-x-4 md:flex-row">
               <div className="flex items-center gap-x-1">
                 <BEye></BEye>
@@ -137,28 +137,34 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
             )}
           </div>
         </div>
-        <div className="hidden group-hover:flex flex gap-x-2">
+        <div className="flex hidden items-center gap-x-4 group-hover:flex">
+          {item.hasSimilarBands && (
+            <button
+              onClick={() => onSimilarBandsClick(item)}
+              className="rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700"
+            >
+              Similar bands
+            </button>
+          )}
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
           >
             Metal Archives
           </a>
-          {item.hasSimilarBands &&
-            <button
-              onClick={() => onSimilarBandsClick(item)}
-              className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-            >
-              Similar bands
-            </button>
-          }
         </div>
       </div>
     </div>
   );
 };
 
-const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick }) => {
+const PlaylistItemCompact = ({
+  item,
+  playerId,
+  playerState,
+  onImageClick,
+  onSimilarBandsClick,
+}) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
@@ -171,11 +177,11 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick, onSimi
       />
       <div className="flex flex-1">
         <div className="flex flex-1 flex-col gap-y-1">
-          <div className="flex items-center font-semibold gap-x-2">
+          <div className="flex items-center gap-x-2 font-semibold">
             <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
               {item.title}
             </a>
-            <div className="flex gap-x-2 hidden group-hover:flex">
+            <div className="flex hidden gap-x-2 group-hover:flex">
               <a
                 href={`https://www.metal-archives.com/bands/${item.band}/`}
                 className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
@@ -183,14 +189,14 @@ const PlaylistItemCompact = ({ item, playerId, playerState, onImageClick, onSimi
               >
                 Metal Archives
               </a>
-              {item.hasSimilarBands &&
+              {item.hasSimilarBands && (
                 <button
                   onClick={() => onSimilarBandsClick(item)}
                   className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
                 >
                   Similar bands
                 </button>
-              }
+              )}
             </div>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>
