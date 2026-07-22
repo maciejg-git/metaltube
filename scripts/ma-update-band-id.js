@@ -13,6 +13,11 @@ let bands = {...bandsBmp}
 
 let bandsCount = Object.keys(bands).length
 
+let specialIsoCodes = {
+  "International": "XX",
+  "Unknown": "ZZ",
+}
+
 const impit = new Impit({
     browser: "chrome", // or "firefox"
     ignoreTlsErrors: true,
@@ -29,19 +34,33 @@ let updateBandsDataMultiId = {}
 let counter = 0
 
 for (let band in bands) {
+  let fixedParams = {}
+
   if (bandsData[band]) continue
-  if (bandsDataNoId[band]) continue
   if (bandsDataMultiId[band]) continue
+  if (bandsDataNoId[band]) {
+    fixedParams = bandsDataNoId[band].fixedParams
+    if (!fixedParams) continue
+  }
 
   let country = bands[band].country.split("/").map((i) => i.trim())
-  if (country.length > 1) country.push("XX")
+  if (country.length > 1) country.push("International")
+  if (fixedParams.country) {
+    country = [fixedParams.country]
+  }
 
   for (let i of country) {
-    let isoCountry = i === "XX" ? "XX" : (isoCountries.getAlpha2Code(i, "en") ?? "")
+    let isoCountry
+    if (specialIsoCodes[i]) {
+      isoCountry = specialIsoCodes[i]
+    } else {
+      isoCountry = isoCountries.getAlpha2Code(i, "en") ?? ""
+    }
 
     const maSearchParams = new URLSearchParams("?bandName=&exactBandMatch=1&genre=&country=&yearCreationFrom=&yearCreationTo=&bandNotes=&status=&themes=&location=")
-    maSearchParams.set("bandName", band)
+    maSearchParams.set("bandName", fixedParams.name ?? band)
     maSearchParams.set("country", isoCountry)
+    maSearchParams.set("exactBandMatch", fixedParams.exactBandMatch ?? 1)
 
     const response = await impit.fetch(`${maSearchUrl}?${maSearchParams.toString()}`);
 
@@ -79,10 +98,12 @@ for (let band in bands) {
   }
 
   if (!updateBandsData[band] && !updateBandsDataMultiId[band]) {
-    updateBandsDataNoId[band] = {
-      id: "",
-      genre: "",
-      country: bands[band].country,
+    if (!bandsDataNoId[band]) {
+      updateBandsDataNoId[band] = {
+        id: "",
+        genre: "",
+        country: bands[band].country,
+      }
     }
   }
 
