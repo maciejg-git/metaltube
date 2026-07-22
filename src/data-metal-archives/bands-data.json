@@ -15488,5 +15488,120 @@
     "id": "3540500541",
     "genre": "Black Metal",
     "country": "FI"
+  },
+  "Marthyrium": {
+    "id": "98166",
+    "genre": "Black Metal",
+    "country": ""
+  },
+  "Lidérc": {
+    "id": "3540487383",
+    "genre": "Black Metal",
+    "country": "HU"
+  },
+  "Bacchus": {
+    "id": "3540478736",
+    "genre": "Atmospheric Black Metal",
+    "country": "FR"
+  },
+  "Sluagh": {
+    "id": "3540461997",
+    "genre": "Atmospheric Black Metal",
+    "country": "Scotland"
+  },
+  "Howling": {
+    "id": "3540456215",
+    "genre": "Black Metal",
+    "country": "US"
+  },
+  "Mysticism": {
+    "id": "3540451953",
+    "genre": "Black Metal",
+    "country": "US"
+  },
+  "Rienaus": {
+    "id": "3540301230",
+    "genre": "Black Metal",
+    "country": "FI"
+  },
+  "Kshatriya": {
+    "id": "3540407641",
+    "genre": "Black Metal",
+    "country": "IT"
+  },
+  "Diabolus, Mecum Semperterne!": {
+    "id": "3540569297",
+    "genre": "Black Metal",
+    "country": "NO"
+  },
+  "Tour d’Ivoire": {
+    "id": "3540550613",
+    "genre": "Atmospheric Black Metal",
+    "country": "FR"
+  },
+  "Sætaıǝr": {
+    "id": "3540547143",
+    "genre": "Black Metal",
+    "country": "XX"
+  },
+  "A/Oratos": {
+    "id": "3540453942",
+    "genre": "Melodic Black Metal",
+    "country": "FR"
+  },
+  "Def/Light": {
+    "id": "3540272191",
+    "genre": "Melodic Black/Death Metal",
+    "country": "UA"
+  },
+  "Ëdïëh": {
+    "id": "78522",
+    "genre": "Black Metal/Dark Ambient/Folk/Acoustic",
+    "country": "CN"
+  },
+  "Aurae Lunae": {
+    "id": "3540506742",
+    "genre": "Black Metal, Ambient",
+    "country": "EC"
+  },
+  "Veldes": {
+    "id": "3540359514",
+    "genre": "Atmospheric Black Metal",
+    "country": "SI"
+  },
+  "Cold Cell": {
+    "id": "3540369146",
+    "genre": "Black Metal",
+    "country": "CH"
+  },
+  "Blackfog": {
+    "id": "3540285561",
+    "genre": "Black Metal",
+    "country": "RU"
+  },
+  "Crépuscule d’Hiver": {
+    "id": "3540448591",
+    "genre": "Epic Black Metal/Dungeon Synth",
+    "country": "FR"
+  },
+  "Núll": {
+    "id": "3540384774",
+    "genre": "Depressive Black/Doom Metal",
+    "country": "IS"
+  },
+  "Narziss": {
+    "id": "3540472252",
+    "genre": "Black Metal",
+    "country": "AT"
+  },
+  "SevenSins": {
+    "id": "3540386994",
+    "genre": "Symphonic Black Metal, Death Metal",
+    "country": "KZ"
+  },
+  "Khôra": {
+    "id": "3540414440",
+    "genre": "Avant-garde/Experimental Black Metal",
+    "country": "DE"
   }
 }

@@ -47,7 +47,10 @@
   "Diabolus, Mecum Semperterne!": {
     "id": "",
     "genre": "",
-    "country": "Norway"
+    "country": "Norway",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Bizarrekult": {
     "id": "",
@@ -182,12 +185,18 @@
   "Tour d’Ivoire": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Sætaıǝr": {
     "id": "",
     "genre": "",
-    "country": "Spain / Italy / Colombia"
+    "country": "Spain / Italy / Colombia",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Abigorum": {
     "id": "",
@@ -257,7 +266,10 @@
   "A/Oratos": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Malist": {
     "id": "",
@@ -302,7 +314,10 @@
   "Def/Light": {
     "id": "",
     "genre": "",
-    "country": "Ukraine / Israel"
+    "country": "Ukraine / Israel",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Nachtgnawer / Wulfseer": {
     "id": "",
@@ -417,12 +432,18 @@
   "Ëdïëh": {
     "id": "",
     "genre": "",
-    "country": "China"
+    "country": "China",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Aurae Lunae": {
     "id": "",
     "genre": "",
-    "country": "Ecuador"
+    "country": "Ecuador",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Hetroertzen": {
     "id": "",
@@ -532,7 +553,10 @@
   "Veldes": {
     "id": "",
     "genre": "",
-    "country": "Slovenia"
+    "country": "Slovenia",
+    "fixedParams": {
+      "name": "Ueldes"
+    }
   },
   "Arctos / Sinira": {
     "id": "",
@@ -542,7 +566,10 @@
   "Cold Cell": {
     "id": "",
     "genre": "",
-    "country": "Switzerland"
+    "country": "Switzerland",
+    "fixedParams": {
+      "name": "ColdCell"
+    }
   },
   "Vspolokh / Aveth": {
     "id": "",
@@ -557,7 +584,10 @@
   "Blackfog": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "name": "Black Fog"
+    }
   },
   "Aukels": {
     "id": "",
@@ -612,12 +642,18 @@
   "Narziss": {
     "id": "",
     "genre": "",
-    "country": "Austria"
+    "country": "Austria",
+    "fixedParams": {
+      "name": "Narzissus"
+    }
   },
   "Crépuscule d’Hiver": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Goats of Doom / Sarastus": {
     "id": "",
@@ -632,7 +668,10 @@
   "Núll": {
     "id": "",
     "genre": "",
-    "country": "Iceland"
+    "country": "Iceland",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Skullthrone": {
     "id": "",
@@ -697,12 +736,18 @@
   "SevenSins": {
     "id": "",
     "genre": "",
-    "country": "Kazakhstan"
+    "country": "Kazakhstan",
+    "fixedParams": {
+      "name": "Seven Sins"
+    }
   },
   "Khôra": {
     "id": "",
     "genre": "",
-    "country": "Ireland / Norway / Greece"
+    "country": "Ireland / Norway / Greece",
+    "fixedParams": {
+      "country": "Germany"
+    }
   },
   "Whoredom Rife / Taake": {
     "id": "",
