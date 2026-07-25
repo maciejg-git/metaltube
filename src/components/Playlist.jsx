@@ -149,6 +149,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+            target="_blank"
           >
             Metal Archives
           </a>
@@ -181,23 +182,6 @@ const PlaylistItemCompact = ({
             <a href={`https://www.youtube.com/watch?v=${item.id}`} target="_blank">
               {item.title}
             </a>
-            <div className="flex hidden gap-x-2 group-hover:flex">
-              <a
-                href={`https://www.metal-archives.com/bands/${item.band}/`}
-                className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-                target="_blank"
-              >
-                Metal Archives
-              </a>
-              {item.hasSimilarBands && (
-                <button
-                  onClick={() => onSimilarBandsClick(item)}
-                  className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-                >
-                  Similar bands
-                </button>
-              )}
-            </div>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>
           <div className="flex gap-x-2 text-sm">
@@ -205,7 +189,7 @@ const PlaylistItemCompact = ({
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-y-4">
+        <div className="flex flex-col items-end gap-y-2">
           <div className="flex flex-col items-start gap-x-4 text-sm md:flex-row">
             <div className="flex items-center gap-x-1">
               <BEye></BEye>
@@ -222,6 +206,23 @@ const PlaylistItemCompact = ({
               {item.rating} ({item.reviews})
             </div>
           )}
+          <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
+            {item.hasSimilarBands && (
+              <button
+                onClick={() => onSimilarBandsClick(item)}
+                className="rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700"
+              >
+                Similar bands
+              </button>
+            )}
+            <a
+              href={`https://www.metal-archives.com/bands/${item.band}/`}
+              className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+              target="_blank"
+            >
+              Metal Archives
+            </a>
+          </div>
         </div>
       </div>
     </div>

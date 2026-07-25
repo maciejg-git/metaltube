@@ -23,6 +23,7 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-player": "^3.4.0",
+    "react-youtube": "^10.1.0",
     "tailwindcss": "^4.3.0",
     "use-debounce": "^10.1.1"
   },

@@ -1,24 +1,26 @@
 import { useState, useRef } from "react";
-import ReactPlayer from "react-player";
 import { clsx } from "clsx";
 import BXLg from "../icons/BXLg.jsx";
 import BFullscreen from "../icons/BFullscreen.jsx";
 import { defaultPlayerOptions, PLAYER } from "../config.js";
+import YouTube from "react-youtube";
 
-const Player = ({ playerId, playerState, setPlayerState }) => {
-  const [playerVolume, setPlayerVolume] = useState(defaultPlayerOptions.volume);
+const Player = ({ playerId, playerState, player, setPlayer, setPlayerState }) => {
   const [playerPosition, setPlayerPosition] = useState(defaultPlayerOptions.position);
-  const playerRef = useRef();
 
-  function syncVolume() {
-    if (playerRef.current) {
-      setPlayerVolume(() => playerRef.current.volume);
-    }
-  }
+  const opts = {
+    playerVars: {
+      autoplay: 1,
+    },
+  };
 
   function handlePositionButtonClick() {
     setPlayerPosition((prev) => (prev === "bottom" ? "center" : "bottom"));
-    syncVolume();
+  }
+
+  function handleCloseButtonClick() {
+    setPlayerState(0)
+    player.stopVideo()
   }
 
   return (
@@ -36,7 +38,7 @@ const Player = ({ playerId, playerState, setPlayerState }) => {
           icon={BFullscreen}
           onClick={handlePositionButtonClick}
         ></PlayerTopbarButton>
-        <PlayerTopbarButton icon={BXLg} onClick={() => setPlayerState(0)}></PlayerTopbarButton>
+        <PlayerTopbarButton icon={BXLg} onClick={handleCloseButtonClick}></PlayerTopbarButton>
       </div>
 
       <div
@@ -46,24 +48,14 @@ const Player = ({ playerId, playerState, setPlayerState }) => {
           { "aspect-video w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
         )}
       >
-        <ReactPlayer
-          ref={playerRef}
-          src={`https://www.youtube.com/watch?v=${playerId}`}
-          playing={playerState === PLAYER.PLAY}
-          width="100%"
-          height="100%"
-          controls
-          volume={playerVolume}
-          onSeeking={syncVolume}
-          onPlaying={() => {
-            setPlayerState(PLAYER.PLAY);
-            syncVolume();
-          }}
-          onPause={() => {
-            if (playerState === PLAYER.STOP) return;
-            setPlayerState(PLAYER.PAUSE);
-            syncVolume();
-          }}
+        <YouTube
+          videoId={playerId ?? ""}
+          opts={opts}
+          className="h-full w-full"
+          iframeClassName="w-full h-full"
+          onPlay={() => setPlayerState(PLAYER.PLAY)}
+          onPause={() => setPlayerState(PLAYER.PAUSE)}
+          onReady={(event) => setPlayer(event.target)}
         />
       </div>
     </div>

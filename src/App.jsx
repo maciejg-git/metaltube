@@ -84,6 +84,7 @@ function App() {
 
   const [playerId, setPlayerId] = useState(null);
   const [playerState, setPlayerState] = useState(PLAYER.STOP);
+  const [player, setPlayer] = useState()
 
   const [sort, setSort] = useState("published");
   const [direction, setDirection] = useState(defaultSortDirection.published);
@@ -335,6 +336,12 @@ function App() {
       setPlayerState(() =>
         playerState === PLAYER.PAUSE || playerState === PLAYER.STOP ? PLAYER.PLAY : PLAYER.PAUSE,
       );
+      if (playerState === PLAYER.PAUSE || playerState === PLAYER.STOP) {
+        player.playVideo()
+      }
+      if (playerState === PLAYER.PLAY) {
+        player.pauseVideo()
+      }
       return;
     }
     setPlayerId(item.id);
@@ -547,6 +554,8 @@ function App() {
         playerId={playerId}
         playerState={playerState}
         setPlayerState={setPlayerState}
+    player={player}
+    setPlayer={setPlayer}
       ></Player>
     </>
   );
