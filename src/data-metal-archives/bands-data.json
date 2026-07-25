@@ -15603,5 +15603,30 @@
     "id": "3540414440",
     "genre": "Avant-garde/Experimental Black Metal",
     "country": "DE"
+  },
+  "From the Vastland": {
+    "id": "3540331603",
+    "genre": "Black Metal",
+    "country": "IR"
+  },
+  "Astar": {
+    "id": "3540530724",
+    "genre": "Melodic Black Metal/Dungeon Synth",
+    "country": "XX"
+  },
+  "Satanic Witch": {
+    "id": "3540535348",
+    "genre": "Melodic Black Metal",
+    "country": "XX"
+  },
+  "Riverflame": {
+    "id": "3540582010",
+    "genre": "Epic/Melodic Black Metal",
+    "country": "XX"
+  },
+  "Gladium Regis": {
+    "id": "3540578616",
+    "genre": "Epic/Atmospheric Black Metal, Dungeon Synth",
+    "country": "IT"
   }
 }

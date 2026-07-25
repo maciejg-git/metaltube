@@ -7,7 +7,10 @@
   "From the Vastland": {
     "id": "",
     "genre": "",
-    "country": "Norway"
+    "country": "Norway",
+    "fixedParams": {
+      "country": "Iran"
+    }
   },
   "Hexbane": {
     "id": "",
@@ -22,12 +25,18 @@
   "Astar": {
     "id": "",
     "genre": "",
-    "country": "Italy"
+    "country": "Italy",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Satanic Witch": {
     "id": "",
     "genre": "",
-    "country": "Belgium"
+    "country": "Belgium",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "ΧΞΣ": {
     "id": "",
@@ -37,12 +46,18 @@
   "Riverflame": {
     "id": "",
     "genre": "",
-    "country": "Greece"
+    "country": "Greece",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Gladium Regis": {
     "id": "",
     "genre": "",
-    "country": "United Kingdom"
+    "country": "United Kingdom",
+    "fixedParams": {
+      "country": "Italy"
+    }
   },
   "Diabolus, Mecum Semperterne!": {
     "id": "",
