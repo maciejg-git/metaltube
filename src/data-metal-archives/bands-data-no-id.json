@@ -70,7 +70,10 @@
   "Bizarrekult": {
     "id": "",
     "genre": "",
-    "country": "Norway"
+    "country": "Norway",
+    "fixedParams": {
+      "country": "Russia"
+    }
   },
   "Draugveil & Selvnatt": {
     "id": "",
@@ -80,7 +83,10 @@
   "Triumphal Vengeance": {
     "id": "",
     "genre": "",
-    "country": "Austria"
+    "country": "Austria",
+    "fixedParams": {
+      "country": "Chile"
+    }
   },
   "Himberg & Wintergrau": {
     "id": "",
@@ -90,7 +96,10 @@
   "Lamp of Murmuur": {
     "id": "",
     "genre": "",
-    "country": "United States"
+    "country": "United States",
+    "fixedParams": {
+      "country": "Unknown"
+    }
   },
   "Rauhnacht": {
     "id": "",
@@ -130,7 +139,10 @@
   "Nebulas": {
     "id": "",
     "genre": "",
-    "country": "Germany"
+    "country": "Germany",
+    "fixedParams": {
+      "country": "Chile"
+    }
   },
   "Aran Angmar": {
     "id": "",
@@ -513,7 +525,10 @@
   "Voidsphere": {
     "id": "",
     "genre": "",
-    "country": "France / United States"
+    "country": "France / United States",
+    "fixedParams": {
+      "country": "Unknown"
+    }
   },
   "Drudkh / Grift": {
     "id": "",
@@ -548,7 +563,10 @@
   "Withering Worlds": {
     "id": "",
     "genre": "",
-    "country": "Netherlands"
+    "country": "Netherlands",
+    "fixedParams": {
+      "country": "Germany"
+    }
   },
   "Abstract Void": {
     "id": "",
@@ -617,12 +635,18 @@
   "Beneath the Temple": {
     "id": "",
     "genre": "",
-    "country": "Greece"
+    "country": "Greece",
+    "fixedParams": {
+      "country": "Canada"
+    }
   },
   "Cairdeas Fala": {
     "id": "",
     "genre": "",
-    "country": "Australia"
+    "country": "Australia",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Horna / Behexen": {
     "id": "",
@@ -632,7 +656,10 @@
   "Deveneror": {
     "id": "",
     "genre": "",
-    "country": "United States"
+    "country": "United States",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Mavorim / Ad Mortem": {
     "id": "",
@@ -691,7 +718,10 @@
   "Skullthrone": {
     "id": "",
     "genre": "",
-    "country": "United Kingdom"
+    "country": "United Kingdom",
+    "fixedParams": {
+      "country": "Poland"
+    }
   },
   "Hajduk / Akantha / Nimbifer / Sørgelig": {
     "id": "",
@@ -731,7 +761,10 @@
   "Jar": {
     "id": "",
     "genre": "",
-    "country": "Belarus"
+    "country": "Belarus",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Sombre Héritage": {
     "id": "",
@@ -802,7 +835,10 @@
   "Sivyj Yar": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Wolcensmen": {
     "id": "",
@@ -827,12 +863,18 @@
   "Zuriaake": {
     "id": "",
     "genre": "",
-    "country": "China"
+    "country": "China",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Chernaa": {
     "id": "",
     "genre": "",
-    "country": "Czech Republic"
+    "country": "Czech Republic",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Skáphe & Wormlust": {
     "id": "",
@@ -842,7 +884,10 @@
   "Evohe": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Griffon / Darkenhöld": {
     "id": "",
@@ -852,7 +897,10 @@
   "Decem Maleficivm": {
     "id": "",
     "genre": "",
-    "country": "Chile"
+    "country": "Chile",
+    "fixedParams": {
+      "name": "Decem Maleficium"
+    }
   },
   "Drudensang / Kalmankantaja / Hiisi": {
     "id": "",
@@ -877,7 +925,10 @@
   "Faustus": {
     "id": "",
     "genre": "",
-    "country": "Germany"
+    "country": "Germany",
+    "fixedParams": {
+      "country": "Kyrgyzstan"
+    }
   },
   "Martwa Aura / Odour of Death": {
     "id": "",
@@ -937,7 +988,10 @@
   "Inféren": {
     "id": "",
     "genre": "",
-    "country": "Italy"
+    "country": "Italy",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Morknatt": {
     "id": "",

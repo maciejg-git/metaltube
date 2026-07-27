@@ -15628,5 +15628,145 @@
     "id": "3540578616",
     "genre": "Epic/Atmospheric Black Metal, Dungeon Synth",
     "country": "IT"
+  },
+  "Stoflong": {
+    "id": "3540586949",
+    "genre": "Black Metal",
+    "country": "NL"
+  },
+  "Bizarrekult": {
+    "id": "86859",
+    "genre": "Black Metal",
+    "country": "RU"
+  },
+  "Triumphal Vengeance": {
+    "id": "3540503577",
+    "genre": "Black Metal",
+    "country": "CL"
+  },
+  "Lamp of Murmuur": {
+    "id": "3540453255",
+    "genre": "Black Metal",
+    "country": "ZZ"
+  },
+  "Nebulas": {
+    "id": "3540429185",
+    "genre": "Black Metal",
+    "country": "CL"
+  },
+  "Wight": {
+    "id": "3540493836",
+    "genre": "Black Metal",
+    "country": "US"
+  },
+  "Perish": {
+    "id": "3540507991",
+    "genre": "Black/Death Metal",
+    "country": "DE"
+  },
+  "Mortiferous": {
+    "id": "3540499223",
+    "genre": "Black Metal",
+    "country": "CA"
+  },
+  "Azazel": {
+    "id": "3209",
+    "genre": "Black Metal",
+    "country": "FI"
+  },
+  "Marras": {
+    "id": "3540460588",
+    "genre": "Black Metal",
+    "country": "FI"
+  },
+  "Gnosis": {
+    "id": "3540396716",
+    "genre": "Black/Death Metal",
+    "country": "US"
+  },
+  "Koldovstvo": {
+    "id": "3540483880",
+    "genre": "Atmospheric Black Metal",
+    "country": "ZZ"
+  },
+  "Délétère": {
+    "id": "3540356170",
+    "genre": "Black Metal",
+    "country": "CA"
+  },
+  "Tod": {
+    "id": "9551",
+    "genre": "Black Metal",
+    "country": "IT"
+  },
+  "Voidsphere": {
+    "id": "3540432855",
+    "genre": "Atmospheric Black Metal",
+    "country": "ZZ"
+  },
+  "Withering Worlds": {
+    "id": "3540460801",
+    "genre": "Epic/Atmospheric Black Metal",
+    "country": "DE"
+  },
+  "Beneath the Temple": {
+    "id": "3540480974",
+    "genre": "Black Metal",
+    "country": "CA"
+  },
+  "Cairdeas Fala": {
+    "id": "3540480019",
+    "genre": "Atmospheric Black Metal",
+    "country": "AU"
+  },
+  "Deveneror": {
+    "id": "3540449018",
+    "genre": "Black Metal",
+    "country": "XX"
+  },
+  "Skullthrone": {
+    "id": "3540357759",
+    "genre": "Black Metal/Punk (early); Black Metal (later)",
+    "country": "PL"
+  },
+  "Jar": {
+    "id": "3540274793",
+    "genre": "Pagan/Folk Metal",
+    "country": "BY"
+  },
+  "Sivyj Yar": {
+    "id": "3540262937",
+    "genre": "Atmospheric/Pagan/Post-Black Metal",
+    "country": "RU"
+  },
+  "Zuriaake": {
+    "id": "68608",
+    "genre": "Epic Black Metal/Ambient",
+    "country": "CN"
+  },
+  "Chernaa": {
+    "id": "3540454619",
+    "genre": "Post-Black Metal",
+    "country": "XX"
+  },
+  "Evohe": {
+    "id": "5892",
+    "genre": "Black Metal",
+    "country": "FR"
+  },
+  "Decem Maleficivm": {
+    "id": "5716",
+    "genre": "Experimental Doom/Black Metal",
+    "country": "CL"
+  },
+  "Faustus": {
+    "id": "38290",
+    "genre": "Raw Black Metal",
+    "country": "KG"
+  },
+  "Inféren": {
+    "id": "3540338150",
+    "genre": "Black Metal",
+    "country": "IT"
   }
 }

@@ -160,8 +160,8 @@
     "country": "DE"
   },
   "Délétère": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540356170",
+    "genre": "Black Metal",
     "country": "CA"
   },
   "Ad Infinitum": {
@@ -195,8 +195,8 @@
     "country": "Unknown"
   },
   "Wight": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540493836",
+    "genre": "Black Metal",
     "country": "US"
   },
   "Evil Oath": {
@@ -230,8 +230,8 @@
     "country": "US"
   },
   "Perish": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540507991",
+    "genre": "Black/Death Metal",
     "country": "DE"
   },
   "Neocortex": {
@@ -265,18 +265,13 @@
     "country": "FI"
   },
   "Mortiferous": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540499223",
+    "genre": "Black Metal",
     "country": "CA"
   },
-  "Azazel": {
-    "id": "multi",
-    "genre": "",
-    "country": "Finland."
-  },
   "Marras": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540460588",
+    "genre": "Black Metal",
     "country": "FI"
   },
   "Nawia": {
@@ -285,8 +280,8 @@
     "country": "PL"
   },
   "Gnosis": {
-    "id": "multi",
-    "genre": "",
+    "id": "3540396716",
+    "genre": "Black/Death Metal",
     "country": "US"
   },
   "Werwolf": {
@@ -308,11 +303,6 @@
     "id": "3540302396",
     "genre": "Black Metal",
     "country": "NL"
-  },
-  "Koldovstvo": {
-    "id": "multi",
-    "genre": "",
-    "country": "Unknown"
   },
   "Illunis": {
     "id": "3540369620",
@@ -460,8 +450,8 @@
     "country": "DE"
   },
   "Tod": {
-    "id": "multi",
-    "genre": "",
+    "id": "9551",
+    "genre": "Black Metal",
     "country": "IT"
   },
   "Typhus": {
