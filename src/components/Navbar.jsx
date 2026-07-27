@@ -6,7 +6,7 @@ import BandsAutocomplete from "./BandsAutocomplete.jsx";
 
 const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onClickItem }) => {
   return (
-    <nav className="flex items-center justify-between px-4 py-2 shadow-lg dark:bg-neutral-800 dark:shadow-black/60">
+    <nav className="flex items-center justify-between px-4 py-2 border-b dark:border-neutral-700 border-gray-300">
       <div className="flex items-center gap-x-2">
         <img src="/favicon.png" alt="" className="h-7 w-7" />
         <div className="text-xl font-semibold dark:text-white">
@@ -16,7 +16,7 @@ const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onC
       <BandsAutocomplete
         items={bands}
         onClickItem={onClickItem}
-        className="mx-10 hidden flex-1 md:block lg:max-w-[600px]"
+        className="mx-10 hidden flex-1 md:block lg:max-w-[800px]"
       ></BandsAutocomplete>
       <div className="flex gap-x-4">
         <ChannelsDropdown
@@ -34,7 +34,7 @@ const ChannelButton = ({ children, ...props }, ref) => {
     <button
       ref={ref}
       {...props}
-      className="group flex items-center gap-x-2 truncate rounded-full border border-gray-300 px-4 py-1 text-sm font-semibold whitespace-nowrap hover:bg-gray-50 dark:border-gray-500 hover:dark:bg-neutral-700"
+      className="group flex items-center gap-x-2 truncate rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold whitespace-nowrap hover:bg-gray-50 dark:border-gray-500 hover:dark:bg-neutral-700"
     >
       {children}
       <FaChevronDownSolid

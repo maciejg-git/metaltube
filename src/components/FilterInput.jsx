@@ -28,6 +28,7 @@ export default function FilterInput({
         value={value}
         onChange={onChange}
         className="w-full border-none bg-transparent p-0 outline-none mr-4"
+        placeholder="Band or album"
       />
       <div className="flex gap-x-2">
         <FilterInputButton

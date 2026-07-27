@@ -27,7 +27,7 @@ const BandsAutocomplete = ({ items, onClickItem, className }) => {
       >
         <Autocomplete.InputGroup>
           <Autocomplete.Input
-            className="flex w-full flex-1 items-center rounded-full bg-gray-100 px-5 py-1 outline-hidden transition-shadow duration-200 focus-within:ring-3 focus-within:ring-violet-200 focus:outline-hidden dark:bg-neutral-700 dark:text-gray-300 dark:focus-within:ring-violet-300"
+            className="flex w-full flex-1 items-center rounded-full bg-gray-100 px-5 py-2 outline-hidden transition-shadow duration-200 focus-within:ring-3 focus-within:ring-violet-200 focus:outline-hidden dark:bg-neutral-700 dark:text-gray-300 dark:focus-within:ring-violet-300"
             placeholder="Find band..."
           />
         </Autocomplete.InputGroup>

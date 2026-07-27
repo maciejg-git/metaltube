@@ -163,7 +163,7 @@ const Filters = ({
           )}
         </>
       )}
-      <div className="text-lg font-semibold">Band and album</div>
+      <div></div>
       <FilterInput
         type="search"
         value={filterString}

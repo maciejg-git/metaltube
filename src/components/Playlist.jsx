@@ -8,7 +8,7 @@ import { channels } from "../config";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
-const Playlist = ({ data, playerId, playerState, onImageClick, layout, onSimilarBandsClick }) => {
+const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBands, onSimilarBandsClick }) => {
   const PlaylistItemComponent =
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
@@ -32,6 +32,7 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout, onSimilar
             playerId={playerId}
             playerState={playerState}
             onImageClick={onImageClick}
+            similarBandScore={similarBands.bandsScore?.[item.band]}
             onSimilarBandsClick={onSimilarBandsClick}
           ></PlaylistItemComponent>
         );
@@ -94,7 +95,7 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   );
 };
 
-const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick }) => {
+const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick, similarBandScore }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
@@ -135,6 +136,9 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
                 {item.rating} ({item.reviews})
               </div>
             )}
+            {similarBandScore &&
+              <span className="ml-4 text-sm text-black/60 dark:text-gray-200/60">(Similar band score: {similarBandScore})</span>
+            }
           </div>
         </div>
         <div className="flex hidden items-center gap-x-4 group-hover:flex">

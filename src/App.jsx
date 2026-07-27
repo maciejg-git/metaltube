@@ -96,7 +96,7 @@ function App() {
   const [bandsByChannel, setBandsByChannel] = useState([]);
   const [autocompleteBandsByChannel, setAutocompleteBandsByChannel] = useState([]);
 
-  const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], active: null})
+  const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], bandsScore: null, active: null})
   const [similarBandsLoading, setSimilarBandsLoading] = useState(false)
 
   const prevState = useRef({filterString: "", filterInputBy: {band: true, album: false}, sort: "", page: 1})
@@ -141,7 +141,7 @@ function App() {
       } finally {
         setTimeout(() => {
           setLoading(false);
-        }, 600);
+        }, 400);
       }
     };
 
@@ -413,6 +413,14 @@ function App() {
         }
       })
 
+      let bandsScore = similarBands.reduce((acc, band) => {
+        if (!band.hasAlbums) {
+          return acc
+        }
+        acc[band.name] = band.score
+        return acc
+      }, {})
+
       let active = new Set(
         similarBands.filter((band) => band.hasAlbums).map((band) => band.name),
       );
@@ -429,7 +437,7 @@ function App() {
         }
         return b.score - a.score
       })
-      setSimilarBands({targetBand: item.band, bands: sortedBands, active})
+      setSimilarBands({targetBand: item.band, bands: sortedBands, bandsScore, active})
       prevState.current = {filterString, filterInputBy, sort, page}
       setFilterString("")
       setFilterInputBy({band: true, album: false})
@@ -459,7 +467,7 @@ function App() {
   }
 
   function handleFiltersBackClick() {
-    setSimilarBands({targetBand: null, bands: [], active: null})
+    setSimilarBands({targetBand: null, bands: [], bandsScore: null, active: null})
     setFilterString(prevState.current.filterString)
     setFilterInputBy(prevState.current.filterInputBy)
     setSort(prevState.current.sort)
@@ -467,7 +475,7 @@ function App() {
   }
 
   function handleBandAutocompleteItemClick(i) {
-    setFilterString(i.name);
+    setFilterString(`"${i.name}"`);
     setCurrent(i.channel);
     setPage(1);
     setFilterInputBy({band: true, album: false})
@@ -557,6 +565,7 @@ function App() {
               playerState={playerState}
               onImageClick={handlePlaylistItemImageClick}
               layout={layout}
+              similarBands={similarBands}
               onSimilarBandsClick={handleSimilarBandClick}
             ></Playlist>
 
