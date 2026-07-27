@@ -160,33 +160,79 @@ function App() {
   const [debouncedFilter] = useDebounce(filterString, 300);
 
   const filterCallbacks = {
-    bmp: (item) => {
-      let genreMatch;
-      if (activeAnyFilter) {
-        genreMatch = item.genre.includes(activeAnyFilter);
-      } else {
-        genreMatch = activeFilters.genre.size === 0 || activeFilters.genre.has(item.genre);
+    bmp: () => {
+      let filterString = debouncedFilter.trim().toLowerCase();
+
+      const startsWithQuote = filterString.startsWith('"') || filterString.startsWith("'");
+
+      const isQuoted =
+        filterString.length >= 2 &&
+        ((filterString.startsWith('"') && filterString.endsWith('"')) ||
+        (filterString.startsWith("'") && filterString.endsWith("'")));
+
+      filterString = isQuoted
+        ? filterString.slice(1, -1)
+        : startsWithQuote
+          ? filterString.slice(1)
+          : filterString;
+
+      return (item) => {
+        let genreMatch;
+        if (activeAnyFilter) {
+          genreMatch = item.genre.includes(activeAnyFilter);
+        } else {
+          genreMatch = activeFilters.genre.size === 0 || activeFilters.genre.has(item.genre);
+        }
+
+        const countryMatch =
+          activeFilters.country.size === 0 || activeFilters.country.has(item.country);
+
+        const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
+
+        const bandMatch = filterInputBy.band && (
+          isQuoted ? item.band.toLowerCase() === filterString : 
+          item.band.toLowerCase().includes(filterString)
+        )
+
+        const albumMatch = filterInputBy.album && (
+          isQuoted ? item.album.toLowerCase() === filterString :
+          item.album.toLowerCase().includes(filterString)
+        )
+
+        return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
       }
-
-      const countryMatch =
-        activeFilters.country.size === 0 || activeFilters.country.has(item.country);
-
-      const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
-
-      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
-
-      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
-
-      return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
     },
-    similarBands: (item) => {
-      let similarMatch = similarBands.active.has(item.band)
+    similarBands: () => {
+      let filterString = debouncedFilter.trim().toLowerCase();
 
-      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
+      const startsWithQuote = filterString.startsWith('"') || filterString.startsWith("'");
 
-      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
+      const isQuoted =
+        filterString.length >= 2 &&
+        ((filterString.startsWith('"') && filterString.endsWith('"')) ||
+        (filterString.startsWith("'") && filterString.endsWith("'")));
 
-      return similarMatch && (bandMatch || albumMatch)
+      filterString = isQuoted
+        ? filterString.slice(1, -1)
+        : startsWithQuote
+          ? filterString.slice(1)
+          : filterString;
+
+      return (item) => {
+        let similarMatch = similarBands.active.has(item.band)
+
+        const bandMatch = filterInputBy.band && (
+          isQuoted ? item.band.toLowerCase() === filterString : 
+          item.band.toLowerCase().includes(filterString)
+        )
+
+        const albumMatch = filterInputBy.album && (
+          isQuoted ? item.album.toLowerCase() === filterString :
+          item.album.toLowerCase().includes(filterString)
+        )
+
+        return similarMatch && (bandMatch || albumMatch)
+      }
     },
     tdsa: (item) => {
       let genreMatch =
@@ -203,16 +249,14 @@ function App() {
 
       return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
     },
-    abma: (item) => {
-      const filterTitleMatch = item.title.toLowerCase().includes(debouncedFilter.toLowerCase());
-
-      return filterTitleMatch;
-    },
   };
 
   const filteredItems = useMemo(() => {
-    let activeFn = similarBands.targetBand ? filterCallbacks.similarBands : filterCallbacks[current];
-    return data.filter(activeFn);
+    let activeFn = similarBands.targetBand
+      ? filterCallbacks.similarBands
+      : filterCallbacks[current];
+
+    return data.filter(activeFn());
   }, [
     current,
     data,

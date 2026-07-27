@@ -27,8 +27,11 @@ const PlaceholderSimilarBandsFilter = () => {
 
 const PlaceholderPlaylist = () => {
   return (
-    <div className="mt-10 flex flex-col gap-y-2">
-      <div className={classes + " ml-auto h-10 w-50"}></div>
+    <div className="mt-10 flex flex-col gap-y-4">
+      <div className="flex justify-between">
+        <div className={classes + " h-10 w-30"}></div>
+        <div className={classes + " h-10 w-70"}></div>
+      </div>
       <div className={classes + " h-60 w-full"}></div>
     </div>
   );
