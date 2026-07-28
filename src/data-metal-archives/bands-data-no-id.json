@@ -996,7 +996,10 @@
   "Morknatt": {
     "id": "",
     "genre": "",
-    "country": "Spain"
+    "country": "Spain",
+    "fixedParams": {
+      "name": "Mørknatt"
+    }
   },
   "Malepeste / Dysylumn": {
     "id": "",
@@ -1021,7 +1024,10 @@
   "VCID": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "name": "VƆID"
+    }
   },
   "Paramnesia / Ultha": {
     "id": "",
@@ -1031,7 +1037,10 @@
   "Acherontas": {
     "id": "",
     "genre": "",
-    "country": "Greece"
+    "country": "Greece",
+    "fixedParams": {
+      "name": "Αχέροντας"
+    }
   },
   "Höstblod": {
     "id": "",
@@ -1041,7 +1050,10 @@
   "Qafsiel": {
     "id": "",
     "genre": "",
-    "country": "United Kingdom"
+    "country": "United Kingdom",
+    "fixedParams": {
+      "country": "Unknown"
+    }
   },
   "Vinterkult / Nordgeist": {
     "id": "",
@@ -1096,7 +1108,10 @@
   "Frozen Graves": {
     "id": "",
     "genre": "",
-    "country": "Finland"
+    "country": "Finland",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Galdur": {
     "id": "",

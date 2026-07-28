@@ -15768,5 +15768,30 @@
     "id": "3540338150",
     "genre": "Black Metal",
     "country": "IT"
+  },
+  "Morknatt": {
+    "id": "3540408614",
+    "genre": "Black Metal",
+    "country": "ES"
+  },
+  "VCID": {
+    "id": "3540351662",
+    "genre": "Black 'n' Roll",
+    "country": "FR"
+  },
+  "Acherontas": {
+    "id": "112532",
+    "genre": "Black Metal",
+    "country": "GR"
+  },
+  "Qafsiel": {
+    "id": "3540442693",
+    "genre": "Post-Black Metal",
+    "country": "ZZ"
+  },
+  "Frozen Graves": {
+    "id": "3540403853",
+    "genre": "Black Metal",
+    "country": "XX"
   }
 }
