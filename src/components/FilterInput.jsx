@@ -50,9 +50,9 @@ const FilterInputButton = ({ label, active, direction, sort, onClick }) => {
   return (
     <button
       className={clsx(
-        "flex items-center gap-x-2 rounded-full px-5 py-2 text-sm font-semibold whitespace-nowrap transition-colors transition-shadow",
+        "flex items-center gap-x-2 rounded-full px-5 py-1.5 font-semibold whitespace-nowrap transition-colors transition-shadow",
         active
-          ? "bg-violet-300 hover:bg-violet-200 dark:bg-violet-400 dark:text-gray-800 hover:dark:bg-violet-300"
+          ? "bg-violet-200 hover:bg-violet-200 dark:bg-violet-400 dark:text-gray-800 hover:dark:bg-violet-300"
           : "bg-gray-200 hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-600",
       )}
       onClick={onClick}

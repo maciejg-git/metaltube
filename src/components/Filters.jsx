@@ -154,7 +154,7 @@ const Filters = ({
                       score={band.score}
                       active={similarBands.active.has(band.name)}
                       hasAlbums={band.hasAlbums}
-                      onClick={() => onSimilarBandFilterClick(band)}
+                      onClick={(ev) => onSimilarBandFilterClick(band, ev)}
                     ></SimilarBandButton>
                   );
                 })}
@@ -193,8 +193,8 @@ const SimilarBandButton = ({ name, score, active, onClick, hasAlbums }) => {
       )}
       onClick={onClick}
     >
-      <span>{name}</span>
-      <span className="text-black/40 dark:text-gray-200/50">({score})</span>
+      <span data-text={name} className="flex flex-col before:content-[attr(data-text)] before:h-0 before:font-semibold before:invisible before:overflow-hidden before:select-none before:pointer-events-none">{name}</span>
+      <span data-text={`(${score})`} className="text-black/40 dark:text-gray-200/50 flex flex-col before:content-[attr(data-text)] before:h-0 before:font-semibold before:invisible before:overflow-hidden before:select-none before:pointer-events-none">({score})</span>
     </button>
   );
 };
@@ -203,10 +203,11 @@ const FilterButton = ({ filter, name, onFilterClick, active }) => {
   return (
     <button
       className={clsx(
-        "rounded-full bg-gray-100 px-3 py-2 text-sm transition-colors transition-shadow hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700",
+        "rounded-full bg-gray-100 px-3 py-2 text-sm transition-colors transition-shadow hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700 flex flex-col before:content-[attr(data-text)] before:h-0 before:font-semibold before:invisible before:overflow-hidden before:select-none before:pointer-events-none",
         active && "font-semibold ring-2 ring-gray-400 dark:text-white dark:!ring-neutral-400",
       )}
-      onClick={() => onFilterClick(filter, name)}
+      data-text={name}
+      onClick={(ev) => onFilterClick(filter, name, ev)}
     >
       {name}
     </button>

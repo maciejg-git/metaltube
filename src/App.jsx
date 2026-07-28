@@ -327,7 +327,7 @@ function App() {
     return page === 0 ? sortedItems : sortedItems.slice(0, 50 * page);
   }, [page, sortedItems]);
 
-  function handleFilterClick(filter, name) {
+  function handleFilterClick(filter, name, ev) {
     setPage(1);
     if (name.startsWith("Any ")) {
       setActiveFilters(() => {
@@ -346,6 +346,22 @@ function App() {
     }
     if (filter === "genre") {
       setActiveAnyFilter(() => null);
+    }
+    if (ev.ctrlKey) {
+      setActiveFilters((prev) => {
+        let next = new Set(prev[filter]);
+        if (next.has(name) && next.size === 1) {
+          next.delete(name);
+        } else {
+          next.clear()
+          next.add(name);
+        }
+        return {
+          ...activeFilters,
+          [filter]: next,
+        };
+      });
+      return
     }
     setActiveFilters((prev) => {
       let next = new Set(prev[filter]);
@@ -447,11 +463,27 @@ function App() {
     setSimilarBandsLoading(false)
   }
 
-  function handleSimilarBandFilterClick(band) {
+  function handleSimilarBandFilterClick(band, ev) {
     if (!band.hasAlbums) {
       return
     }
 
+    if (ev.ctrlKey) {
+      setSimilarBands((prev) => {
+        let next = new Set(prev.active);
+        if (next.has(band.name) && next.size === 1) {
+          next.delete(band.name);
+        } else {
+          next.clear()
+          next.add(band.name);
+        }
+        return {
+          ...prev,
+          active: next,
+        };
+      })
+      return
+    }
     setSimilarBands((prev) => {
       let next = new Set(prev.active);
       if (next.has(band.name)) {
@@ -504,113 +536,113 @@ function App() {
   }
 
   return (
-    <>
-      <Navbar
-        darkMode={darkMode}
-        onClickDarkMode={toggleDarkMode}
-        current={current}
-        onChannelClick={handleChannelClick}
-        bands={autocompleteBandsByChannel}
-        onClickItem={(i) => handleBandAutocompleteItemClick(i)}
-      ></Navbar>
+    <div className="min-h-screen flex flex-col">
+        <Navbar
+          darkMode={darkMode}
+          onClickDarkMode={toggleDarkMode}
+          current={current}
+          onChannelClick={handleChannelClick}
+          bands={autocompleteBandsByChannel}
+          onClickItem={(i) => handleBandAutocompleteItemClick(i)}
+        ></Navbar>
 
-      <div className="mx-auto mt-10 max-w-7xl px-4 xl:px-0">
-        {loading ? (
-          <>
-            <PlaceholderFilters />
-            <PlaceholderPlaylist />
-          </>
-        ) : (
-          <>
-            <Filters
-              filters={filters}
-              onFilterClick={handleFilterClick}
-              activeFilters={activeFilters}
-              activeAnyFilter={activeAnyFilter}
-              filterString={filterString}
-              onFilterTitleChange={setFilterString}
-              onFilterClear={handleFilterClearClick}
-              current={current}
-              filterInputBy={filterInputBy}
-              setFilterInputBy={setFilterInputBy}
-              similarBands={similarBands}
-              onBackClick={handleFiltersBackClick}
-              onSimilarBandFilterClick={handleSimilarBandFilterClick}
-              similarBandsLoading={similarBandsLoading}
-            ></Filters>
-
-            <div className="my-14"></div>
-
-            <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
-              <LayoutControl
-                layout={layout}
-                onLayoutButtonClick={handleLayoutButtonClick}
-              ></LayoutControl>
-              <Sort
-                sort={sort}
-                setSort={setSort}
-                direction={direction}
-                setDirection={setDirection}
-                defaultSortDirection={defaultSortDirection}
-                setRandomSort={setRandomSort}
+        <div className="mx-auto mt-10 max-w-7xl w-full px-4 xl:px-0 flex-1">
+          {loading ? (
+            <>
+              <PlaceholderFilters />
+              <PlaceholderPlaylist />
+            </>
+          ) : (
+            <>
+              <Filters
+                filters={filters}
+                onFilterClick={handleFilterClick}
+                activeFilters={activeFilters}
+                activeAnyFilter={activeAnyFilter}
+                filterString={filterString}
+                onFilterTitleChange={setFilterString}
+                onFilterClear={handleFilterClearClick}
                 current={current}
-              ></Sort>
-            </div>
+                filterInputBy={filterInputBy}
+                setFilterInputBy={setFilterInputBy}
+                similarBands={similarBands}
+                onBackClick={handleFiltersBackClick}
+                onSimilarBandFilterClick={handleSimilarBandFilterClick}
+                similarBandsLoading={similarBandsLoading}
+              ></Filters>
 
-            <div className="my-2"></div>
+              <div className="my-14"></div>
 
-            <Playlist
-              data={paginatedItems}
-              playerId={playerId}
-              playerState={playerState}
-              onImageClick={handlePlaylistItemImageClick}
-              layout={layout}
-              similarBands={similarBands}
-              onSimilarBandsClick={handleSimilarBandClick}
-            ></Playlist>
+              <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
+                <LayoutControl
+                  layout={layout}
+                  onLayoutButtonClick={handleLayoutButtonClick}
+                ></LayoutControl>
+                <Sort
+                  sort={sort}
+                  setSort={setSort}
+                  direction={direction}
+                  setDirection={setDirection}
+                  defaultSortDirection={defaultSortDirection}
+                  setRandomSort={setRandomSort}
+                  current={current}
+                ></Sort>
+              </div>
 
-            <div className="my-10"></div>
+              <div className="my-2"></div>
 
-            <div className="flex justify-center gap-x-4">
-              {paginatedItems.length < filteredItems.length && (
-                <>
-                  <Button onClick={handleLoadPageClick} className="!rounded-full">
-                    Load more (50)
-                  </Button>
-                  <Button onClick={handleLoadAllClick} className="!rounded-full">
-                    Load all ({sortedItems.length})
-                  </Button>
-                </>
-              )}
-            </div>
-          </>
+              <Playlist
+                data={paginatedItems}
+                playerId={playerId}
+                playerState={playerState}
+                onImageClick={handlePlaylistItemImageClick}
+                layout={layout}
+                similarBands={similarBands}
+                onSimilarBandsClick={handleSimilarBandClick}
+              ></Playlist>
+
+              <div className="my-10"></div>
+
+              <div className="flex justify-center gap-x-4">
+                {paginatedItems.length < filteredItems.length && (
+                  <>
+                    <Button onClick={handleLoadPageClick} className="!rounded-full">
+                      Load more (50)
+                    </Button>
+                    <Button onClick={handleLoadAllClick} className="!rounded-full">
+                      Load all ({sortedItems.length})
+                    </Button>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="my-10"></div>
+
+        <Footer updated={playlistData?.updated}></Footer>
+
+        {layout === "cover" && (
+          <CoverLayout
+            data={paginatedItems}
+            playerId={playerId}
+            playerState={playerState}
+            onImageClick={handlePlaylistItemImageClick}
+            onCloseButtonClick={() => setLayout(prevLayout)}
+            onLoadMoreClick={handleLoadPageClick}
+            displayPageButton={paginatedItems.length < filteredItems.length}
+          ></CoverLayout>
         )}
-      </div>
 
-      <div className="my-20"></div>
-
-      <Footer updated={playlistData?.updated}></Footer>
-
-      {layout === "cover" && (
-        <CoverLayout
-          data={paginatedItems}
+        <Player
           playerId={playerId}
           playerState={playerState}
-          onImageClick={handlePlaylistItemImageClick}
-          onCloseButtonClick={() => setLayout(prevLayout)}
-          onLoadMoreClick={handleLoadPageClick}
-          displayPageButton={paginatedItems.length < filteredItems.length}
-        ></CoverLayout>
-      )}
-
-      <Player
-        playerId={playerId}
-        playerState={playerState}
-        setPlayerState={setPlayerState}
-    player={player}
-    setPlayer={setPlayer}
-      ></Player>
-    </>
+          setPlayerState={setPlayerState}
+          player={player}
+          setPlayer={setPlayer}
+        ></Player>
+    </div>
   );
 }
 

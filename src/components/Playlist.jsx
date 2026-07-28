@@ -19,10 +19,15 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBa
         layout === "normal" && "-mt-2",
       )}
     >
-      {data.length === 0 && (
+      {data.length === 0 && (similarBands.targetBand ? (
         <div className="mx-auto mt-20">
-          No tracks match. Clearly, this combination doesn't exist yet. Try adjusting your filters.
+          No similar bands selected or available on the Black Metal Promotion channel.
         </div>
+      ) : (
+        <div className="mx-auto mt-20">
+          No albums match. Clearly, this combination doesn't exist yet. Try adjusting your filters.
+        </div>
+      )
       )}
       {data.map((item) => {
         return (
