@@ -15838,5 +15838,65 @@
     "id": "3540354400",
     "genre": "Black Metal",
     "country": "RU"
+  },
+  "Svarga": {
+    "id": "17585",
+    "genre": "Melodic Black Metal",
+    "country": "UA"
+  },
+  "Draugsol": {
+    "id": "3540421977",
+    "genre": "Black Metal",
+    "country": "IS"
+  },
+  "Penitence Onirique": {
+    "id": "3540411988",
+    "genre": "Black Metal",
+    "country": "FR"
+  },
+  "Lembrando os Mortos": {
+    "id": "3540378617",
+    "genre": "Black Metal",
+    "country": "BR"
+  },
+  "Ausländer": {
+    "id": "3540401041",
+    "genre": "Melodic Doom/Black/Post-Metal",
+    "country": "AR"
+  },
+  "Zorormr": {
+    "id": "3540314227",
+    "genre": "Melodic Black Metal/Dark Ambient",
+    "country": "PL"
+  },
+  "Hypnologica": {
+    "id": "3540376671",
+    "genre": "Atmospheric/Post-Black Metal",
+    "country": "GB"
+  },
+  "Nebokraj": {
+    "id": "3540313854",
+    "genre": "Pagan Black Metal",
+    "country": "RU"
+  },
+  "Vikhr": {
+    "id": "3540349829",
+    "genre": "Black Metal",
+    "country": "RU"
+  },
+  "Heimfard": {
+    "id": "3540394619",
+    "genre": "Viking Metal",
+    "country": "XX"
+  },
+  "Smaga": {
+    "id": "117580",
+    "genre": "Black/Folk Metal",
+    "country": "RU"
+  },
+  "Hades": {
+    "id": "947",
+    "genre": "Black/Viking Metal, Progressive Black Metal",
+    "country": "NO"
   }
 }

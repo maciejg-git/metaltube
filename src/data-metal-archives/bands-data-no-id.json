@@ -1275,7 +1275,10 @@
   "Svarga": {
     "id": "",
     "genre": "",
-    "country": "Ukraine"
+    "country": "Ukraine",
+    "fixedParams": {
+      "name": "Сварга"
+    }
   },
   "Eldamar / Dreams of Nature (Full EP": {
     "id": "",
@@ -1295,7 +1298,10 @@
   "Draugsol": {
     "id": "",
     "genre": "",
-    "country": "Iceland"
+    "country": "Iceland",
+    "fixedParams": {
+      "name": "Draugsól"
+    }
   },
   "Torrid Husk / End": {
     "id": "",
@@ -1305,7 +1311,10 @@
   "Penitence Onirique": {
     "id": "",
     "genre": "",
-    "country": "France"
+    "country": "France",
+    "fixedParams": {
+      "name": "Pénitence Onirique"
+    }
   },
   "Mare Cognitum / Aureole": {
     "id": "",
@@ -1350,7 +1359,10 @@
   "Lembrando os Mortos": {
     "id": "",
     "genre": "",
-    "country": "Uruguay"
+    "country": "Uruguay",
+    "fixedParams": {
+      "country": "Brazil"
+    }
   },
   "Hermóðr / Is": {
     "id": "",
@@ -1370,17 +1382,26 @@
   "Ausländer": {
     "id": "",
     "genre": "",
-    "country": "Argentina"
+    "country": "Argentina",
+    "fixedParams": {
+      "name": "Die Ausländer"
+    }
   },
   "Zorormr": {
     "id": "",
     "genre": "",
-    "country": "Poland"
+    "country": "Poland",
+    "fixedParams": {
+      "name": "Zørormr"
+    }
   },
   "Hypnologica": {
     "id": "",
     "genre": "",
-    "country": "United Kingdom"
+    "country": "United Kingdom",
+    "fixedParams": {
+      "exactBandMatch": 0
+    }
   },
   "Baalberith / Blodarv": {
     "id": "",
@@ -1390,7 +1411,10 @@
   "Druzhina": {
     "id": "",
     "genre": "",
-    "country": "Russia / France"
+    "country": "Russia / France",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Elador / Is": {
     "id": "",
@@ -1400,7 +1424,10 @@
   "Nebokraj": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "name": "Небокрай"
+    }
   },
   "Drengskapur / Nemesis Sopor": {
     "id": "",
@@ -1410,7 +1437,10 @@
   "Vikhr": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "name": "Вихрь"
+    }
   },
   "Vspolokh / Vikhr": {
     "id": "",
@@ -1420,7 +1450,10 @@
   "Heimfard": {
     "id": "",
     "genre": "",
-    "country": "Germany"
+    "country": "Germany",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Awe / Vacantfield / End": {
     "id": "",
@@ -1445,17 +1478,26 @@
   "Smaga": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "name": "Смага"
+    }
   },
   "Hades": {
     "id": "",
     "genre": "",
-    "country": "Norway"
+    "country": "Norway",
+    "fixedParams": {
+      "name": "Hades Almighty"
+    }
   },
   "Arthedain": {
     "id": "",
     "genre": "",
-    "country": "Germany"
+    "country": "Germany",
+    "fixedParams": {
+      "name": "Czechia"
+    }
   },
   "Eldamar / Dreams of Nature": {
     "id": "",
