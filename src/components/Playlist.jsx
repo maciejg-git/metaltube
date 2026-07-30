@@ -49,13 +49,18 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBa
 const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   return (
     <div onClick={() => onImageClick(item)} className="relative flex">
-      <picture>
+    {/*<picture>
         <source
           media="(min-width: 768px)"
           srcSet={`${ytimgUrl}/${item.id}/${layout === "normal" ? "mqdefault.jpg" : "default.jpg"}`}
         />
         <img src={`${ytimgUrl}/${item.id}/default.jpg`} />
-      </picture>
+      </picture>*/}
+    {layout === "normal" ?
+      <img src={`${ytimgUrl}/${item.id}/mqdefault.jpg`} className="w-full md:w-auto"/>
+        :
+      <img src={`${ytimgUrl}/${item.id}/default.jpg`} />
+    }
       <div
         className={clsx(
           "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-80",
@@ -104,7 +109,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
-    <div className="group flex gap-x-4 py-6">
+    <div className="group flex flex-col md:flex-row gap-x-4 py-6 gap-y-4 md:gap-y-0">
       <ImageCover
         item={item}
         onImageClick={onImageClick}
@@ -147,14 +152,12 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
           </div>
         </div>
         <div className="flex hidden items-center gap-x-4 group-hover:flex">
-          {item.hasSimilarBands && (
-            <button
-              onClick={() => onSimilarBandsClick(item)}
-              className="rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700"
-            >
-              Similar bands
-            </button>
-          )}
+          <button
+            onClick={() => onSimilarBandsClick(item)}
+            className={clsx("rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
+          >
+            Similar bands
+          </button>
           <a
             href={`https://www.metal-archives.com/bands/${item.band}/`}
             className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
@@ -179,12 +182,14 @@ const PlaylistItemCompact = ({
 
   return (
     <div className="group flex gap-x-4 py-2">
-      <ImageCover
-        item={item}
-        onImageClick={onImageClick}
-        playingItem={playingItem}
-        layout="compact"
-      />
+      <div>
+        <ImageCover
+          item={item}
+          onImageClick={onImageClick}
+          playingItem={playingItem}
+          layout="compact"
+        />
+      </div>
       <div className="flex flex-1">
         <div className="flex flex-1 flex-col gap-y-1">
           <div className="flex items-center gap-x-2 font-semibold">

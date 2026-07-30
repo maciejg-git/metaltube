@@ -19,13 +19,6 @@ let ChannelsDropdown = ({ trigger, onChannelClick }) => {
               <img src={channels.tdsa.img} alt="" className="h-5 w-5" />
               {channels.tdsa.name}
             </Menu.Item>
-            {/* <Menu.Item
-              onClick={() => onChannelClick("abma")}
-              className={itemClasses}
-            >
-              <img src={channels.abma.img} alt="" className="h-5 w-5" />
-              {channels.abma.name}
-            </Menu.Item> */}
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>

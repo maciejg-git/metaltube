@@ -28,7 +28,7 @@ const Filters = ({
   let [yearShowAll, setYearShowAll] = useState(false);
 
   return (
-    <div className="flex flex-col gap-y-7">
+    <div className="flex flex-col gap-y-5">
       {similarBands.targetBand === null && !similarBandsLoading && (
         <>
           {channels[current].filters.has("genre") && (

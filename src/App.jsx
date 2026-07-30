@@ -64,6 +64,15 @@ async function fetchBands() {
   return bands.map((channel) => channel.default)
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function App() {
   const [data, setData] = useState([]);
   const [playlistData, setPlaylistData] = useState();
@@ -147,15 +156,6 @@ function App() {
 
     getPlaylist();
   }, [current]);
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
 
   const [debouncedFilter] = useDebounce(filterString, 300);
 
@@ -571,7 +571,7 @@ function App() {
                 similarBandsLoading={similarBandsLoading}
               ></Filters>
 
-              <div className="my-14"></div>
+              <div className="my-10"></div>
 
               <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
                 <LayoutControl

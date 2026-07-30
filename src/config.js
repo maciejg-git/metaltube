@@ -61,13 +61,6 @@ const channels = {
     img: "https://yt3.googleusercontent.com/ytc/AIdro_ksTlOjFZKaby1OlxxMFmVwSh1_T70rK_mBv0IIiZfZbpE=s160-c-k-c0x00ffffff-no-rj",
     metalArchives: true,
   },
-  abma: {
-    name: "Atmospheric Black Metal Albums",
-    sort: new Set(["band", "random", "views", "likes", "published"]),
-    filters: new Set(["title"]),
-    img: "https://yt3.googleusercontent.com/ytc/AIdro_kzkdFTmrPoY1WKW-RBubg1gvKsRhTbwiD-JKNzQNqJoQ=s160-c-k-c0x00ffffff-no-rj",
-    metalArchives: true,
-  },
 }
 
 const PLAYER = {
