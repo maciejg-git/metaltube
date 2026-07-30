@@ -9,8 +9,7 @@ const PlaceholderFilters = () => {
       <div className={classes + " h-12 w-full"}></div>
       <div className={classes + " h-6 w-40"}></div>
       <div className={classes + " h-12 w-full"}></div>
-      <div className={classes + " h-6 w-40"}></div>
-      <div className={classes + " h-12 w-full"}></div>
+      <div className={classes + " h-12 w-full mt-4"}></div>
     </div>
   );
 };

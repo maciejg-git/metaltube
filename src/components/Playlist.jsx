@@ -151,7 +151,7 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
             }
           </div>
         </div>
-        <div className="flex hidden items-center gap-x-4 group-hover:flex">
+        <div className="hidden items-center gap-x-4 group-hover:flex no-hover:flex no-hover:mt-2">
           <button
             onClick={() => onSimilarBandsClick(item)}
             className={clsx("rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
@@ -221,14 +221,12 @@ const PlaylistItemCompact = ({
             </div>
           )}
           <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
-            {item.hasSimilarBands && (
-              <button
-                onClick={() => onSimilarBandsClick(item)}
-                className="rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700"
-              >
-                Similar bands
-              </button>
-            )}
+            <button
+              onClick={() => onSimilarBandsClick(item)}
+              className={clsx("rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
+            >
+              Similar bands
+            </button>
             <a
               href={`https://www.metal-archives.com/bands/${item.band}/`}
               className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"

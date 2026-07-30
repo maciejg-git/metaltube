@@ -2,6 +2,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@variant no-hover (@media (hover: none));
+
 body {
   @apply dark:bg-neutral-900 dark:text-gray-200
 }

@@ -19,7 +19,7 @@ const BandsAutocomplete = ({ items, onClickItem, className }) => {
           }
           if (e.reason === "item-press") {
             let item = JSON.parse(i);
-            setValue(item.name);
+            setValue("");
             onClickItem(item);
           }
         }}

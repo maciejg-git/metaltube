@@ -234,21 +234,44 @@ function App() {
         return similarMatch && (bandMatch || albumMatch)
       }
     },
-    tdsa: (item) => {
-      let genreMatch =
-        activeFilters.genre.size === 0 || item.genre.some((i) => activeFilters.genre.has(i));
+    tdsa: () => {
+      let filterString = debouncedFilter.trim().toLowerCase();
 
-      const countryMatch =
-        activeFilters.country.size === 0 || activeFilters.country.has(item.country);
+      const startsWithQuote = filterString.startsWith('"') || filterString.startsWith("'");
 
-      const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
+      const isQuoted =
+        filterString.length >= 2 &&
+        ((filterString.startsWith('"') && filterString.endsWith('"')) ||
+        (filterString.startsWith("'") && filterString.endsWith("'")));
 
-      const bandMatch = filterInputBy.band && item.band.toLowerCase().includes(debouncedFilter.toLowerCase());
+      filterString = isQuoted
+        ? filterString.slice(1, -1)
+        : startsWithQuote
+          ? filterString.slice(1)
+          : filterString;
 
-      const albumMatch = filterInputBy.album && item.album.toLowerCase().includes(debouncedFilter.toLowerCase());
+      return (item) => {
+        let genreMatch =
+          activeFilters.genre.size === 0 || item.genre.some((i) => activeFilters.genre.has(i));
 
-      return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
-    },
+        const countryMatch =
+          activeFilters.country.size === 0 || activeFilters.country.has(item.country);
+
+        const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
+
+        const bandMatch = filterInputBy.band && (
+          isQuoted ? item.band.toLowerCase() === filterString : 
+          item.band.toLowerCase().includes(filterString)
+        )
+
+        const albumMatch = filterInputBy.album && (
+          isQuoted ? item.album.toLowerCase() === filterString :
+          item.album.toLowerCase().includes(filterString)
+        )
+
+        return genreMatch && countryMatch && yearMatch && (bandMatch || albumMatch);
+      }
+    }
   };
 
   const filteredItems = useMemo(() => {
