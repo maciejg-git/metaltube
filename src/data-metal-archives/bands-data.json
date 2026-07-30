@@ -15793,5 +15793,50 @@
     "id": "3540403853",
     "genre": "Black Metal",
     "country": "XX"
+  },
+  "Ceremonial Worship": {
+    "id": "3540425601",
+    "genre": "Black Metal",
+    "country": "GR"
+  },
+  "As Long As I Can": {
+    "id": "3540409760",
+    "genre": "Depressive Black Metal/Ambient",
+    "country": "BR"
+  },
+  "Dismal": {
+    "id": "3540414273",
+    "genre": "Depressive Black Metal",
+    "country": "HK"
+  },
+  "Odour of Death": {
+    "id": "3540410882",
+    "genre": "Black Metal",
+    "country": "XX"
+  },
+  "Nabaath": {
+    "id": "49697",
+    "genre": "Black Metal",
+    "country": "RU"
+  },
+  "Israthoum": {
+    "id": "20616",
+    "genre": "Black Metal",
+    "country": "XX"
+  },
+  "Poluvrak": {
+    "id": "3540428419",
+    "genre": "Black Metal",
+    "country": "BG"
+  },
+  "Latanu": {
+    "id": "3540424797",
+    "genre": "Black Metal",
+    "country": "BY"
+  },
+  "Amezarak": {
+    "id": "3540354400",
+    "genre": "Black Metal",
+    "country": "RU"
   }
 }

@@ -1131,7 +1131,10 @@
   "As Long As I Can": {
     "id": "",
     "genre": "",
-    "country": "Brazil"
+    "country": "Brazil",
+    "fixedParams": {
+      "name": "Alaic"
+    }
   },
   "Human Serpent / Isolert": {
     "id": "",
@@ -1161,12 +1164,18 @@
   "Dismal": {
     "id": "",
     "genre": "",
-    "country": "China"
+    "country": "China",
+    "fixedParams": {
+      "country": "Hong Kong"
+    }
   },
   "Odour of Death": {
     "id": "",
     "genre": "",
-    "country": "United Kingdom"
+    "country": "United Kingdom",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Standvast / Volc Vermaledide / Helleruin": {
     "id": "",
@@ -1176,7 +1185,10 @@
   "Nabaath": {
     "id": "",
     "genre": "",
-    "country": "Ukraine"
+    "country": "Ukraine",
+    "fixedParams": {
+      "country": "Russia"
+    }
   },
   "Selvans / Downfall Of Nur": {
     "id": "",
@@ -1186,7 +1198,10 @@
   "Israthoum": {
     "id": "",
     "genre": "",
-    "country": "Netherlands"
+    "country": "Netherlands",
+    "fixedParams": {
+      "country": "International"
+    }
   },
   "Azaghal / Oath": {
     "id": "",
@@ -1201,7 +1216,10 @@
   "Poluvrak": {
     "id": "",
     "genre": "",
-    "country": "Bulgaria"
+    "country": "Bulgaria",
+    "fixedParams": {
+      "name": "Полуврак"
+    }
   },
   "Diablery / Shadowcraft": {
     "id": "",
@@ -1231,7 +1249,10 @@
   "Latanu": {
     "id": "",
     "genre": "",
-    "country": "Belarus"
+    "country": "Belarus",
+    "fixedParams": {
+      "name": "Łatanu"
+    }
   },
   "Angantyr / Nasheim": {
     "id": "",
@@ -1246,7 +1267,10 @@
   "Amezarak": {
     "id": "",
     "genre": "",
-    "country": "Russia"
+    "country": "Russia",
+    "fixedParams": {
+      "name": "Амезарак"
+    }
   },
   "Svarga": {
     "id": "",
