@@ -2,6 +2,8 @@ import { Impit } from "impit";
 import * as cheerio from "cheerio";
 import fs from "fs";
 import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" };
+import bandsSimilar from "../src/data-metal-archives/bands-data-similar.json" with { type: "json" };
+import bandsWithCountry from "../src/data/bmp-bands-with-country.json" with { type: "json" };
 
 let bandsCount = Object.keys(bandsData).length;
 
@@ -16,11 +18,9 @@ let updateBandsData = {};
 let counter = 0;
 
 for (let band in bandsData) {
-  let id = bandsData[band]?.id;
+  if (bandsSimilar[band] && bandsSimilar[band].length) continue
 
-  if (!id || id === "multi") continue;
-
-  let maSimilarBandsUrl = `https://www.metal-archives.com/band/ajax-recommendations/id/${id}/showMoreSimilar/1`;
+  let maSimilarBandsUrl = `https://www.metal-archives.com/band/ajax-recommendations/id/${bandsData[band].id}/showMoreSimilar/1`;
 
   const response = await impit.fetch(maSimilarBandsUrl);
 
@@ -48,9 +48,9 @@ for (let band in bandsData) {
   await delay(3000);
 
   counter++;
-  if (counter > 10) break;
+  if (counter > 100) break;
 }
 
 let dataDir = "./src/data-metal-archives/";
 
-fs.writeFileSync(`${dataDir}bands-data-similar.json`, JSON.stringify({ ...updateBandsData }));
+fs.writeFileSync(`${dataDir}bands-data-similar.json`, JSON.stringify({ ...bandsSimilar, ...updateBandsData }));

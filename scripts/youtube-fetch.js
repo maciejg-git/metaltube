@@ -3,19 +3,18 @@ import fs from "fs"
 import bandsData from "../src/data-metal-archives/bands-data.json" with { type: "json" }
 import bandsDiscography from "../src/data-metal-archives/bands-data-discography.json" with { type: "json" }
 import similarBands from "../src/data-metal-archives/bands-data-similar.json" with {type: "json"}
+import fixes from "./youtube-fetch-fixes.js"
 
 const API_KEY = process.env.API_KEY
 const PLAYLISTS = {
   BMP: "UUzCWehBejA23yEz3zp7jlcg",
-  ABMA: "UUDLkzWN1rHY4eYkGnVruHVw",
-  TDSA: "UUhmm356a5qe1luUsoatAgjA"
+  TDSA: "UUhmm356a5qe1luUsoatAgjA",
 }
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const REFERER = process.env.REFERER
 
 let currentPlaylist = "BMP"
 // let currentPlaylist = "TDSA"
-// let currentPlaylist = "ABMA"
 
 let genreMap = {
   1: "Black Metal",
@@ -42,6 +41,62 @@ genreMap = Object.fromEntries(Object.entries(genreMap).map((i) => {
 const discography = Object.fromEntries(
   Object.entries(bandsDiscography).map(([key, value]) => [key.toLowerCase(), value])
 );
+
+let getAlbumType = (albumName) => {
+  const dateRegex = /\d{2}\/\d{2}\/\d{4}/;
+
+  const typeMatch = albumName.match(/\(([^)]+)\)[^()]*$/);
+  const textToSearch = (typeMatch ? typeMatch[1] : albumName).toLowerCase();
+
+  if (textToSearch.includes('music video') || textToSearch.includes('video')) {
+    return 'Video';
+  }
+  if (textToSearch.includes('full album') || textToSearch.includes('album')) {
+    return 'Full-length';
+  }
+  if (textToSearch.includes('ep')) {
+    return 'EP';
+  }
+  if (textToSearch.includes('single') || textToSearch.includes('track')) {
+    return 'Single';
+  }
+  if (textToSearch.includes('full demo') || textToSearch.includes('demo')) {
+    return 'Demo';
+  }
+  if (textToSearch.includes('full split') || textToSearch.includes('split')) {
+    return 'Split';
+  }
+  if (textToSearch.includes('live') || dateRegex.test(textToSearch)) {
+    return 'Live album';
+  }
+
+  return 'Unknown';
+}
+
+let normalizeAlbum = (album) => {
+  return album
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+function sortWithSlashes(a, b) {
+  const slashesA = (a.match(/\//g) || []).length;
+  const slashesB = (b.match(/\//g) || []).length;
+
+  if (slashesA !== slashesB) {
+    return slashesA - slashesB;
+  }
+
+  return a.localeCompare(b);
+}
+
+function normalizeSlashes(str) {
+  return str.replace(/\s*\/+\s*/g, " / ")
+} 
 
 function parseDescriptionBMP(description) {
   const index = description.indexOf('\n');
@@ -93,6 +148,10 @@ function parseTitleBMP(str) {
 
   band = band.trim()
 
+  band = band.includes(" / ") 
+    ? band.split(" / ") 
+    : band;
+
   // if (album) {
   //   const regexp = /\s*\((?!.*live)[^)]+\)$/i;
   //   album = album.replace(regexp, "")
@@ -124,18 +183,18 @@ async function fetchPlaylistItems(nextPageToken) {
     const items = response.data.items;
 
     let optimizedItems = items.map((i) => {
-      let {title, description, thumbnails } = i.snippet
+      let {title, description, thumbnails, videoOwnerChannelTitle } = i.snippet
       let {videoId, videoPublishedAt} = i.contentDetails
 
       let parsedDescription
       let parsedTitle
 
-      if (currentPlaylist === "BMP") {
-        parsedDescription = parseDescriptionBMP(description)
-        parsedTitle = parseTitleBMP(title)
+      if (fixes.title[title]) {
+        title = fixes.title[title]
       }
 
-      if (currentPlaylist === "ABMA") {
+      if (currentPlaylist === "BMP") {
+        parsedDescription = parseDescriptionBMP(description)
         parsedTitle = parseTitleBMP(title)
       }
 
@@ -149,6 +208,12 @@ async function fetchPlaylistItems(nextPageToken) {
         // img: thumbnails.default.url.substring(0, thumbnails.default.url.lastIndexOf("/")),
         id: videoId,
         published: videoPublishedAt.substring(0, 10),
+        band: "",
+        album: "",
+        genre: currentPlaylist === "TDSA" ? [] : "",
+        country: "",
+        year: "",
+        hasSimilarBands: 0,
         ...parsedTitle,
         ...parsedDescription,
       }
@@ -190,93 +255,12 @@ async function fetchVideoData(videoId) {
   }
 }
 
-function sortWithSlashes(a, b) {
-  const slashesA = (a.match(/\//g) || []).length;
-  const slashesB = (b.match(/\//g) || []).length;
-
-  if (slashesA !== slashesB) {
-    return slashesA - slashesB;
-  }
-
-  return a.localeCompare(b);
-}
-
-function normalizeSlashes(str) {
-  return str.replace(/\s*\/+\s*/g, " / ")
-} 
-
 function fixItems(items) {
-  const fixes = {
-    title: {
-      "Adversam -Daimon (Full Album Premiere)": {
-        band: "Adversam",
-        album: "Daimon (Full Album Premiere)",
-      },
-      "Beenkerver De Rode Weduwe (Full Album)": {
-        band: "Beenkerver",
-        album: "De Rode Weduwe (Full Album)",
-      },
-      "Eldamar / Dreams of Nature (Full EP | Official)": {
-        band: "Eldamar / Dreams of Nature",
-        album: "Eldamar / Dreams of Nature (Full EP | Official)",
-      },
-      "Wildernessking – Levitate (Full EP)": {
-        band: "Wildernessking",
-        album: "Levitate (Full EP)",
-      }
-    },
-    band: {
-      "Fangorn (pre-Rivendell)": "Fangorn",
-      "Αχέροντας (Acherontas)": "Αχέροντας",
-      "Буйтур (Buithur)": "Буйтур",
-    },
-    country: {
-      "Germamy": "Germany",
-      "Argentian": "Argentina",
-      "Australia (Tasmania)": "Australia",
-      "Australian": "Australia",
-      "Czech Republic & Norway": "Czech Republic / Norway",
-      "Germany & Slovenia": "Germany / Slovenia",
-      "Unites States": "United States",
-      "United KIngdom": "United Kingdom",
-      "The Netherlands": "Netherlands",
-      "French": "France",
-      "Mexico / USA / UK": "Mexico / United States / United Kingdom"
-    },
-    genre: {
-      "Atmopheric Black Metal": "Atmospheric Black Metal",
-      "Melanchiolic Black Metal": "Melancholic Black Metal",
-      "Atmospheric / Symphomic Black Metal": "Atmospheric / Symphonic Black Metal",
-      "Melodic Black / Death Metal Metal": "Melodic Black / Death Metal",
-      "Avant-garde Black Metal": "Avant-Garde Black Metal",
-      "Atmospheric Black Metal / Darkfolk": "Atmospheric Black Metal / Dark Folk",
-    }
-  }
   return items.map((i) => {
-    if (i.band === undefined) {
-      i.band = ""
-    }
-    if (i.album === undefined) {
-      i.album = ""
-    }
-    if (i.country === undefined) {
-      i.country = ""
-    }
-    if (i.genre === undefined) {
-      i.genre = currentPlaylist === "TDSA" ? [] : ""
-    }
-    if (i.year === undefined) {
-      i.year = ""
-    }
-
     if (!Array.isArray(i.genre)) {
       i.genre = normalizeSlashes(i.genre)
     }
 
-    if (fixes.title[i.title]) {
-      i.band = fixes.title[i.title].band
-      i.album = fixes.title[i.title].album
-    }
     if (fixes.band[i.band]) {
       i.band = fixes.band[i.band]
     }
@@ -286,8 +270,13 @@ function fixItems(items) {
     if (fixes.genre[i.genre]) {
       i.genre = fixes.genre[i.genre]
     }
+    if (fixes.year[i.year]) {
+      i.year = fixes.year[i.year]
+    }
 
-    i.band = i.band.split("|")[0].trim()
+    if (!Array.isArray(i.band)) {
+      i.band = i.band.split("|")[0].trim()
+    }
 
     return i
   })
@@ -356,10 +345,14 @@ async function fetchAll() {
 
   while (true) {
     console.log("Fetching playlist " + counter);
+
     [optimizedItems, nextPageToken] = await fetchPlaylistItems(nextPageToken);
+
     let videoIds = optimizedItems.map((i) => i.id).join(",")
     let statistics = await fetchVideoData(videoIds)
+
     optimizedItems = fixItems(optimizedItems)
+
     optimizedItems = optimizedItems.map((i) => {
       let { viewCount: views, likeCount: likes } = statistics[i.id]
       return {
@@ -368,8 +361,11 @@ async function fetchAll() {
         likes: parseInt(likes),
       }
     })
+
     allItems.push(...optimizedItems)
+
     if (!nextPageToken) break
+
     counter++
   }
 
@@ -382,6 +378,32 @@ async function fetchAll() {
     }
   })
 
+  // allItems.forEach((i) => {
+  //   if (Array.isArray(i.band)) {
+  //     i.band.forEach((band) => {
+  //       uniqueBands.add(band)
+  //       if (!uniqueBandsWithCountry[band]) {
+  //         uniqueBandsWithCountry[band] = {
+  //           country: i.country,
+  //           isSplit: true,
+  //         }
+  //       }
+  //     })
+  //   }
+  // })
+  //
+  // allItems.forEach((i) => {
+  //   if (Array.isArray(i.band)) {
+  //     return
+  //   }
+  //   uniqueBands.add(i.band)
+  //   if (!uniqueBandsWithCountry[i.band] || uniqueBandsWithCountry[i.band].isSplit) {
+  //     uniqueBandsWithCountry[i.band] = {
+  //       country: i.country
+  //     }
+  //   }
+  // })
+
   allItems.forEach((i) => {
     uniqueBands.add(i.band)
     if (!uniqueBandsWithCountry[i.band]) {
@@ -392,36 +414,113 @@ async function fetchAll() {
   })
 
   allItems = allItems.map((i) => {
-    let { id, published, band, album, country, year, genre, views, likes } = i
+    let { id, published, band, album, country, year, genre, views, likes } = i;
 
-    let reviews = 0
-    let rating = 0
+    let reviews = 0;
+    let rating = 0;
 
-    const parsedLowerCaseAlbum = album.replace(/\s*\([^)]*\)/, "").trim().toLowerCase();
-    const normalizedAlbum = parsedLowerCaseAlbum.replace(/\s*[:-]\s*/g, " ");
-    const lowerCaseBand = band.trim().toLowerCase()
+    let type = getAlbumType(album);
 
-    if (currentPlaylist === "BMP" || currentPlaylist === "ABMA") {
+    if (["Single", "Video", "Live album"].includes(type)) {
+      return {
+        ...i,
+        reviews,
+        rating,
+      }
+    }
+
+    const parsedAlbum = album.replace(/\s*\([^)]*\)(?=[^)]*$)/, "");
+    const lowerCaseBand = Array.isArray(band) ? band.map((i) => i.trim().toLowerCase()).find((i) => discography[i]) : band.trim().toLowerCase();
+
+    if (currentPlaylist === "BMP") {
       if (discography[lowerCaseBand]) {
-        let albumInDiscography = discography[lowerCaseBand].find((i) => {
-          let album = i.album.trim().toLowerCase().replace(/\s*[:-]\s*/g, " ")
-          return album === normalizedAlbum
+        let translation = parsedAlbum.includes(" | ") 
+          ? parsedAlbum.split(" | ") 
+          : [];
+
+        translation = translation.map((i) => normalizeAlbum(i))
+
+        let matchingAlbums = discography[lowerCaseBand].filter((i) => {
+          let normalizedAlbum = normalizeAlbum(parsedAlbum)
+          let normalizedDiscographyAlbum = normalizeAlbum(i.album)
+
+          let match = normalizedDiscographyAlbum === normalizedAlbum
+          let translatedMatch = translation.some((translatedAlbum) => {
+            return normalizedDiscographyAlbum === translatedAlbum
+          })
+          let matchStart = normalizedDiscographyAlbum.startsWith(normalizedAlbum)
+          let matchEnd = normalizedDiscographyAlbum.endsWith(normalizedAlbum)
+
+          return match || translatedMatch || matchStart || matchEnd
         })
+
+        let albumInDiscography =
+          matchingAlbums.find((i) => {
+            return i.type === type;
+          }) ||
+          matchingAlbums.find((i) => {
+            return i.reviews;
+          });
+
         if (albumInDiscography) {
-          reviews = albumInDiscography.reviews
-          rating = albumInDiscography.rating
+          reviews = albumInDiscography.reviews;
+          rating = albumInDiscography.rating;
         }
       }
     }
 
-    let hasSimilarBands = 0
+    return {
+      id,
+      published,
+      band,
+      album,
+      country,
+      year,
+      genre,
+      views,
+      likes,
+      reviews,
+      rating,
+    };
+  });
+
+  allItems = allItems.map((i) => {
+    let hasSimilarBands = 0;
 
     if (similarBands[i.band] && similarBands[i.band].length) {
-      hasSimilarBands = 1
+      hasSimilarBands = 1;
     }
 
-    return [id, published, band, album, country, year, genre, views, likes, reviews, rating, hasSimilarBands]
-  })
+    return {
+      ...i,
+      hasSimilarBands,
+    }
+  });
+
+  allItems = allItems.map((i) => {
+    let { id, published, band, album, country, year, genre, views, likes, reviews, rating, hasSimilarBands } = i;
+
+    return [
+      id,
+      published,
+      band,
+      album,
+      country,
+      year,
+      genre,
+      views,
+      likes,
+      reviews,
+      rating,
+      hasSimilarBands,
+    ];
+  });
+
+  // allItems = [...allItems, ...mtPlaylist]
+  // filters.genre = [...filters.genre, ...mtFilters.genre]
+  // filters.country = [...filters.country, ...mtFilters.country]
+  // filters.year = [...filters.year, ...mtFilters.year]
+  // filters.published = [...filters.published, ...mtFilters.published]
 
   let dataDir = "./src/data/"
 

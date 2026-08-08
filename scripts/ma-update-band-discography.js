@@ -21,8 +21,6 @@ for (let band in bandsData) {
 
   let id = bandsData[band]?.id;
 
-  if (!id || id === "multi") continue;
-
   let maBandDiscographyUrl = `https://www.metal-archives.com/band/discography/id/${id}/tab/all`;
 
   const response = await impit.fetch(maBandDiscographyUrl);
@@ -40,6 +38,7 @@ for (let band in bandsData) {
     const matches = item.eq(3).text().match(/\d+/g);
     discography.push({
       album: item.eq(0).text(),
+      type: item.eq(1).text(),
       year: item.eq(2).text(),
       reviews: matches && matches[0] ? parseInt(matches[0]) : 0,
       rating: matches && matches[1] ? parseInt(matches[1]) : 0,

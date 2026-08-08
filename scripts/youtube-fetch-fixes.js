@@ -1,0 +1,47 @@
+export default {
+  title: {
+    "Adversam -Daimon (Full Album Premiere)": "Adversam - Daimon (Full Album Premiere)",
+    "Beenkerver  De Rode Weduwe (Full Album)": "Beenkerver - De Rode Weduwe (Full Album)",
+    "Eldamar / Dreams of Nature (Full EP | Official)": "Eldamar / Dreams of Nature - Eldamar / Dreams of Nature (Full EP | Official)",
+    "Wildernessking – Levitate (Full EP)": "Wildernessking - Levitate (Full EP)",
+    "Varnheim - Void - Full Album Premiere)": "Varnheim - Void (Full Album Premiere)",
+    "Masca - Maskerie Filia Diaboli ()Full Album Premiere)": "Masca - Maskerie Filia Diaboli (Full Album Premiere)",
+    "Septuagint - Acosmic Conflagration - Full Album Premiere)": "Septuagint - Acosmic Conflagration (Full Album Premiere)",
+    "Valtyr - Veriset Saagat (Full Album | Remastered)": "Valtyr - Verinen saagat (Full Album | Remastered)",
+    "Saltus - Słowiańska Duma / Slavonic Pride (Full Album)": "Saltus - Słowiańska Duma | Slavonic Pride (Full Album)",
+    "Heimdallr - Молния / Lightning (Full Demo)": "Heimdallr - Молния | Lightning (Full Demo)",
+    "Umbría - Descenso al Núcleo Olvidado (FullAlbum)": "Umbría - Descenso al Núcleo Olvidado (Full Album)",
+    "Drama ​/​ Perdition Winds - Drama ​/​ Perdition Winds (Full Split)": "Drama / Perdition Winds - Drama / Perdition Winds (Full Split)"
+  },
+  band: {
+    "Fangorn (pre-Rivendell)": "Fangorn",
+    "Αχέροντας (Acherontas)": "Αχέροντας",
+    "Буйтур (Buithur)": "Буйтур",
+    "Grifteskymnfning": "Grifteskymfning",
+  },
+  year: {
+    "1999 / 1996": "1999",
+  },
+  country: {
+    "Germamy": "Germany",
+    "Argentian": "Argentina",
+    "Australia (Tasmania)": "Australia",
+    "Australian": "Australia",
+    "Czech Republic & Norway": "Czech Republic / Norway",
+    "Germany & Slovenia": "Germany / Slovenia",
+    "Unites States": "United States",
+    "United KIngdom": "United Kingdom",
+    "The Netherlands": "Netherlands",
+    "French": "France",
+    "Mexico / USA / UK": "Mexico / United States / United Kingdom",
+    "Finland.": "Finland",
+  },
+  genre: {
+    "Atmopheric Black Metal": "Atmospheric Black Metal",
+    "Melanchiolic Black Metal": "Melancholic Black Metal",
+    "Atmospheric / Symphomic Black Metal": "Atmospheric / Symphonic Black Metal",
+    "Melodic Black / Death Metal Metal": "Melodic Black / Death Metal",
+    "Avant-garde Black Metal": "Avant-Garde Black Metal",
+    "Atmospheric Black Metal / Darkfolk": "Atmospheric Black Metal / Dark Folk",
+  },
+}
