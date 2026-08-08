@@ -8,7 +8,7 @@ import { channels } from "../config";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
-const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBands, onSimilarBandsClick }) => {
+const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBands, onSimilarBandsClick, current }) => {
   const PlaylistItemComponent =
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
@@ -39,6 +39,7 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBa
             onImageClick={onImageClick}
             similarBandScore={similarBands.bandsScore?.[item.band]}
             onSimilarBandsClick={onSimilarBandsClick}
+            showMetalArchivesButtons={current === "bmp"}
           ></PlaylistItemComponent>
         );
       })}
@@ -105,7 +106,7 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   );
 };
 
-const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick, similarBandScore }) => {
+const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick, similarBandScore, showMetalArchivesButtons }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
   return (
@@ -151,21 +152,23 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
             }
           </div>
         </div>
-        <div className="hidden items-center gap-x-4 group-hover:flex no-hover:flex no-hover:mt-2">
-          <button
-            onClick={() => onSimilarBandsClick(item)}
-            className={clsx("rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
-          >
-            Similar bands
-          </button>
-          <a
-            href={`https://www.metal-archives.com/bands/${item.band}/`}
-            className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-            target="_blank"
-          >
-            Metal Archives
-          </a>
-        </div>
+        {showMetalArchivesButtons &&
+          <div className="hidden items-center gap-x-4 group-hover:flex no-hover:flex no-hover:mt-2">
+            <button
+              onClick={() => onSimilarBandsClick(item)}
+              className={clsx("rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
+            >
+              Similar bands
+            </button>
+            <a
+              href={`https://www.metal-archives.com/bands/${item.band}/`}
+              className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+              target="_blank"
+            >
+              Metal Archives
+            </a>
+          </div>
+        }
       </div>
     </div>
   );
@@ -177,6 +180,7 @@ const PlaylistItemCompact = ({
   playerState,
   onImageClick,
   onSimilarBandsClick,
+  showMetalArchivesButtons
 }) => {
   const playingItem = playerId === item.id && playerState === 2;
 
@@ -220,21 +224,23 @@ const PlaylistItemCompact = ({
               {item.rating} ({item.reviews})
             </div>
           )}
-          <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
-            <button
-              onClick={() => onSimilarBandsClick(item)}
-              className={clsx("rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
-            >
-              Similar bands
-            </button>
-            <a
-              href={`https://www.metal-archives.com/bands/${item.band}/`}
-              className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
-              target="_blank"
-            >
-              Metal Archives
-            </a>
-          </div>
+          {showMetalArchivesButtons &&
+            <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
+              <button
+                onClick={() => onSimilarBandsClick(item)}
+                className={clsx("rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
+              >
+                Similar bands
+              </button>
+              <a
+                href={`https://www.metal-archives.com/bands/${item.band}/`}
+                className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
+                target="_blank"
+              >
+                Metal Archives
+              </a>
+            </div>
+          }
         </div>
       </div>
     </div>

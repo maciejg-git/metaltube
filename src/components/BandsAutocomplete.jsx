@@ -18,9 +18,8 @@ const BandsAutocomplete = ({ items, onClickItem, className }) => {
             setValue(e.event.target.value);
           }
           if (e.reason === "item-press") {
-            let item = JSON.parse(i);
             setValue("");
-            onClickItem(item);
+            onClickItem(i);
           }
         }}
         filter={startsWith}
@@ -39,25 +38,17 @@ const BandsAutocomplete = ({ items, onClickItem, className }) => {
                 <div className="px-4 py-2">No bands found</div>
               </Autocomplete.Empty>
               <Autocomplete.List>
-                {(group) => (
-                  <Autocomplete.Group key={group.channel} items={group.items}>
-                    <Autocomplete.GroupLabel className="my-2 flex items-center gap-x-2 py-2 pl-4 text-sm font-semibold dark:text-white">
-                      <img src={channels[group.channel].img} alt="" className="h-5 w-5" />
-                      {channels[group.channel].name}
-                    </Autocomplete.GroupLabel>
-                    <Autocomplete.Collection>
-                      {(i) => (
-                        <Autocomplete.Item
-                          key={i}
-                          value={{ name: i, channel: group.channel }}
-                          className="flex cursor-default rounded-lg py-2 pr-4 pl-4 hover:bg-gray-50 hover:dark:bg-neutral-700"
-                        >
-                          {i}
-                        </Autocomplete.Item>
-                      )}
-                    </Autocomplete.Collection>
-                  </Autocomplete.Group>
-                )}
+                <Autocomplete.Collection>
+                  {(i) => (
+                    <Autocomplete.Item
+                      key={i}
+                      value={i}
+                      className="flex cursor-default rounded-lg py-2 pr-4 pl-4 hover:bg-gray-50 hover:dark:bg-neutral-700"
+                    >
+                      {i}
+                    </Autocomplete.Item>
+                  )}
+                </Autocomplete.Collection>
               </Autocomplete.List>
             </Autocomplete.Popup>
           </Autocomplete.Positioner>

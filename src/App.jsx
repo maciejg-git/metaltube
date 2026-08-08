@@ -15,8 +15,8 @@ import LayoutControl from "./components/LayoutControl.jsx";
 import CoverLayout from "./components/CoverLayout.jsx";
 
 async function fetchPlaylist(channel) {
-  let [playlist, filters, data] = await Promise.all(
-    ["playlist", "filters", "data"].map((i) => {
+  let [playlist, filters, data, bandNames] = await Promise.all(
+    ["playlist", "filters", "data", "bands"].map((i) => {
       return import(`./data/${channel}-${i}.json`);
     }),
   );
@@ -24,15 +24,21 @@ async function fetchPlaylist(channel) {
   let country = filters.default.country;
   let year = filters.default.year;
   let items = playlist.default;
+  let bands = bandNames.default
 
   let playlistItems = [];
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
+
     playlistItems.push({
-      title: item[2] && item[3] ? item[2] + " - " + item[3] : item[2] || item[3] || "",
+      title: item[2] && item[3] ? (Array.isArray(item[2]) ? item[2].join(" / ") : item[2]) + " - " + item[3] : item[2] || item[3] || "",
       id: item[0],
       published: item[1],
-      band: item[2],
+      band: Array.isArray(item[2])
+      ? item[2]
+      : item[2]
+        ? [item[2]]
+        : [],
       album: item[3],
       country: item[4],
       year: item[5],
@@ -52,16 +58,7 @@ async function fetchPlaylist(channel) {
     });
   }
 
-  return { genre, country, year, playlistItems, data };
-}
-
-async function fetchBands() {
-  let bands = await Promise.all(
-    ["bmp", "tdsa"].map((i) => {
-      return import(`./data/${i}-bands.json`);
-    }),
-  );
-  return bands.map((channel) => channel.default)
+  return { genre, country, year, playlistItems, data, bands };
 }
 
 function shuffleArray(array) {
@@ -113,38 +110,18 @@ function App() {
   const [darkMode, toggleDarkMode] = useDarkMode();
 
   useEffect(() => {
-    const getBands = async () => {
-      try {
-        let bands = await fetchBands();
-        setBandsByChannel(
-          ["bmp", "tdsa"].reduce((acc, channel, index) => {
-            acc[channel] = new Set(bands[index]);
-            return acc;
-          }, {}),
-        );
-        setAutocompleteBandsByChannel(
-          ["bmp", "tdsa"].map((channel, index) => {
-            return {channel, items: bands[index]}
-          })
-        )
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getBands();
-  }, []);
-
-  useEffect(() => {
     setLoading(true);
 
     const getPlaylist = async () => {
       try {
-        let { genre, country, year, playlistItems, data } = await fetchPlaylist(current);
+        let { genre, country, year, playlistItems, data, bands } = await fetchPlaylist(current);
 
         setData(playlistItems);
         setFilters({ genre, country, year });
         setPlaylistData(data);
+
+        setBandsByChannel(new Set(bands));
+        setAutocompleteBandsByChannel(bands)
       } catch (error) {
         console.log(error);
       } finally {
@@ -190,9 +167,8 @@ function App() {
         const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
 
         const bandMatch = filterInputBy.band && (
-          isQuoted ? item.band.toLowerCase() === filterString : 
-          item.band.toLowerCase().includes(filterString)
-        )
+          item.band.some(b => isQuoted ? b.toLowerCase() === filterString : b.toLowerCase().includes(filterString))
+        );
 
         const albumMatch = filterInputBy.album && (
           isQuoted ? item.album.toLowerCase() === filterString :
@@ -219,12 +195,11 @@ function App() {
           : filterString;
 
       return (item) => {
-        let similarMatch = similarBands.active.has(item.band)
+        let similarMatch = item.band.some((band) => similarBands.active.has(band))
 
         const bandMatch = filterInputBy.band && (
-          isQuoted ? item.band.toLowerCase() === filterString : 
-          item.band.toLowerCase().includes(filterString)
-        )
+          item.band.some(b => isQuoted ? b.toLowerCase() === filterString : b.toLowerCase().includes(filterString))
+        );
 
         const albumMatch = filterInputBy.album && (
           isQuoted ? item.album.toLowerCase() === filterString :
@@ -260,9 +235,8 @@ function App() {
         const yearMatch = activeFilters.year.size === 0 || activeFilters.year.has(item.year);
 
         const bandMatch = filterInputBy.band && (
-          isQuoted ? item.band.toLowerCase() === filterString : 
-          item.band.toLowerCase().includes(filterString)
-        )
+          item.band.some(b => isQuoted ? b.toLowerCase() === filterString : b.toLowerCase().includes(filterString))
+        );
 
         const albumMatch = filterInputBy.album && (
           isQuoted ? item.album.toLowerCase() === filterString :
@@ -297,7 +271,7 @@ function App() {
       return shuffleArray([...filteredItems]);
     }
     const sortCallbacks = {
-      band: (a, b) => a.band.localeCompare(b.band),
+      band: (a, b) => a.band[0].localeCompare(b.band[0]),
       album: (a, b) => a.album.localeCompare(b.album),
       genre: (a, b) => {
         let genreA = a.displayGenre ?? a.genre;
@@ -448,7 +422,7 @@ function App() {
         return {
           name: band[0],
           score: band[1],
-          hasAlbums: bandsByChannel[current].has(band[0]),
+          hasAlbums: bandsByChannel.has(band[0]),
         }
       })
 
@@ -529,9 +503,8 @@ function App() {
     setPage(prevState.current.page)
   }
 
-  function handleBandAutocompleteItemClick(i) {
-    setFilterString(`"${i.name}"`);
-    setCurrent(i.channel);
+  function handleBandAutocompleteItemClick(band) {
+    setFilterString(`"${band}"`);
     setPage(1);
     setFilterInputBy({band: true, album: false})
   }
@@ -622,6 +595,7 @@ function App() {
                 layout={layout}
                 similarBands={similarBands}
                 onSimilarBandsClick={handleSimilarBandClick}
+                current={current}
               ></Playlist>
 
               <div className="my-10"></div>
