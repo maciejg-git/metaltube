@@ -8,7 +8,7 @@ import { channels } from "../config";
 
 const ytimgUrl = "https://i.ytimg.com/vi";
 
-const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBands, onSimilarBandsClick, current }) => {
+const Playlist = ({ data, playerCurrentItem, playerState, onImageClick, layout, similarBands, onSimilarBandsClick, current }) => {
   const PlaylistItemComponent =
     layout === "normal" ? PlaylistItem : layout === "compact" ? PlaylistItemCompact : PlaylistItem;
 
@@ -34,7 +34,7 @@ const Playlist = ({ data, playerId, playerState, onImageClick, layout, similarBa
           <PlaylistItemComponent
             key={item.id}
             item={item}
-            playerId={playerId}
+            playerCurrentItem={playerCurrentItem}
             playerState={playerState}
             onImageClick={onImageClick}
             similarBandScore={similarBands.bandsScore?.[item.band]}
@@ -106,8 +106,8 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   );
 };
 
-const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBandsClick, similarBandScore, showMetalArchivesButtons }) => {
-  const playingItem = playerId === item.id && playerState === 2;
+const PlaylistItem = ({ item, playerCurrentItem, playerState, onImageClick, onSimilarBandsClick, similarBandScore, showMetalArchivesButtons }) => {
+  const playingItem = playerCurrentItem?.id === item.id && playerState === 2;
 
   return (
     <div className="group flex flex-col md:flex-row gap-x-4 py-6 gap-y-4 md:gap-y-0">
@@ -176,13 +176,13 @@ const PlaylistItem = ({ item, playerId, playerState, onImageClick, onSimilarBand
 
 const PlaylistItemCompact = ({
   item,
-  playerId,
+  playerCurrentItem,
   playerState,
   onImageClick,
   onSimilarBandsClick,
   showMetalArchivesButtons
 }) => {
-  const playingItem = playerId === item.id && playerState === 2;
+  const playingItem = playerCurrentItem?.id === item.id && playerState === 2;
 
   return (
     <div className="group flex gap-x-4 py-2">

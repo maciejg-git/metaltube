@@ -5,7 +5,7 @@ import BFullscreen from "../icons/BFullscreen.jsx";
 import { defaultPlayerOptions, PLAYER } from "../config.js";
 import YouTube from "react-youtube";
 
-const Player = ({ playerId, playerState, player, setPlayer, setPlayerState }) => {
+const Player = ({ playerCurrentItem, playerState, player, setPlayer, setPlayerState }) => {
   const [playerPosition, setPlayerPosition] = useState(defaultPlayerOptions.position);
 
   const opts = {
@@ -26,7 +26,7 @@ const Player = ({ playerId, playerState, player, setPlayer, setPlayerState }) =>
   return (
     <div
       className={clsx(
-        "fixed block",
+        "fixed block pointer-events-none",
         playerState === PLAYER.STOP && "!hidden",
         playerPosition === "bottom"
           ? "right-4 bottom-4"
@@ -43,13 +43,13 @@ const Player = ({ playerId, playerState, player, setPlayer, setPlayerState }) =>
 
       <div
         className={clsx(
-          "transition-shadow",
+          "transition-shadow pointer-events-auto",
           { "aspect-video w-[480px] lg:w-[640px]": playerPosition === "bottom" },
           { "aspect-video w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
         )}
       >
         <YouTube
-          videoId={playerId ?? ""}
+          videoId={playerCurrentItem?.id ?? ""}
           opts={opts}
           className="h-full w-full"
           iframeClassName="w-full h-full"
@@ -66,7 +66,7 @@ const PlayerTopbarButton = ({ onClick, icon: Icon }) => {
   return (
     <button
       onClick={onClick}
-      className="rounded-md bg-gray-500 p-1.5 text-white hover:bg-gray-400 dark:bg-gray-600 hover:dark:bg-gray-500"
+      className="rounded-md bg-gray-500 p-1.5 text-white hover:bg-gray-400 dark:bg-gray-600 hover:dark:bg-gray-500 pointer-events-auto"
     >
       <Icon className="h-4 w-4"></Icon>
     </button>

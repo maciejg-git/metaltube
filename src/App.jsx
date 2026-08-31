@@ -88,7 +88,7 @@ function App() {
   const [activeAnyFilter, setActiveAnyFilter] = useState();
   const [page, setPage] = useState(1);
 
-  const [playerId, setPlayerId] = useState(null);
+  const [playerCurrentItem, setPlayerCurrentItem] = useState(null);
   const [playerState, setPlayerState] = useState(PLAYER.STOP);
   const [player, setPlayer] = useState()
 
@@ -389,7 +389,7 @@ function App() {
   }
 
   function handlePlaylistItemImageClick(item) {
-    if (playerId === item.id) {
+    if (playerCurrentItem?.id === item.id) {
       setPlayerState(() =>
         playerState === PLAYER.PAUSE || playerState === PLAYER.STOP ? PLAYER.PLAY : PLAYER.PAUSE,
       );
@@ -401,7 +401,7 @@ function App() {
       }
       return;
     }
-    setPlayerId(item.id);
+    setPlayerCurrentItem(item);
     setPlayerState(PLAYER.PLAY);
   }
 
@@ -589,7 +589,7 @@ function App() {
 
               <Playlist
                 data={paginatedItems}
-                playerId={playerId}
+                playerCurrentItem={playerCurrentItem}
                 playerState={playerState}
                 onImageClick={handlePlaylistItemImageClick}
                 layout={layout}
@@ -623,7 +623,7 @@ function App() {
         {layout === "cover" && (
           <CoverLayout
             data={paginatedItems}
-            playerId={playerId}
+            playerCurrentItem={playerCurrentItem}
             playerState={playerState}
             onImageClick={handlePlaylistItemImageClick}
             onCloseButtonClick={() => setLayout(prevLayout)}
@@ -633,7 +633,7 @@ function App() {
         )}
 
         <Player
-          playerId={playerId}
+          playerCurrentItem={playerCurrentItem}
           playerState={playerState}
           setPlayerState={setPlayerState}
           player={player}

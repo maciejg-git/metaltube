@@ -34,12 +34,11 @@ const Filters = ({
           {channels[current].filters.has("genre") && (
             <div className="flex flex-col gap-y-6">
               <div className="flex items-center justify-between">
-                <div className="text-lg font-semibold">
-                  {activeAnyFilter
-                    ? `Genre (1)`
-                    : activeFilters.genre.size > 0
-                      ? `Genre (${activeFilters.genre.size})`
-                      : "Genre"}
+                <div className="text-lg font-semibold flex items-center gap-x-2">
+                  Genre
+                  {(activeFilters.genre.size > 0 || activeAnyFilter) &&
+                    <div className="text-sm rounded-full bg-gray-100 dark:bg-neutral-700 w-6 h-6 flex items-center justify-center">{activeAnyFilter ? 1 : activeFilters.genre.size}</div>
+                  }
                 </div>
                 <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
                   <FilterClearButton onClick={() => onFilterClear("genre")}></FilterClearButton>
@@ -68,10 +67,11 @@ const Filters = ({
           {channels[current].filters.has("country") && (
             <div className="flex flex-col gap-y-6">
               <div className="flex items-center justify-between">
-                <div className="text-lg font-semibold">
-                  {activeFilters.country.size > 0
-                    ? `Country (${activeFilters.country.size})`
-                    : "Country"}
+                <div className="text-lg font-semibold flex items-center gap-x-2">
+                  Country
+                  {activeFilters.country.size > 0 &&
+                    <div className="text-sm rounded-full bg-gray-100 dark:bg-neutral-700 w-6 h-6 flex items-center justify-center">{activeFilters.country.size}</div>
+                  }
                 </div>
                 <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
                   <FilterClearButton onClick={() => onFilterClear("country")}></FilterClearButton>
@@ -102,8 +102,11 @@ const Filters = ({
           {channels[current].filters.has("year") && (
             <div className="flex flex-col gap-y-6">
               <div className="flex items-center justify-between">
-                <div className="text-lg font-semibold">
-                  {activeFilters.year.size > 0 ? `Year (${activeFilters.year.size})` : "Year"}
+                <div className="text-lg font-semibold flex items-center gap-x-2">
+                  Year
+                  {activeFilters.year.size > 0 &&
+                    <div className="text-sm rounded-full bg-gray-100 dark:bg-neutral-700 w-6 h-6 flex items-center justify-center">{activeFilters.year.size}</div>
+                  }
                 </div>
                 <div className="flex divide-x divide-gray-300 dark:divide-gray-500">
                   <FilterClearButton onClick={() => onFilterClear("year")}></FilterClearButton>
