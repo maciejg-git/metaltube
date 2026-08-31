@@ -116,7 +116,7 @@ let updatedBandsDataNoId = {...bandsDataNoId, ...updateBandsDataNoId}
 let updatedBandsDataMultiId = {...bandsDataMultiId, ...updateBandsDataMultiId}
 
 for (let band in updatedBandsDataMultiId) {
-  if (!updatedBandsData[band] && bandsDataMultiId[band].id !== "multi") {
+  if (!updatedBandsData[band] && bandsDataMultiId[band] && bandsDataMultiId[band].id !== "multi") {
     updatedBandsData[band] = {
       id: bandsDataMultiId[band].id,
       genre: bandsDataMultiId[band].genre,

@@ -11,7 +11,10 @@ export default {
     "Saltus - Słowiańska Duma / Slavonic Pride (Full Album)": "Saltus - Słowiańska Duma | Slavonic Pride (Full Album)",
     "Heimdallr - Молния / Lightning (Full Demo)": "Heimdallr - Молния | Lightning (Full Demo)",
     "Umbría - Descenso al Núcleo Olvidado (FullAlbum)": "Umbría - Descenso al Núcleo Olvidado (Full Album)",
-    "Drama ​/​ Perdition Winds - Drama ​/​ Perdition Winds (Full Split)": "Drama / Perdition Winds - Drama / Perdition Winds (Full Split)"
+    "Drama ​/​ Perdition Winds - Drama ​/​ Perdition Winds (Full Split)": "Drama / Perdition Winds - Drama / Perdition Winds (Full Split)",
+    "Forlorn Citadel / Mirkwood / Spells of Fog (Full Split Premiere)": "Forlorn Citadel / Mirkwood / Spells of Fog - Forlorn Citadel / Mirkwood / Spells of Fog (Full Split Premiere)",
+    "Moeror / Human Serpent / Kvadrat (Full Split Premiere)" : "Moeror / Human Serpent / Kvadrat - Moeror / Human Serpent / Kvadrat (Full Split Premiere)",
+    ".​.​.​of Devil’s Art & Magick​.​.​. (Full Split)": "Blood Moon / Devathorn / Shibalba / Wampyrinacht / Haxandraok / Acherontas - ...of Devil’s Art & Magick... (Full Split)"
   },
   band: {
     "Fangorn (pre-Rivendell)": "Fangorn",
