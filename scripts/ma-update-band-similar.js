@@ -18,7 +18,7 @@ let updateBandsData = {};
 let counter = 0;
 
 for (let band in bandsData) {
-  if (bandsSimilar[band] && bandsSimilar[band].length) continue
+  if (bandsSimilar[band]) continue
 
   let maSimilarBandsUrl = `https://www.metal-archives.com/band/ajax-recommendations/id/${bandsData[band].id}/showMoreSimilar/1`;
 
@@ -48,7 +48,7 @@ for (let band in bandsData) {
   await delay(3000);
 
   counter++;
-  if (counter > 100) break;
+  if (counter > 1000) break;
 }
 
 let dataDir = "./src/data-metal-archives/";
