@@ -14,7 +14,7 @@ export default function DarkModeButton({ darkMode, onClickDarkMode }) {
   }, [darkMode]);
 
   return (
-    <button ref={scope} onClick={onClickDarkMode} className="ml-4">
+    <button ref={scope} onClick={onClickDarkMode}>
       {darkMode ? <BSun className="h-6 w-6"></BSun> : <BMoon className="h-6 w-6"></BMoon>}
     </button>
   );
