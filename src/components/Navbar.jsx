@@ -6,8 +6,8 @@ import BandsAutocomplete from "./BandsAutocomplete.jsx";
 
 const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onClickItem }) => {
   return (
-    <nav className="flex items-center justify-between px-4 py-2 border-b dark:border-neutral-700 border-gray-300">
-      <div className="flex items-center gap-x-2">
+    <nav className="flex items-center justify-between px-4 py-2 border-b dark:border-neutral-700 border-gray-300 gap-x-4">
+      <div className="flex items-center gap-x-2 flex-1">
         <img src="/favicon.png" alt="" className="h-7 w-7" />
         <div className="text-xl font-semibold dark:text-white">
           <a href="https://mtl-tube.netlify.app">Metaltube</a>
@@ -16,15 +16,13 @@ const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onC
       <BandsAutocomplete
         items={bands}
         onClickItem={onClickItem}
-        className="mx-10 hidden flex-1 md:block lg:max-w-[800px]"
+        className="hidden flex-2 md:block lg:max-w-[800px]"
       ></BandsAutocomplete>
-      <div className="flex gap-x-4 items-center">
-        <div className="mr-4">
+      <div className="flex gap-x-8 items-center flex-1 justify-end">
           <ChannelsDropdown
             trigger={<ChannelButton>{channels[current].name}</ChannelButton>}
             onChannelClick={onChannelClick}
           ></ChannelsDropdown>
-        </div>
         <KoFiLink></KoFiLink>
         <DarkModeButton darkMode={darkMode} onClickDarkMode={onClickDarkMode}></DarkModeButton>
       </div>
@@ -59,7 +57,9 @@ const KoFiLink = () => {
   return (
     <a href="https://ko-fi.com/mgralek" target="_blank" className="flex items-center text-xs font-semibold gap-x-1">
       <img src="kofi_symbol.png" alt="" className="w-5 h-5" />
-      Support me on Ko-fi
+      <div className="hidden md:block">
+        Support me on Ko-fi
+      </div>
     </a>
   )
 }
