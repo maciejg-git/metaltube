@@ -180,7 +180,8 @@ const PlaylistItemCompact = ({
   playerState,
   onImageClick,
   onSimilarBandsClick,
-  showMetalArchivesButtons
+  showMetalArchivesButtons,
+  similarBandScore,
 }) => {
   const playingItem = playerCurrentItem?.id === item.id && playerState === 2;
 
@@ -218,12 +219,17 @@ const PlaylistItemCompact = ({
               {item.likes}
             </div>
           </div>
-          {item.reviews > 0 && (
-            <div className="flex gap-x-2 text-sm">
-              <img src="/metal-archives.ico" alt="" />
-              {item.rating} ({item.reviews})
-            </div>
-          )}
+          <div className="flex items-center gap-x-4">
+            {similarBandScore &&
+              <span className="ml-4 text-sm text-black/60 dark:text-gray-200/60">(Similar band score: {similarBandScore})</span>
+            }
+            {item.reviews > 0 && (
+              <div className="flex gap-x-2 text-sm">
+                <img src="/metal-archives.ico" alt="" />
+                {item.rating} ({item.reviews})
+              </div>
+            )}
+          </div>
           {showMetalArchivesButtons &&
             <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
               <button

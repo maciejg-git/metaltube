@@ -105,7 +105,7 @@ function App() {
   const [similarBands, setSimilarBands] = useState({targetBand: null, bands: [], bandsScore: null, active: null})
   const [similarBandsLoading, setSimilarBandsLoading] = useState(false)
 
-  const prevState = useRef({filterString: "", filterInputBy: {band: true, album: false}, sort: "", page: 1})
+  const prevState = useRef()
 
   const [darkMode, toggleDarkMode] = useDarkMode();
 
@@ -451,7 +451,9 @@ function App() {
         return b.score - a.score
       })
       setSimilarBands({targetBand: item.band, bands: sortedBands, bandsScore, active})
-      prevState.current = {filterString, filterInputBy, sort, page}
+      if (!prevState.current) {
+        prevState.current = {filterString, filterInputBy, sort, page}
+      }
       setFilterString("")
       setFilterInputBy({band: true, album: false})
       setPage(1)
@@ -501,6 +503,7 @@ function App() {
     setFilterInputBy(prevState.current.filterInputBy)
     setSort(prevState.current.sort)
     setPage(prevState.current.page)
+    prevState.current = null
   }
 
   function handleBandAutocompleteItemClick(band) {
@@ -513,6 +516,14 @@ function App() {
     setCurrent(channel);
     setPage(1);
     setFilterString("");
+    setActiveFilters(() => ({
+      genre: new Set(),
+      country: new Set(),
+      year: new Set(),
+      published: new Set(),
+    }))
+    setActiveAnyFilter(null)
+    setSimilarBands({targetBand: null, bands: [], bandsScore: null, active: null})
   }
 
   function handleLayoutButtonClick(nextLayout) {
