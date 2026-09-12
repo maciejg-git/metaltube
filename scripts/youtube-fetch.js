@@ -276,7 +276,14 @@ function fixItems(items) {
 
     if (!Array.isArray(i.band)) {
       i.band = i.band.split("|")[0].trim()
+      i.band = i.band.replaceAll('\u200B', '');
+    } else {
+      i.band = i.band.map((band) => {
+        return band.replaceAll('\u200B', '')
+      })
     }
+
+    i.album = i.album.replaceAll('\u200B', '');
 
     return i
   })
