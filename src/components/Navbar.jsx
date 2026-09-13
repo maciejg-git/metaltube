@@ -6,7 +6,7 @@ import BandsAutocomplete from "./BandsAutocomplete.jsx";
 
 const Navbar = ({ darkMode, onClickDarkMode, current, onChannelClick, bands, onClickItem }) => {
   return (
-    <nav className="flex items-center justify-between px-4 py-2 border-b dark:border-neutral-700 border-gray-300 gap-x-4">
+    <nav className="flex items-center justify-between px-4 py-2 border-b dark:border-neutral-700 border-gray-300 gap-x-4 overflow-x-hidden">
       <div className="flex items-center gap-x-2 flex-1">
         <img src="/favicon.png" alt="" className="h-7 w-7" />
         <div className="text-xl font-semibold dark:text-white">
@@ -73,7 +73,7 @@ const ChannelButton = ({ children, ...props }, ref) => {
     >
       {children}
       <FaChevronDownSolid
-        className={"h-4 w-4 transition duration-200 group-data-popup-open:rotate-180"}
+        className={"h-4 w-4 transition-transform duration-200 group-data-popup-open:rotate-180"}
       ></FaChevronDownSolid>
     </button>
   );

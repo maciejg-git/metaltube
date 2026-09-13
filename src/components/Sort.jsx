@@ -57,7 +57,7 @@ const SortButton = ({ label, active, direction, sort, onClick }) => {
       {label}
       {active && sort !== "random" && (
         <FaChevronDownSolid
-          className={"h-4 w-4 transition duration-200 " + (direction === 1 && "rotate-180")}
+          className={"h-4 w-4 transition-transform duration-200 " + (direction === 1 && "rotate-180")}
         ></FaChevronDownSolid>
       )}
     </button>

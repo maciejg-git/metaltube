@@ -236,7 +236,7 @@ const FilterShowAllButton = ({ show, onClick }) => {
     >
       {show ? "Hide" : "Show all"}
       <FaChevronDownSolid
-        className={"h-4 w-4 transition duration-200 " + (show && "rotate-180")}
+        className={"h-4 w-4 transition-transform duration-200 " + (show && "rotate-180")}
       ></FaChevronDownSolid>
     </button>
   );

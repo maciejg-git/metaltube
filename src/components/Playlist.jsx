@@ -106,6 +106,12 @@ const ImageCover = ({ item, onImageClick, playingItem, layout }) => {
   );
 };
 
+const BadgePlayed = () => {
+  return (
+    <div className="bg-gray-100 font-semibold"></div>
+  )
+}
+
 const PlaylistItem = ({ item, playerCurrentItem, playerState, onImageClick, onSimilarBandsClick, similarBandScore, showMetalArchivesButtons }) => {
   const playingItem = playerCurrentItem?.id === item.id && playerState === 2;
 
@@ -203,7 +209,7 @@ const PlaylistItemCompact = ({
             </a>
           </div>
           <div className="text-base">{item.displayGenre || item.genre}</div>
-          <div className="flex gap-x-2 text-sm">
+          <div className="flex gap-x-1 text-sm">
             <div className="text-gray-600 dark:text-gray-400">{item.country}</div>
             <div className="text-gray-600 dark:text-gray-400">{item.year}</div>
           </div>
@@ -234,7 +240,7 @@ const PlaylistItemCompact = ({
             <div className="flex hidden gap-x-4 group-hover:flex mt-auto items-center">
               <button
                 onClick={() => onSimilarBandsClick(item)}
-                className={clsx("rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-40 dark:opacity-50 pointer-events-none")}
+                className={clsx("rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold hover:bg-gray-50 dark:bg-neutral-800 hover:dark:bg-neutral-700", !item.hasSimilarBands && "opacity-50 dark:opacity-50 pointer-events-none")}
               >
                 Similar bands
               </button>
