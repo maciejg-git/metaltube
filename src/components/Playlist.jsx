@@ -167,7 +167,7 @@ const PlaylistItem = ({ item, playerCurrentItem, playerState, onImageClick, onSi
               Similar bands
             </button>
             <a
-              href={`https://www.metal-archives.com/bands/${item.band[0]}/`}
+              href={`https://www.metal-archives.com/bands/${item.band[0].replaceAll("/", "-")}/`}
               className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
               target="_blank"
             >
@@ -245,7 +245,7 @@ const PlaylistItemCompact = ({
                 Similar bands
               </button>
               <a
-                href={`https://www.metal-archives.com/bands/${item.band[0]}/`}
+                href={`https://www.metal-archives.com/bands/${item.band[0].replaceAll("/", "-")}/`}
                 className="text-sm font-semibold text-sky-500 underline dark:text-sky-400"
                 target="_blank"
               >
