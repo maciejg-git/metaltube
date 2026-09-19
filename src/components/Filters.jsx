@@ -49,7 +49,7 @@ const Filters = ({
                 </div>
               </div>
               <FilterRow>
-                {filters.genre?.slice(0, genreShowAll ? filters.genre.length : 20).map((name) => {
+                {filters.genre?.slice(0, genreShowAll ? filters.genre.length : 22).map((name) => {
                   return (
                     <FilterButton
                       key={name}

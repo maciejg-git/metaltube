@@ -29,7 +29,7 @@ const Player = ({ playerCurrentItem, playerState, player, setPlayer, setPlayerSt
         "fixed block pointer-events-none",
         playerState === PLAYER.STOP && "!hidden",
         playerPosition === "bottom"
-          ? "right-4 bottom-4"
+          ? "right-0 bottom-0 md:right-4 md:bottom-4"
           : "right-1/2 bottom-1/2 translate-x-1/2 translate-y-1/2",
       )}
     >
@@ -44,8 +44,8 @@ const Player = ({ playerCurrentItem, playerState, player, setPlayer, setPlayerSt
       <div
         className={clsx(
           "transition-shadow pointer-events-auto",
-          { "aspect-video w-[480px] lg:w-[640px]": playerPosition === "bottom" },
-          { "aspect-video w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
+          { "aspect-video w-screen md:w-[480px] lg:w-[640px]": playerPosition === "bottom" },
+          { "aspect-video w-screen md:w-[960px] shadow-3xl shadow-black/80": playerPosition === "center" },
         )}
       >
         <YouTube
