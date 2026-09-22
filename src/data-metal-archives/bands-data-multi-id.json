@@ -468,5 +468,20 @@
     "id": "3540278495",
     "genre": "Black Metal",
     "country": "DE"
+  },
+  "Mania": {
+    "id": "103540",
+    "genre": "Black/Doom Metal, Ambient",
+    "country": "US"
+  },
+  "Rietas": {
+    "id": "3540476781",
+    "genre": "Black Metal",
+    "country": "FI"
+  },
+  "Dominion": {
+    "id": "19339",
+    "genre": "Black Metal",
+    "country": "SE"
   }
 }

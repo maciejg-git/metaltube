@@ -1413,7 +1413,8 @@
     "genre": "",
     "country": "Russia / France",
     "fixedParams": {
-      "country": "International"
+      "country": "International",
+      "name": "Дружина"
     }
   },
   "Elador / Is": {
@@ -1496,12 +1497,83 @@
     "genre": "",
     "country": "Germany",
     "fixedParams": {
-      "name": "Czechia"
+      "country": "Czechia"
     }
   },
   "Eldamar / Dreams of Nature": {
     "id": "",
     "genre": "",
     "country": "Norway / Colombia"
+  },
+  "​Inkubus": {
+    "id": "",
+    "genre": "",
+    "country": "Germany"
+  },
+  "Wulfseer": {
+    "id": "",
+    "genre": "",
+    "country": "Finland"
+  },
+  "Shibalba": {
+    "id": "",
+    "genre": "",
+    "country": "Greece"
+  },
+  "Belliciste​": {
+    "id": "",
+    "genre": "",
+    "country": "New Zealand / United Kingdom"
+  },
+  "De La Nostalgie": {
+    "id": "",
+    "genre": "",
+    "country": "International",
+    "fixedParams": {
+      "country": "Venezuela"
+    }
+  },
+  "Marunata": {
+    "id": "",
+    "genre": "",
+    "country": "International",
+    "fixedParams": {
+      "country": "France"
+    }
+  },
+  "Dreamshift": {
+    "id": "",
+    "genre": "",
+    "country": "International"
+  },
+  "A Light...": {
+    "id": "",
+    "genre": "",
+    "country": "International"
+  },
+  "Ghâsh": {
+    "id": "",
+    "genre": "",
+    "country": "International"
+  },
+  "V​-​Khaoz": {
+    "id": "",
+    "genre": "",
+    "country": "Finland"
+  },
+  "Elador": {
+    "id": "",
+    "genre": "",
+    "country": "Russia"
+  },
+  "Mindvile": {
+    "id": "",
+    "genre": "",
+    "country": "Spain / United States"
+  },
+  "Aliénation": {
+    "id": "",
+    "genre": "",
+    "country": "Germany"
   }
 }
