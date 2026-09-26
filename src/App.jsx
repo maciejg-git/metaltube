@@ -276,12 +276,6 @@ function App() {
       genre: (a, b) => {
         let genreA = a.displayGenre ?? a.genre;
         let genreB = b.displayGenre ?? b.genre;
-        const slashesA = (genreA.match(/\//g) || []).length;
-        const slashesB = (genreB.match(/\//g) || []).length;
-
-        if (slashesA !== slashesB) {
-          return slashesA - slashesB;
-        }
 
         return genreA.localeCompare(genreB);
       },
