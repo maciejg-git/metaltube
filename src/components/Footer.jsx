@@ -8,9 +8,9 @@ const Footer = ({ updated }) => {
           Last updated: <span className="font-mono">{updated}</span>
         </div>
         <div>
-          <a href="https://github.com/maciejg-git/metaltube">
+    {/*<a href="https://github.com/maciejg-git/metaltube">
             <BGithub className="h-6 w-6"></BGithub>
-          </a>
+          </a>*/}
         </div>
       </div>
     </div>
